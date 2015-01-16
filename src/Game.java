@@ -10,16 +10,15 @@ public class Game extends Observable{
     private Board board;
     private Player[] players;
     private int current;
+    private View UI;
 
-    public Game(Player s0, Player s1) {
+    public Game(Player s0, Player s1, View v) {
         board = new Board();
         players = new Player[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;
         current = 0;
-        
-        //Start the game loop
-        
+        UI = v;
     }
 
     private void play() {
@@ -29,7 +28,7 @@ public class Game extends Observable{
         {
         	for(int i=0;i<players.length;i++)
         	{
-        		players[i].makeMove(board);
+        		players[i].makeMove(board, UI);
         		//notify observers
         		if(board.gameOver())
         		{

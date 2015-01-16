@@ -1,28 +1,35 @@
+import java.util.Observable;
 
 
-public class TicTacToe {
-	private static Player[] players;
+
+public class TicTacToe extends Observable{
+	
+	public TicTacToe() {
+		View v;
+		String ui = View.askWhichUI();
+		switch(ui) {
+		case "TUI":
+			v = new TUI();
+			break;
+		case "GUI":
+			v = new GUI();
+			break;
+		default:
+			v = null;
+		}
+		this.addObserver(v);
+		Player players[] = v.askForPlayers();
+		this.setChanged();
+		this.notifyObservers("playersAsked");
+		this.createNewGame(players, v);
+	}
 	
 	public static void main(String args[])
 	{
-		int currentPlayer = 0;
-		players = new Player[2];
-		for(int i=0;i<args.length;i++)
-		{
-				if(currentPlayer == 0)
-				{
-					players[i] = new HumanPlayer(args[currentPlayer], Mark.XX);
-				}
-				else
-				{
-					players[i] = new HumanPlayer(args[currentPlayer], Mark.OO);
-				}
-			currentPlayer++;
-		}
-		createNewGame();
+		new TicTacToe();
 	}
 	
-	public static void createNewGame() {
-		Game game = new Game(players[0], players[1]);
+	public void createNewGame(Player[] players, View v) {
+		Game game = new Game(players[0], players[1], v);
 	}
 }

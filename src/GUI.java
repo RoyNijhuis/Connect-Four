@@ -9,4 +9,16 @@ public class GUI implements View {
 		
 	}
 
+	@Override
+	public int getHumanMove() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Player[] askForPlayers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
