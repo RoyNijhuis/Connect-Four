@@ -43,7 +43,7 @@ public class Board {
     }
     
     public void makeMove(int move, Mark m){ //moet nog error als zet niet kan
-    	if(fields[HEIGHT][move].equals(Mark.EMPTY)){
+    	if(fields[HEIGHT-1][move].equals(Mark.EMPTY)){
     		boolean madeMove = false;
     		int row = 0;
     		while(!madeMove){
