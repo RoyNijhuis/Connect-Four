@@ -73,8 +73,8 @@ public class Board {
 		if(height < 3){
 			win = false;
 		} else {
-			while(counted<counter) {
-				if(fields[height-counted][width] == m){
+			while(!win) {
+				if(fields[height+counted][width].equals(m)){
 					counted += 1;
 					win = counted==counter;
 				} else {
@@ -85,33 +85,52 @@ public class Board {
         return win;
     }
 
-    public boolean hasDiagonal(Mark m) {
-    	boolean winning = true;
-        for(int i=0;i<DIM;i++) {
-        	if(this.getField(i,i) != m)
-        	{
-        		winning = false;
-        	}
-        }
-        if(winning)
-        {
-        	System.out.println("HASDIAG1");
-        	return winning;
-        }
-        
-        winning = true;
-        for(int i=0;i<DIM;i++) {
-        	if(this.getField(DIM-1-i,i) != m)
-        	{
-        		winning = false;
-        	}
-        }
-        if(winning)
-        {
-        	System.out.println("HASDIAG2");
-        	return winning;
-        }
-        return false;
+    public boolean hasDiagonal(Mark m, int width, int height) {
+    	boolean win = false;
+    	int counter = 4;
+		int counted = 1;
+		int steps = 1;
+		while(!win && (height + counted)<=HEIGHT && (width+counted)<=WIDTH ) {
+			if(fields[height+counted][width+counted].equals(m)){
+				counted += 1;
+				steps += 1;
+				win = steps==counter;
+			} else {
+				counted = 1;
+				break;
+			}
+		}
+		while(!win && (height - counted)<=0 && (width-counted)<=0 ) {
+			if(fields[height-counted][width-counted].equals(m)){
+				counted += 1;
+				steps += 1;
+				win = steps==counter;
+			} else {
+				counted = 1;
+				steps = 1;
+				break;
+			}
+		}
+		while(!win && (height - counted)<=HEIGHT && (width+counted)<=WIDTH ) {
+			if(fields[height-counted][width+counted].equals(m)){
+				counted += 1;
+				steps += 1;
+				win = steps==counter;
+			} else {
+				counted = 1;
+				break;
+			}
+		}
+		while(!win && (height + counted)<=0 && (width-counted)<=0 ) {
+			if(fields[height+counted][width-counted].equals(m)){
+				counted += 1;
+				steps += 1;
+				win = steps==counter;
+			} else {
+				break;
+			}
+		}
+        return win;
     }
 
     public boolean isWinner(Mark m, int width, int height) {
