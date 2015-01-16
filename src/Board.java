@@ -49,10 +49,10 @@ public class Board {
     	}
     	
 	    for(int i=0;i<7;i++) {
-	    	if(counter>=WIDTH) {
+	    	if(startWidth+i>=WIDTH) {
 	    		break;
 	    	}
-	    	if(fields[height][counter].equals(m)) {
+	    	if(fields[height][startWidth+i].equals(m)) {
 	    		counter++;
 	    	} else {
 	    		counter=0;
