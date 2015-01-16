@@ -28,22 +28,16 @@ public class Board {
     
     public boolean isFull() {
         boolean result = true;
-        for(int i=0;i<fields.length;i++)
-        {
-        	if(this.isEmptyField(i))
-        	{
-        		result = false;
+        for(int i=0;i<WIDTH;i++) {
+        	if(fields[0][i].equals(Mark.EMPTY)) {
+        		result=false;
         	}
-        }
-        if(result)
-        {
-        	System.out.println("FULL");
         }
         return result;
     }
 
-    public boolean gameOver() {
-        return this.hasWinner() || this.isFull();
+    public boolean gameOver(int width, int height) {
+        return this.hasWinner(width, height) || this.isFull();
     }
 
     public boolean hasRow(Mark m, int width, int height) {
@@ -117,14 +111,14 @@ public class Board {
         return false;
     }
 
-    public boolean isWinner(Mark m) {
-        return this.hasRow(m) ||
-                this.hasColumn(m) ||
-                this.hasDiagonal(m);
+    public boolean isWinner(Mark m, int width, int height) {
+        return this.hasRow(m, width, height) ||
+                this.hasColumn(m, width, height) ||
+                this.hasDiagonal(m, width, height);
     }
 
-    public boolean hasWinner() {
-    	return isWinner(Mark.XX) || isWinner(Mark.OO);
+    public boolean hasWinner(int width, int height) {
+    	return isWinner(Mark.XX, width, height) || isWinner(Mark.OO, width, height);
     }
 
     public String toString() {
