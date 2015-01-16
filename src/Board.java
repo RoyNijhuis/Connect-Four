@@ -90,7 +90,7 @@ public class Board {
     	int counter = 4;
 		int counted = 1;
 		
-		if(height < 3){
+		if(height > 2){
 			win = false;
 		} else {
 			while(!win) {
@@ -111,7 +111,7 @@ public class Board {
 		int counted = 1;
 		int steps = 1;
 		while(!win && (height + counted)<=HEIGHT && (width+counted)<=WIDTH ) {
-			if(fields[height+counted][width+counted].equals(m)){
+			if(fields[height+counted-1][width+counted-1].equals(m)){
 				counted += 1;
 				steps += 1;
 				win = steps==counter;
@@ -120,7 +120,7 @@ public class Board {
 				break;
 			}
 		}
-		while(!win && (height - counted)<=0 && (width-counted)<=0 ) {
+		while(!win && (height - counted)>=0 && (width-counted)>=0 ) {
 			if(fields[height-counted][width-counted].equals(m)){
 				counted += 1;
 				steps += 1;
@@ -131,7 +131,7 @@ public class Board {
 				break;
 			}
 		}
-		while(!win && (height - counted)<=HEIGHT && (width+counted)<=WIDTH ) {
+		while(!win && (height - counted)>= 0 && (width+counted)<=WIDTH ) {
 			if(fields[height-counted][width+counted].equals(m)){
 				counted += 1;
 				steps += 1;
@@ -141,7 +141,7 @@ public class Board {
 				break;
 			}
 		}
-		while(!win && (height + counted)<=0 && (width-counted)<=0 ) {
+		while(!win && (height + counted)<=HEIGHT && (width-counted)>=0 ) {
 			if(fields[height+counted][width-counted].equals(m)){
 				counted += 1;
 				steps += 1;
