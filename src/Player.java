@@ -22,7 +22,7 @@ public abstract class Player {
 
     public void makeMove(Board board) {
         int keuze = determineMove(board);
-        board.setField(keuze, getMark());
+        board.makeMove(keuze, getMark());
     }
 
 }

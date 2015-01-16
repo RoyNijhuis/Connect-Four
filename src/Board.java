@@ -6,6 +6,8 @@ public class Board {
     public static final int HEIGHT = 6;
 
     private Mark[][] fields;
+    private int lastMoveCol = -1;
+    private int lastMoveRow = -1;
     
     public Board() {
     	fields = new Mark[HEIGHT][WIDTH];
@@ -39,7 +41,25 @@ public class Board {
     public boolean gameOver(int width, int height) {
         return this.hasWinner(width, height) || this.isFull();
     }
-
+    
+    public void makeMove(int move, Mark m){ //moet nog error als zet niet kan
+    	if(fields[HEIGHT][move].equals(Mark.EMPTY)){
+    		boolean madeMove = false;
+    		int row = 0;
+    		while(!madeMove){
+    			if(fields[row][move].equals(Mark.EMPTY)){
+    				fields[row][move] = m;
+    				lastMoveRow = row;
+    				lastMoveCol = move;
+    				madeMove = true;
+    				
+    			} else {
+    				row += 1;
+    			}
+    		}
+    	}
+    }
+    
     public boolean hasRow(Mark m, int width, int height) {
     	boolean result = false;
     	int counter=0;
