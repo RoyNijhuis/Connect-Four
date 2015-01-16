@@ -19,10 +19,13 @@ public class Game extends Observable{
         players[1] = s1;
         current = 0;
         UI = v;
+    	this.addObserver(UI);
+        play();
     }
 
     private void play() {
-        System.out.println(board);
+        this.setChanged();
+        this.notifyObservers("printBoard");
         boolean gameOver = false;
         while(!gameOver)
         {
