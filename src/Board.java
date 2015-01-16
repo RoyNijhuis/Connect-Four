@@ -66,24 +66,27 @@ public class Board {
         return false;
     }
 
-    public boolean hasColumn(Mark m) {
-    	for(int i=0;i<DIM;i++)
-        {
-        	boolean winning = true;
-        	for(int j=0;j<DIM;j++)
-            {
-            	if(getField(i,j) != m)
-            	{
-            		winning = false;
-            	}
-            }
-        	if(winning == true)
-        	{
-        		System.out.println("HASCOLUMN");
-        		return true;
-        	}
-        }
-        return false;
+    public boolean hasColumn(Mark m, int width, int height) {
+    	
+    	boolean win = false;
+    	int counter = 4;
+		int counted = 1;
+		int vSteps = 1;
+		
+		if(height < 3){
+			win = false;
+		} else {
+			while(counted<counter) {
+				if(fields[height-vSteps][width] == m){
+					counted += 1;
+					vSteps +=1;
+					win = counted==counter;
+				} else {
+					break;
+				}
+			}
+		}
+        return win;
     }
 
     public boolean hasDiagonal(Mark m) {
