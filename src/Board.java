@@ -46,24 +46,24 @@ public class Board {
         return this.hasWinner() || this.isFull();
     }
 
-    public boolean hasRow(Mark m) {
-        for(int i=0;i<DIM;i++)
-        {
-        	boolean winning = true;
-        	for(int j=0;j<DIM;j++)
-            {
-            	if(getField(j,i) != m)
-            	{
-            		winning = false;
-            	}
-            }
-        	if(winning == true)
-        	{
-        		System.out.println("HASROW");
-        		return true;
-        	}
-        }
-        return false;
+    public boolean hasRow(Mark m, int width, int height) {
+    	int counter=0;
+    	int startWidth=width-3;
+    	if(startWidth < 0) {
+    		startWidth=0;
+    	}
+    	
+	    for(int i=0;i<7;i++) {
+	    	if(fields[height][counter].equals(m)) {
+	    		counter++;
+	    	} else {
+	    		counter=0;
+	    	}
+	    	if(counter >= 4) {
+	    		return true;
+	    	}
+	    }
+	    return false;
     }
 
     public boolean hasColumn(Mark m, int width, int height) {
