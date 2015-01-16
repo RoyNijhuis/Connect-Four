@@ -47,6 +47,7 @@ public class Board {
     }
 
     public boolean hasRow(Mark m, int width, int height) {
+    	boolean result = false;
     	int counter=0;
     	int startWidth=width-3;
     	if(startWidth < 0) {
@@ -60,10 +61,10 @@ public class Board {
 	    		counter=0;
 	    	}
 	    	if(counter >= 4) {
-	    		return true;
+	    		 result = true;
 	    	}
 	    }
-	    return false;
+	    return result;
     }
 
     public boolean hasColumn(Mark m, int width, int height) {
