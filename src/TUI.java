@@ -8,5 +8,4 @@ public class TUI implements View{
 		// TODO Auto-generated method stub
 		
 	}
-
 }
