@@ -38,8 +38,8 @@ public class Board {
         return result;
     }
 
-    public boolean gameOver(int width, int height) {
-        return this.hasWinner(width, height) || this.isFull();
+    public boolean gameOver() {
+        return this.hasWinner(lastMoveCol, lastMoveRow) || this.isFull();
     }
     
     public void makeMove(int move, Mark m){ //moet nog error als zet niet kan
