@@ -1,10 +1,12 @@
 
 
 public class TicTacToe {
+	private static Player[] players;
+	
 	public static void main(String args[])
 	{
 		int currentPlayer = 0;
-		Player[] players = new Player[2];
+		players = new Player[2];
 		for(int i=0;i<args.length;i++)
 		{
 				if(currentPlayer == 0)
@@ -17,6 +19,10 @@ public class TicTacToe {
 				}
 			currentPlayer++;
 		}
+		createNewGame();
+	}
+	
+	public static void createNewGame() {
 		Game game = new Game(players[0], players[1]);
 	}
 }

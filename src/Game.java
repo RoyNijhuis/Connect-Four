@@ -22,11 +22,6 @@ public class Game extends Observable{
         
     }
 
-    private void reset() {
-        current = 0;
-        board.reset();
-    }
-
     private void play() {
         System.out.println(board);
         boolean gameOver = false;
