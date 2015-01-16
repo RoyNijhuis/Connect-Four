@@ -72,15 +72,13 @@ public class Board {
     	boolean win = false;
     	int counter = 4;
 		int counted = 1;
-		int vSteps = 1;
 		
 		if(height < 3){
 			win = false;
 		} else {
 			while(counted<counter) {
-				if(fields[height-vSteps][width] == m){
+				if(fields[height-counted][width] == m){
 					counted += 1;
-					vSteps +=1;
 					win = counted==counter;
 				} else {
 					break;
