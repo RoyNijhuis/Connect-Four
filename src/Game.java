@@ -30,10 +30,11 @@ public class Game extends Observable{
         	for(int i=0;i<players.length;i++)
         	{
         		players[i].makeMove(board);
-        		update();
+        		//notify observers
         		if(board.gameOver())
         		{
         			gameOver = true;
+        			//notify observers
         			break;
         		}
         	}
