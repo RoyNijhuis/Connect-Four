@@ -49,6 +49,9 @@ public class Board {
     	}
     	
 	    for(int i=0;i<7;i++) {
+	    	if(counter>=WIDTH) {
+	    		break;
+	    	}
 	    	if(fields[height][counter].equals(m)) {
 	    		counter++;
 	    	} else {
