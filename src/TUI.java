@@ -13,7 +13,13 @@ public class TUI implements View{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg.equals("printBoard")) {
-			//DIT MOET NOG WORDEN TOEGEVOEGD!!!
+			Board board = ((Game) o).getBoard();
+			Mark[][] field = board.getField();
+			for(int i=0;i<board.HEIGHT;i++) {
+	    		for(int j=0;j<board.WIDTH;j++) {
+	        		System.out.println(field[i][j]);
+	        	}
+	    	}//Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
 		}
 	}
 

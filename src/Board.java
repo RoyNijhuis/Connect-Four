@@ -18,6 +18,10 @@ public class Board {
     	}
     }
     
+    public Mark[][] getField(){
+    	return fields;
+    }
+    
     public Board deepCopy() {
     	Board result = new Board();
         for(int i=0;i<HEIGHT;i++) {

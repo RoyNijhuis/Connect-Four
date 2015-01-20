@@ -11,7 +11,7 @@ public class Game extends Observable{
     private Player[] players;
     private int current;
     private View UI;
-
+    
     public Game(Player s0, Player s1, View v) {
         board = new Board();
         players = new Player[NUMBER_PLAYERS];
@@ -22,7 +22,11 @@ public class Game extends Observable{
     	this.addObserver(UI);
         play();
     }
-
+    
+    public Board getBoard(){
+    	return board;
+    }
+    
     private void play() {
         this.setChanged();
         this.notifyObservers("printBoard");
