@@ -47,9 +47,9 @@ public class Board {
     }
     
     public void makeMove(int move, Mark m){ //moet nog error als zet niet kan
-    	if(fields[HEIGHT-1][move].equals(Mark.EMPTY)){
+    	if(fields[0][move].equals(Mark.EMPTY)){
     		boolean madeMove = false;
-    		int row = 0;
+    		int row = HEIGHT-1;
     		while(!madeMove){
     			if(fields[row][move].equals(Mark.EMPTY)){
     				fields[row][move] = m;
@@ -58,7 +58,7 @@ public class Board {
     				madeMove = true;
     				
     			} else {
-    				row += 1;
+    				row --;
     			}
     		}
     	}
@@ -91,7 +91,7 @@ public class Board {
     public boolean hasColumn(Mark m, int width, int height) {
     	
     	boolean win = false;
-    	int counter = 4;
+    	int counter = 3;
 		int counted = 1;
 		
 		if(height > 2){
@@ -99,8 +99,8 @@ public class Board {
 		} else {
 			while(!win) {
 				if(fields[height+counted][width].equals(m)){
-					counted += 1;
-					win = counted==counter;
+					win = counted>=counter;
+					counted ++;
 				} else {
 					break;
 				}
@@ -145,7 +145,7 @@ public class Board {
 				break;
 			}
 		}
-		while(!win && (height + counted)<=HEIGHT && (width-counted)>=0 ) {
+		while(!win && (height + counted)<HEIGHT && (width-counted)>=0 ) {
 			if(fields[height+counted][width-counted].equals(m)){
 				counted += 1;
 				steps += 1;
