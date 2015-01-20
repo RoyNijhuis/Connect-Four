@@ -21,7 +21,8 @@ public class ComputerPlayer extends Player{
 		this(mark, new NaiveStrategy());
 	}
 	
-	public int determineMove(Board board) {
+	@Override
+	public int determineMove(Board board, View v) {
 		return strategy.determineMove(board, mark);
 	}
 }
