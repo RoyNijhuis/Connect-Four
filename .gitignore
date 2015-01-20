@@ -14,6 +14,20 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+/Board.class
+/ComputerPlayer.class
+/Game.class
+/HumanPlayer.class
+/Mark.class
+/NaiveStrategy.class
+/Player.class
+/SmartStrategy.class
+/Strategy.class
+/TicTacToe.class
+/View.class
+/TUI.class
+/GUI.class
+
 # =========================
 # Operating System Files
 # =========================
