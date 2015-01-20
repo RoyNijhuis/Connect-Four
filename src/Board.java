@@ -129,9 +129,7 @@ public class Board {
 				break;
 			}
 		}
-		if(win){
-			System.out.println("1" + m);
-		}
+		
 		while(!win && (height - counted)>=0 && (width-counted)>=0 ) {
 			if(fields[height-counted][width-counted].equals(m)){
 				counted += 1;
@@ -143,9 +141,7 @@ public class Board {
 				break;
 			}
 		}
-		if(win){
-			System.out.println("2" + m);
-		}
+		
 		while(!win && (height - counted)>= 0 && (width+counted)<WIDTH ) {
 			if(fields[height-counted][width+counted].equals(m)){
 				counted += 1;
@@ -156,9 +152,7 @@ public class Board {
 				break;
 			}
 		}
-		if(win){
-			System.out.println("3" + m);
-		}
+		
 		while(!win && (height + counted)<HEIGHT && (width-counted)>=0 ) {
 			if(fields[height+counted][width-counted].equals(m)){
 				counted += 1;
@@ -168,9 +162,7 @@ public class Board {
 				break;
 			}
 		}
-		if(win){
-			System.out.println("4" + m);
-		}
+		
         return win;
     }
 
