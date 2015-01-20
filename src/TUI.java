@@ -20,7 +20,7 @@ public class TUI implements View{
 	        		System.out.print(" \t|" + field[i][j] + " \t|");
 	        	}
 	    		System.out.println();
-	    	}//Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
+	    	}
 		}
 	}
 
