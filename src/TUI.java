@@ -16,6 +16,14 @@ public class TUI implements View{
 			printBoard(o);
 		} else if(arg.equals("gameOver")) {
 			gameOver(o);
+			Board board = ((Game) o).getBoard();
+			Mark[][] field = board.getField();
+			for(int i=board.HEIGHT-1;i>=0;i--) {
+	    		for(int j=0;j<board.WIDTH;j++) {
+	        		System.out.print(" \t|" + field[i][j] + " \t|");
+	        	}
+	    		System.out.println();
+	    	}
 		}
 	}
 
