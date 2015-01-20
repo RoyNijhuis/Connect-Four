@@ -24,6 +24,8 @@ public class TUI implements View{
 	        	}
 	    		System.out.println();
 	    	}
+		} else if(arg.equals("columnFull")) {
+			System.out.println("This column is full...");
 		}
 	}
 

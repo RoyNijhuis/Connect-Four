@@ -47,7 +47,7 @@ public class Board {
         return this.isWinner(lastMark, lastMoveCol, lastMoveRow) || this.isFull();
     }
     
-    public void makeMove(int move, Mark m){ //moet nog error als zet niet kan
+    public boolean makeMove(int move, Mark m){ //moet nog error als zet niet kan
     	if(fields[0][move].equals(Mark.EMPTY)){
     		boolean madeMove = false;
     		int row = HEIGHT-1;
@@ -63,6 +63,9 @@ public class Board {
     				row --;
     			}
     		}
+    		return true;
+    	} else {
+    		return false;
     	}
     }
     

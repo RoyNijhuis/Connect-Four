@@ -20,8 +20,8 @@ public abstract class Player {
 
     public abstract int determineMove(Board board, View v);
 
-    public void makeMove(Board board, View v) {
+    public boolean makeMove(Board board, View v) {
         int keuze = determineMove(board, v);
-        board.makeMove(keuze, getMark());
+        return board.makeMove(keuze, getMark());
     }
 }

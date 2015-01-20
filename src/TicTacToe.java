@@ -1,7 +1,5 @@
 import java.util.Observable;
 
-
-
 public class TicTacToe extends Observable{
 	
 	public TicTacToe() {
