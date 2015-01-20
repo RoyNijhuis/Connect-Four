@@ -1,4 +1,8 @@
+package strategies;
 
+
+import game.Board;
+import game.Mark;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,13 @@
+package views;
+import game.Board;
+import game.Game;
+import game.Mark;
+
 import java.util.Observable;
 import java.util.Scanner;
+
+import players.HumanPlayer;
+import players.Player;
 
 
 public class TUI implements View{

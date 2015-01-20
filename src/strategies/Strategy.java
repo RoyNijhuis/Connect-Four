@@ -1,3 +1,7 @@
+package strategies;
+import game.Board;
+import game.Mark;
+
 
 
 public interface Strategy {

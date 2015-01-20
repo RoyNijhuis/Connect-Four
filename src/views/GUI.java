@@ -1,4 +1,7 @@
+package views;
 import java.util.Observable;
+
+import players.Player;
 
 
 public class GUI implements View {

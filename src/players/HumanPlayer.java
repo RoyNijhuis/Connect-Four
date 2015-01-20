@@ -1,3 +1,8 @@
+package players;
+import game.Board;
+import game.Mark;
+import views.View;
+
 public class HumanPlayer extends Player {
 
     public HumanPlayer(String name, Mark mark) {

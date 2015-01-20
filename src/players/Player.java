@@ -1,3 +1,8 @@
+package players;
+import game.Board;
+import game.Mark;
+import views.View;
+
 
 public abstract class Player {
 

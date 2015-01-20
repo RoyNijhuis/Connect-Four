@@ -1,6 +1,10 @@
+package game;
 
 import java.util.Observable;
 import java.util.Scanner;
+
+import players.Player;
+import views.View;
 
 public class Game extends Observable{
 

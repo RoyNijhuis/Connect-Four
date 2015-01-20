@@ -1,8 +1,14 @@
+package game;
 import java.util.Observable;
 
-public class TicTacToe extends Observable{
+import players.Player;
+import views.GUI;
+import views.TUI;
+import views.View;
+
+public class ConnectFour extends Observable{
 	
-	public TicTacToe() {
+	public ConnectFour() {
 		View v;
 		String ui = View.askWhichUI();
 		switch(ui) {
@@ -25,7 +31,7 @@ public class TicTacToe extends Observable{
 	
 	public static void main(String args[])
 	{
-		new TicTacToe();
+		new ConnectFour();
 	}
 	
 	public void createNewGame(Player[] players, View v) {

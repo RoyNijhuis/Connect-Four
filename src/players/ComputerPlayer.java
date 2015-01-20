@@ -1,3 +1,10 @@
+package players;
+import game.Board;
+import game.Mark;
+import strategies.NaiveStrategy;
+import strategies.Strategy;
+import views.View;
+
 
 
 public class ComputerPlayer extends Player{
