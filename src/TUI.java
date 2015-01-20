@@ -61,8 +61,12 @@ public class TUI implements View{
 				String input = s.nextLine();
 				String[] splitString = input.split(" ");
 				if(splitString.length == 2 && splitString[0].equals("H")) {
-					players[i-1] = new HumanPlayer(splitString[1], m);
-					correct = true;
+					if(i==2 && players[0].getName().equals(splitString[1])) {
+						System.out.println("Please enter a different name than player 1's name(" + players[0].getName() + ")");
+					} else {
+						players[i-1] = new HumanPlayer(splitString[1], m);
+						correct = true;
+					}
 				} else {
 					System.out.println("Please enter valid information...");
 				}
