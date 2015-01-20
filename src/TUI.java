@@ -92,6 +92,6 @@ public class TUI implements View{
 
 	@Override
 	public void gameOver(Observable o) {
-		System.out.println(((Game)o).getWinner() + " has won the game!");
+		System.out.println(((Game)o).getWinner().getName() + " has won the game!");
 	}
 }
