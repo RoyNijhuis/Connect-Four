@@ -14,6 +14,7 @@ public class TicTacToe extends Observable{
 			break;
 		default:
 			v = null;
+			break;
 		}
 		this.addObserver(v);
 		Player players[] = v.askForPlayers();
