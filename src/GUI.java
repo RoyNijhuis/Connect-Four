@@ -10,7 +10,7 @@ public class GUI implements View {
 	}
 
 	@Override
-	public int getHumanMove() {
+	public int getHumanMove(String s) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

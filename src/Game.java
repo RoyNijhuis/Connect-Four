@@ -32,7 +32,9 @@ public class Game extends Observable{
         	for(int i=0;i<players.length;i++)
         	{
         		players[i].makeMove(board, UI);
-        		//notify observers
+        		this.setChanged();
+                this.notifyObservers("printBoard");
+                
         		if(board.gameOver())
         		{
         			gameOver = true;
