@@ -12,11 +12,11 @@ public abstract interface View extends Observer {
 	public static String askWhichUI() {
 		boolean choiceMade = false;
 		String result = null;
+		Scanner s = new Scanner(System.in);
 		
 		while(!choiceMade) {
 			System.out.println("Which UI would you like to use?");
 			System.out.println("Type in: 'GUI' for a graphical user interface or 'TUI' for a textual user interface.");
-			Scanner s = new Scanner(System.in);
 			String choice = s.nextLine();
 			
 			switch(choice) {

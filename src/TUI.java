@@ -86,7 +86,7 @@ public class TUI implements View{
     		for(int j=0;j<Board.WIDTH;j++) {
         		System.out.print(" \t|" + field[i][j] + " \t|");
         	}
-    		System.out.println();
+    		System.out.print("\n");
     	}//Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
 	}
 
