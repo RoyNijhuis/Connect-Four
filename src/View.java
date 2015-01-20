@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 
 public abstract interface View extends Observer {
-	public int getHumanMove();
+	public int getHumanMove(String name);
 	public Player[] askForPlayers();
 	
 	public static String askWhichUI() {

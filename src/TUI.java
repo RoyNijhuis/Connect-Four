@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 public class TUI implements View{
 
+	private Scanner s;
+	
+	public TUI() {
+		s = new Scanner(System.in);
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg.equals("printBoard")) {
@@ -12,9 +18,24 @@ public class TUI implements View{
 	}
 
 	@Override
-	public int getHumanMove() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getHumanMove(String name) {
+		boolean done = false;
+		int move=0;
+		
+		while(!done) {
+			System.out.println(name + ", please enter your move(a digit between 1-7");
+			try {
+				move = Integer.parseInt(s.nextLine());
+				if(move >= 1 && move <= 7) {
+					done = true;
+				} else {
+					System.out.println("Please enter a digit between 1 and 7");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Please enter a digit...");
+			}
+		}
+		return move-1;
 	}
 
 	@Override
@@ -30,7 +51,6 @@ public class TUI implements View{
 			boolean correct = false;
 			while(!correct) {
 				System.out.println("Please enter the Type('H' for HumanPlayer) and the Name of Player " + i + " seperated witch a space: ");
-				Scanner s = new Scanner(System.in);
 				String input = s.nextLine();
 				String[] splitString = input.split(" ");
 				if(splitString.length == 2 && splitString[0].equals("H")) {

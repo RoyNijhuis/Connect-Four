@@ -5,6 +5,6 @@ public class HumanPlayer extends Player {
     }
     
     public int determineMove(Board board, View v) {
-        return v.getHumanMove();
+        return v.getHumanMove(getName());
     }
 }

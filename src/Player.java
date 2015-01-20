@@ -24,5 +24,4 @@ public abstract class Player {
         int keuze = determineMove(board, v);
         board.makeMove(keuze, getMark());
     }
-
 }
