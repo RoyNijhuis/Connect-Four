@@ -13,14 +13,9 @@ public class TUI implements View{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg.equals("printBoard")) {
-			Board board = ((Game) o).getBoard();
-			Mark[][] field = board.getField();
-			for(int i=board.HEIGHT-1;i>=0;i--) {
-	    		for(int j=0;j<board.WIDTH;j++) {
-	        		System.out.print(" \t|" + field[i][j] + " \t|");
-	        	}
-	    		System.out.println();
-	    	}//Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
+			printBoard(o);
+		} else if(arg.equals("gameOver")) {
+			gameOver(o);
 		}
 	}
 
@@ -73,5 +68,22 @@ public class TUI implements View{
 			}
 		}
 		return players;
+	}
+
+	@Override
+	public void printBoard(Observable o) {
+		Board board = ((Game) o).getBoard();
+		Mark[][] field = board.getField();
+		for(int i=board.HEIGHT-1;i>=0;i--) {
+    		for(int j=0;j<board.WIDTH;j++) {
+        		System.out.print(" \t|" + field[i][j] + " \t|");
+        	}
+    		System.out.println();
+    	}//Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
+	}
+
+	@Override
+	public void gameOver(Observable o) {
+		System.out.println(((Game)o).getWinner() + " has won the game!");
 	}
 }

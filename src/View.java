@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.Map;
+import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
@@ -7,6 +6,8 @@ import java.util.Scanner;
 public abstract interface View extends Observer {
 	public int getHumanMove(String name);
 	public Player[] askForPlayers();
+	public void printBoard(Observable o);
+	public void gameOver(Observable o);
 	
 	public static String askWhichUI() {
 		boolean choiceMade = false;

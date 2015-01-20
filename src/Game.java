@@ -8,7 +8,7 @@ public class Game extends Observable{
 
     private Board board;
     private Player[] players;
-    private int current;
+    private Player current;
     private View UI;
     
     public Game(Player s0, Player s1, View v) {
@@ -16,7 +16,6 @@ public class Game extends Observable{
         players = new Player[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;
-        current = 0;
         UI = v;
     	this.addObserver(UI);
         play();
@@ -34,6 +33,7 @@ public class Game extends Observable{
         {
         	for(int i=0;i<players.length;i++)
         	{
+        		current = players[i];
         		players[i].makeMove(board, UI);
         		this.setChanged();
                 this.notifyObservers("printBoard");
@@ -41,10 +41,15 @@ public class Game extends Observable{
         		if(board.gameOver())
         		{
         			gameOver = true;
-        			//notify observers
+        			this.setChanged();
+                    this.notifyObservers("gameOver");
         			break;
         		}
         	}
         }
+    }
+    
+    public Player getWinner() {
+    	return current;
     }
 }

@@ -21,4 +21,16 @@ public class GUI implements View {
 		return null;
 	}
 
+	@Override
+	public void printBoard(Observable o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gameOver(Observable o) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
