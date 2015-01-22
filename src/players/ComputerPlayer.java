@@ -17,15 +17,10 @@ public class ComputerPlayer extends Player{
         super(theName, theMark);
     }
 	
-	public ComputerPlayer(Mark mark, Strategy strategy)
+	public ComputerPlayer(String name, Mark mark, Strategy strategy)
 	{
-		this(strategy.getName()+"-"+mark.toString(), mark);
+		this(name, mark);
 		this.strategy = strategy;
-	}
-	
-	public ComputerPlayer(Mark mark)
-	{
-		this(mark, new NaiveStrategy());
 	}
 	
 	@Override

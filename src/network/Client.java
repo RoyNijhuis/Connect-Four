@@ -12,9 +12,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import players.ComputerPlayer;
 import players.HumanPlayer;
 import players.NetworkPlayer;
 import players.Player;
+import strategies.SmartStrategy;
 import views.TUI;
 import views.View;
 
@@ -40,7 +42,7 @@ public class Client extends Thread{
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = new TUI();
-    	name = "Roy2";
+    	name = "Roy1";
 	}
 	
 	public void run() {
@@ -77,11 +79,11 @@ public class Client extends Thread{
 			
 			Player p1=null, p2=null;
 			if(command_split[1].equals(name)) {
-				p1 = new HumanPlayer(name, Mark.XX);
+				p1 = new ComputerPlayer(name, Mark.XX, new SmartStrategy());
 				p2 = new NetworkPlayer(command_split[2], Mark.OO);
 			} else if(command_split[2].equals(name)) {
 				p1 = new NetworkPlayer(command_split[1], Mark.XX);
-				p2 = new HumanPlayer(name, Mark.OO);
+				p2 = new ComputerPlayer(name, Mark.OO, new SmartStrategy());
 			}
 			game = new NetworkGame(p1, p2, UI);
 		} else if(command_split[0].equals("request_move") && command_split.length == 2) {
@@ -93,6 +95,7 @@ public class Client extends Thread{
 			}
 		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
 			game.moveDone(command_split[1], Integer.parseInt(command_split[2]));
+			System.out.println("move done by " + command_split[1] + ": " + command_split[2]);
 		}
 	}
 

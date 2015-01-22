@@ -3,6 +3,7 @@ package game;
 import java.util.Observable;
 import java.util.Scanner;
 
+import players.ComputerPlayer;
 import players.HumanPlayer;
 import players.Player;
 import views.View;
@@ -19,7 +20,7 @@ public class NetworkGame extends Observable implements Game{
     
     public NetworkGame(Player s0, Player s1, View v) {
         board = new Board();
-        if(s0 instanceof HumanPlayer) {
+        if(s0 instanceof HumanPlayer || s0 instanceof ComputerPlayer) {
         	self = s0;
         	other = s1;
         } else {
@@ -37,7 +38,12 @@ public class NetworkGame extends Observable implements Game{
     }
     
     public int askForMove() {
-    	int move = UI.getHumanMove(self.getName());
+    	int move=-1;
+    	if(self instanceof HumanPlayer) {
+    		move = UI.getHumanMove(self.getName());
+    	} else if(self instanceof ComputerPlayer) {
+    		move = self.determineMove(board, UI);
+    	}
     	return move;
     }
     
