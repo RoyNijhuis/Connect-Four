@@ -1,8 +1,12 @@
 package views;
 import game.Board;
 import game.Game;
+import game.NormalGame;
 import game.Mark;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Scanner;
 
@@ -11,12 +15,6 @@ import players.Player;
 
 
 public class TUI implements View{
-
-	private Scanner s;
-	
-	public TUI() {
-		s = new Scanner(System.in);
-	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
@@ -24,7 +22,7 @@ public class TUI implements View{
 			printBoard(o);
 		} else if(arg.equals("gameOver")) {
 			gameOver(o);
-			Board board = ((Game) o).getBoard();
+			Board board = ((NormalGame) o).getBoard();
 			Mark[][] field = board.getField();
 			for(int i=0;i<Board.HEIGHT;i++) {
 	    		for(int j=0;j<Board.WIDTH;j++) {
@@ -45,7 +43,7 @@ public class TUI implements View{
 		while(!done) {
 			System.out.println(name + ", please enter your move(a digit between 1-7");
 			try {
-				move = Integer.parseInt(s.nextLine());
+				move = Integer.parseInt(readString(""));
 				if(move >= 1 && move <= 7) {
 					done = true;
 				} else {
@@ -70,8 +68,8 @@ public class TUI implements View{
 			}
 			boolean correct = false;
 			while(!correct) {
-				System.out.println("Please enter the Type('H' for HumanPlayer) and the Name of Player " + i + " seperated witch a space: ");
-				String input = s.nextLine();
+				System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
+				String input = readString("");
 				String[] splitString = input.split(" ");
 				if(splitString.length == 2 && splitString[0].equals("H")) {
 					if(i==2 && players[0].getName().equals(splitString[1])) {
@@ -102,6 +100,19 @@ public class TUI implements View{
 
 	@Override
 	public void gameOver(Observable o) {
-		System.out.println(((Game)o).getWinner().getName() + " has won the game!");
+		System.out.println(((NormalGame)o).getWinner().getName() + " has won the game!");
+	}
+	
+	public static String readString(String tekst) {
+		System.out.print(tekst);
+		String antw = null;
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					System.in));
+			antw = in.readLine();
+		} catch (IOException e) {
+		}
+
+		return (antw == null) ? "" : antw;
 	}
 }

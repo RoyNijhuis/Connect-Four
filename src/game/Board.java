@@ -13,6 +13,7 @@ public class Board {
     public static final int HEIGHT = 6;
 
     private Mark[][] fields;
+
     private int lastMoveCol = 0;
     private int lastMoveRow = 0;
     private Mark lastMark = Mark.EMPTY;
