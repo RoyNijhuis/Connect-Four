@@ -1,7 +1,9 @@
 package views;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
 
 import players.Player;
 
@@ -15,12 +17,11 @@ public abstract interface View extends Observer {
 	public static String askWhichUI() {
 		boolean choiceMade = false;
 		String result = null;
-		Scanner s = new Scanner(System.in);
 		
 		while(!choiceMade) {
 			System.out.println("Which UI would you like to use?");
 			System.out.println("Type in: 'GUI' for a graphical user interface or 'TUI' for a textual user interface.");
-			String choice = s.nextLine();
+			String choice = readString("");
 			
 			switch(choice) {
 			case "TUI":
@@ -37,5 +38,18 @@ public abstract interface View extends Observer {
 			}
 		}
 		return result;
+	}
+	
+	public static String readString(String tekst) {
+		System.out.print(tekst);
+		String antw = null;
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					System.in));
+			antw = in.readLine();
+		} catch (IOException e) {
+		}
+
+		return (antw == null) ? "" : antw;
 	}
 }

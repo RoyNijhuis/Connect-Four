@@ -9,9 +9,10 @@ public class Board {
     private Mark[][] fields;
     private int lastMoveCol = -1;
     private int lastMoveRow = -1;
-    private Mark lastMark = null;
+    private Mark lastMark;
     
     public Board() {
+    	lastMark = Mark.EMPTY;
     	fields = new Mark[HEIGHT][WIDTH];
     	for(int i=0;i<HEIGHT;i++) {
     		for(int j=0;j<WIDTH;j++) {
