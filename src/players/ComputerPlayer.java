@@ -9,8 +9,8 @@ import views.View;
 
 public class ComputerPlayer extends Player{
 
-	private String name;
-	private Mark mark;
+	//private String name;
+	//private Mark mark;
 	private Strategy strategy;
 	
 	public ComputerPlayer(String theName, Mark theMark) {
@@ -30,6 +30,6 @@ public class ComputerPlayer extends Player{
 	
 	@Override
 	public int determineMove(Board board, View v) {
-		return strategy.determineMove(board, mark);
+		return strategy.determineMove(board, this.getMark());
 	}
 }

@@ -16,9 +16,10 @@ public class NaiveStrategy implements Strategy {
 
 	public int determineMove(Board b, Mark m) {
 		ArrayList<Integer> emptySpaces = new ArrayList<Integer>();
-		for(int i=0;i<Board.DIM*Board.DIM;i++)
+		Mark[][] field = b.getField();
+		for(int i=0;i<Board.WIDTH;i++)
 		{
-			if(b.getField(i) == Mark.EMPTY)
+			if(field[0][i] == Mark.EMPTY)
 			{
 				emptySpaces.add(i);
 			}
