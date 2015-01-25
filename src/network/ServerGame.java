@@ -13,10 +13,22 @@ public class ServerGame extends Thread implements Game{
     private boolean gameDone = false;
     private ClientHandler[] clients;
     private ClientHandler current;
+    private ClientHandler winner;
     
     public void run() {
     	while(!gameDone) {
     		play();
+    	}
+    	
+    	//announce winner/draw
+    	if(winner == null) {
+    		for(ClientHandler c: clients) {
+    			c.broadcastDraw();
+    		}
+    	} else {
+    		for(ClientHandler c: clients) {
+    			c.broadcastWinner(winner);
+    		}
     	}
     }
     
@@ -25,6 +37,7 @@ public class ServerGame extends Thread implements Game{
         clients = new ClientHandler[2];
         clients[0] = c1;
         clients[1] = c2;
+        winner = null;
     }
     
     public Board getBoard(){
@@ -40,9 +53,15 @@ public class ServerGame extends Thread implements Game{
     		System.out.println("move received on server and broadcasted");
     		broadcastMove(current, moveDone);
     		
-    		if(board.gameOver())
-    		{
+    		if(!board.isWinner(board.lastMark(), board.lastWidth(), board.lastHeight())) {
+    			if(board.isFull()) {
+    				gameDone = true;
+        			winner = null;
+        			break;
+    			}
+    		} else {
     			gameDone = true;
+    			winner = current;
     			break;
     		}
     	}
