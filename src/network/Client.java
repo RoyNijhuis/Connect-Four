@@ -42,7 +42,7 @@ public class Client extends Thread{
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = new TUI();
-    	name = "Roy1";
+    	name = "Roy12";
 	}
 	
 	public void run() {

@@ -148,7 +148,7 @@ public static final String NAME="Smart";
 		Mark enemy = m.other();
 		if(b.gameOver() || depth == 0){
 			//System.out.println(b.evaluateContent(m));
-			return b.evaluateContent(m, depth);
+			return b.evaluate(m, depth);
 		} else if(myTurn){
 			int v = Integer.MIN_VALUE;
 			int a = alpha;
