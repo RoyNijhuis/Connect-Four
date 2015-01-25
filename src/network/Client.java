@@ -79,11 +79,11 @@ public class Client extends Thread{
 			
 			Player p1=null, p2=null;
 			if(command_split[1].equals(name)) {
-				p1 = new ComputerPlayer(name, Mark.XX, new SmartStrategy());
+				p1 = new HumanPlayer(name, Mark.XX);
 				p2 = new NetworkPlayer(command_split[2], Mark.OO);
 			} else if(command_split[2].equals(name)) {
 				p1 = new NetworkPlayer(command_split[1], Mark.XX);
-				p2 = new ComputerPlayer(name, Mark.OO, new SmartStrategy());
+				p2 = new HumanPlayer(name, Mark.OO);
 			}
 			game = new NetworkGame(p1, p2, UI);
 		} else if(command_split[0].equals("request_move") && command_split.length == 2) {
@@ -96,6 +96,10 @@ public class Client extends Thread{
 		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
 			game.moveDone(command_split[1], Integer.parseInt(command_split[2]));
 			System.out.println("move done by " + command_split[1] + ": " + command_split[2]);
+		} else if(command_split[0].equals("game_end") && command_split.length == 1) {
+			System.out.println("The game ended in a draw");
+		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
+			System.out.println("Game over! The winner is: " + command_split[1]);
 		}
 	}
 

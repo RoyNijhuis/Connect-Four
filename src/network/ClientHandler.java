@@ -49,6 +49,14 @@ public class ClientHandler extends Thread {
 	public Mark getMarkInCurrentGame() {
 		return mark;
 	}
+	
+	public void broadcastDraw() {
+		sendMessage("game_end");
+	}
+	
+	public void broadcastWinner(ClientHandler winner) {
+		sendMessage("game_end " + winner.getPlayerName());
+	}
 
 	/**
          * This method takes care of sending messages from the Client.
