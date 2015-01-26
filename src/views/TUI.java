@@ -33,8 +33,13 @@ public class TUI implements View{
 			cannotCreateClient();
 		} else if(arg.equals("askPlayAgain")) {
 			askPlayAgain();
-		}  else if(arg.equals("draw")) {
+		} else if(arg.equals("draw")) {
 			draw();
+		} else if(((String)arg).startsWith("accepted")) {
+			String[] splitString = ((String) arg).split(" ");
+			System.out.println("You are accepted!(group number: " + splitString[1] + ")");
+		} else if(((String)arg).startsWith("nameExists")) {
+			System.out.println("There already exists a player with this name on the server...");
 		}
 	}
 	
@@ -83,13 +88,18 @@ public class TUI implements View{
 	}
 	
 	public String askLocalOrOnline() {
-		System.out.println("Would you like to play a local game or an online game? (Type in: 'local' or 'online'");
+		System.out.println("Would you like to play a local game or an online game? (Type in: 'local' or 'online')");
 		String answer = readString("");
 		while(!answer.equals("local") && !answer.equals("online")) {
 			System.out.println("Please enter correct information.");
 			answer = readString("");
 		}
 		return answer;
+	}
+	
+	public String askPlayerName() {
+		System.out.println("Please enter your name.");
+		return readString("");
 	}
 
 	@Override

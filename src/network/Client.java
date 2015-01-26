@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Observable;
 
 import players.ComputerPlayer;
 import players.HumanPlayer;
@@ -26,7 +27,7 @@ import views.View;
  * @author  Theo Ruys
  * @version 2005.02.21
  */
-public class Client extends Thread{
+public class Client extends Observable implements Runnable{
 	
 	private Socket sock;
 	private BufferedReader in;
@@ -42,12 +43,17 @@ public class Client extends Thread{
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = UI;
+    	this.addObserver(UI);
     	name = "Roy12";
 	}
 	
-	public void run() {
+	private void askName() {
+		String name = UI.askPlayerName();
 		sendMessage("join " + name + " " + 12);
-		
+	}
+	
+	public void run() {
+		askName();
 		while(true) {
     		try {
     			String line=in.readLine();
@@ -62,17 +68,17 @@ public class Client extends Thread{
 	private void analyseCommand(String command) {
 		String[] command_split = command.split(" ");
 		if(command_split[0].equals("accept") && command_split.length == 2) {
-			System.out.println("You are accepted!(group number: " + command_split[1] + ")");
+			this.setChanged();
+			this.notifyObservers("accepted " + command_split[1]);
 			sendMessage("ready_for_game");
-		} else if(command_split[0].equals("debug")) {
-			for(int i=1; i<command_split.length;i++) {
-			}
-			System.out.print("\n");
 		} else if(command_split[0].equals("error")) {
-			for(int i=1; i<command_split.length;i++) {
-				System.out.print(command_split[i] + " ");
+			switch(command_split[1]) {
+			case "004":
+				this.setChanged();
+				this.notifyObservers("nameExists");
+				askName();
+				break;
 			}
-			System.out.print("\n");
 		} else if(command_split[0].equals("start_game") && command_split.length == 3) {
 			//create players and create networkgame
 			
@@ -93,9 +99,11 @@ public class Client extends Thread{
 		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
 			game.moveDone(command_split[1], Integer.parseInt(command_split[2]));
 		} else if(command_split[0].equals("game_end") && command_split.length == 1) {
-			game.notifyObservers("draw");
+			this.setChanged();
+			this.notifyObservers("draw");
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
-			game.notifyObservers("gameOver");
+			this.setChanged();
+			this.notifyObservers("gameOver");
 		}
 	}
 
@@ -120,7 +128,6 @@ public class Client extends Thread{
 	}
 	
 	public static String readString(String tekst) {
-		System.out.print(tekst);
 		String antw = null;
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(

@@ -29,4 +29,10 @@ public class GUI implements View {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String askPlayerName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

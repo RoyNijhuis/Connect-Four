@@ -44,7 +44,7 @@ public class ConnectFour extends Observable{
 			}
 			
 			try {
-				new Client(host, 2727, v).start();
+				new Thread(new Client(host, 2727, v)).start();
 			} catch (IOException e) {
 				this.setChanged();
 				this.notifyObservers("cannotCreateClient");
@@ -71,7 +71,7 @@ public class ConnectFour extends Observable{
 			}
 			
 			try {
-				new Client(host, 2727, v).start();
+				new Thread(new Client(host, 2727, v)).start();
 			} catch (IOException e) {
 				this.setChanged();
 				this.notifyObservers("cannotCreateClient");
