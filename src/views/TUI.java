@@ -10,12 +10,33 @@ import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Scanner;
 
+import network.Client;
 import players.HumanPlayer;
 import players.Player;
 
 
-public class TUI implements View{
+public class TUI extends Thread implements View{
+	private Client client;
+	private BufferedReader in;
 	
+	public TUI(Client client){
+		this.client = client;
+		in = new BufferedReader(new InputStreamReader(System.in));
+	}
+	public void run() {
+		while(true){
+			try {
+				String inputString = in.readLine();
+				String[] input = inputString.split(" ");
+				if(input[0].equals("say")) {
+					String[] message = inputString.split(" ", 2);
+					client.sendMessage("global_message " + message);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg.equals("printBoard")) {
@@ -107,12 +128,11 @@ public class TUI implements View{
 		System.out.println(((Game)o).getWinner().getName() + " has won the game!");
 	}
 	
-	private static String readString(String tekst) {
+	private String readString(String tekst) {
 		System.out.print(tekst);
 		String antw = null;
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					System.in));
+			
 			antw = in.readLine();
 		} catch (IOException e) {
 		}

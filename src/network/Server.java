@@ -91,6 +91,12 @@ public class Server {
 		}
 	}
 	
+	public void broadcastMesGlobal(String msg, String name){
+		for(ClientHandler client: clients) {
+			client.sendMessage("message "+ name+ " " + msg);
+		}
+	}
+	
 	public void broadcastToGame(ServerGame game, String message) {
 		for(ServerGame g: games) {
 			if(g.equals(game)) {

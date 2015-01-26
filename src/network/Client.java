@@ -30,6 +30,7 @@ public class Client extends Thread{
 	
 	private Socket sock;
 	private BufferedReader in;
+	private BufferedReader inconsole;
 	private BufferedWriter out;
 	private NetworkGame game;
 	private View UI;
@@ -40,8 +41,10 @@ public class Client extends Thread{
 		
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
+		inconsole = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
-    	this.UI = new TUI();
+    	this.UI = new TUI(this);
+    	((TUI)UI).start();
     	name = "Roy12";
 	}
 	
@@ -100,9 +103,11 @@ public class Client extends Thread{
 			System.out.println("The game ended in a draw");
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
 			System.out.println("Game over! The winner is: " + command_split[1]);
+		} else if(command_split[0].equals("message")){
+			System.out.println(command_split[1] + ": " + command_split[2]);
 		}
 	}
-
+	
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
 		try {
@@ -121,19 +126,6 @@ public class Client extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public static String readString(String tekst) {
-		System.out.print(tekst);
-		String antw = null;
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					System.in));
-			antw = in.readLine();
-		} catch (IOException e) {
-		}
-
-		return (antw == null) ? "" : antw;
 	}
 
 } // end of class Client

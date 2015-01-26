@@ -70,7 +70,8 @@ public class ClientHandler extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
-				String[] input = in.readLine().split(" ");
+				String inputString = in.readLine();
+				String[] input = inputString.split(" ");
 				if(input[0].equals("join") && input.length == 3) {
 					clientName = input[1];
 					int group = Integer.parseInt(input[2]);
@@ -92,8 +93,11 @@ public class ClientHandler extends Thread {
 				} else if(input[0].equals("ready_for_game") && input.length == 1) {
 					ready_to_start_game = true;
 					server.tryToStartGame(this);
-				} else if(input[0].equals("do_move") && input.length == 2) {
+				} else if(input[0].equals("do_move")) {
 					move = Integer.parseInt(input[1]);
+				} else if(input[0].equals("chat_global")){
+					String message[] = inputString.split(" ", 2);
+					server.broadcastMesGlobal(message[1], clientName);
 				}
 			} catch (IOException e) {
 				shutdown();
