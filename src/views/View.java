@@ -11,6 +11,7 @@ import players.Player;
 public abstract interface View extends Observer {
 	public int getHumanMove(String name);
 	public Player[] askForPlayers();
+	public String askLocalOrOnline();
 	
 	public static String askWhichUI() {
 		boolean choiceMade = false;

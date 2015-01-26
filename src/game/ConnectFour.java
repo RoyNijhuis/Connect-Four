@@ -27,22 +27,55 @@ public class ConnectFour extends Observable{
 			break;
 		}
 		this.addObserver(v);
-		/*Player players[] = v.askForPlayers();
-		this.setChanged();
-		this.notifyObservers("playersAsked");
-		this.createNewGame(players, v);*/
 		
-		InetAddress host=null;
-		try {
-			host = InetAddress.getByName("localhost");
-		} catch (UnknownHostException e) {
-			this.notifyObservers("badHost");
+		String gameType = v.askLocalOrOnline();
+		if(gameType.equals("local")) {
+			Player players[] = v.askForPlayers();
+			this.setChanged();
+			this.notifyObservers("playersAsked");
+			this.createNewGame(players, v);
+		} else if(gameType.equals("online")) {
+			InetAddress host=null;
+			try {
+				host = InetAddress.getByName("localhost");
+			} catch (UnknownHostException e) {
+				this.setChanged();
+				this.notifyObservers("badHost");
+			}
+			
+			try {
+				new Client(host, 2727, v).start();
+			} catch (IOException e) {
+				this.setChanged();
+				this.notifyObservers("cannotCreateClient");
+			}
 		}
-		
-		try {
-			new Client(host, 2727).start();
-		} catch (IOException e) {
-			this.notifyObservers("cannotCreateClient");
+	}
+	
+	public ConnectFour(View v) {
+		this.addObserver(v);
+		String gameType = v.askLocalOrOnline();
+		if(gameType.equals("local")) {
+			Player players[] = v.askForPlayers();
+			this.setChanged();
+			this.notifyObservers("playersAsked");
+			this.createNewGame(players, v);
+		} else if(gameType.equals("online")) {
+			System.out.println("jajaja");
+			InetAddress host=null;
+			try {
+				host = InetAddress.getByName("localhost");
+			} catch (UnknownHostException e) {
+				this.setChanged();
+				this.notifyObservers("badHost");
+			}
+			
+			try {
+				new Client(host, 2727, v).start();
+			} catch (IOException e) {
+				this.setChanged();
+				this.notifyObservers("cannotCreateClient");
+			}
 		}
 	}
 	

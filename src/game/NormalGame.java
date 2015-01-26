@@ -47,6 +47,8 @@ public class NormalGame extends Observable implements Game{
             			gameOver = true;
             			this.setChanged();
                         this.notifyObservers("gameOver");
+                        this.setChanged();
+                        this.notifyObservers("askPlayAgain");
             			break;
             		}
         		} else {

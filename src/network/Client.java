@@ -35,13 +35,13 @@ public class Client extends Thread{
 	private View UI;
 	private String name;
 
-	public Client(InetAddress host, int port)
+	public Client(InetAddress host, int port, View UI)
 			throws IOException {
 		
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
-    	this.UI = new TUI();
+    	this.UI = UI;
     	name = "Roy12";
 	}
 	
@@ -66,7 +66,6 @@ public class Client extends Thread{
 			sendMessage("ready_for_game");
 		} else if(command_split[0].equals("debug")) {
 			for(int i=1; i<command_split.length;i++) {
-				System.out.print(command_split[i] + " ");
 			}
 			System.out.print("\n");
 		} else if(command_split[0].equals("error")) {
@@ -88,18 +87,15 @@ public class Client extends Thread{
 			game = new NetworkGame(p1, p2, UI);
 		} else if(command_split[0].equals("request_move") && command_split.length == 2) {
 			if(name.equals(command_split[1])) {
-				System.out.println("move requested");
 				int move = game.askForMove();
 				sendMessage("do_move" + " " + move);
-				System.out.println("move submitted");
 			}
 		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
 			game.moveDone(command_split[1], Integer.parseInt(command_split[2]));
-			System.out.println("move done by " + command_split[1] + ": " + command_split[2]);
 		} else if(command_split[0].equals("game_end") && command_split.length == 1) {
-			System.out.println("The game ended in a draw");
+			game.notifyObservers("draw");
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
-			System.out.println("Game over! The winner is: " + command_split[1]);
+			game.notifyObservers("gameOver");
 		}
 	}
 
