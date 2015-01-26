@@ -75,7 +75,6 @@ public class SmartStrategy implements Strategy{
 		Set<Integer> moves = copyOfBoard.possibleMoves();
 		Mark enemy = m.other();
 		if(b.gameOver() || depth == 0){
-			//System.out.println(b.evaluateContent(m));
 			return b.evaluate(m, depth);
 		} else if(myTurn){
 			int v = Integer.MIN_VALUE;

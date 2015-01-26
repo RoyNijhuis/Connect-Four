@@ -64,7 +64,6 @@ public class Client extends Observable implements Runnable{
     			String line=in.readLine();
     			analyseCommand(line);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
@@ -123,7 +122,6 @@ public class Client extends Observable implements Runnable{
 			out.write(msg + "\n");
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -132,7 +130,6 @@ public class Client extends Observable implements Runnable{
 		try {
 			sock.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

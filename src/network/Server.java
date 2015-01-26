@@ -32,7 +32,6 @@ public class Server {
 			try {
 				server = new Server(port);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.out.println("This port is already being used.");
 			}
 		}
@@ -73,7 +72,6 @@ public class Server {
 				ch.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
