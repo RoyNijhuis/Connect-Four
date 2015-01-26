@@ -45,8 +45,9 @@ public class Client extends Thread{
     	
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = UI;
+    	this.UI.setClient(this);
     	((TUI)UI).start();
-    	name = "Roy12";
+    	name = "Roy123";
 	}
 	
 	public void run() {

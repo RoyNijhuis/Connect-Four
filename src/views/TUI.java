@@ -20,8 +20,7 @@ public class TUI extends Thread implements View{
 	private Client client;
 	private BufferedReader in;
 	
-	public TUI(Client client){
-		this.client = client;
+	public TUI(){
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	public void run() {
@@ -31,8 +30,8 @@ public class TUI extends Thread implements View{
 				String[] input = inputString.split(" ");
 				if(input[0].equals("say")) {
 					String[] message = inputString.split(" ", 2);
-					client.sendMessage("global_message " + message);
-					System.out.println("said "+ message);
+					client.sendMessage("chat_global " + message[1]);
+					System.out.println("said "+ message[1]);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -173,5 +172,10 @@ public class TUI extends Thread implements View{
 		}
 
 		return (antw == null) ? "" : antw;
+	}
+	@Override
+	public void setClient(Client client) {
+		this.client = client;
+		
 	}
 }

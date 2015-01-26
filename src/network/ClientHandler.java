@@ -72,6 +72,7 @@ public class ClientHandler extends Thread {
 			try {
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
+				System.out.println(inputString);
 				if(input[0].equals("join") && input.length == 3) {
 					clientName = input[1];
 					int group = Integer.parseInt(input[2]);

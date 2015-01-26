@@ -17,7 +17,7 @@ public class ConnectFour extends Observable{
 		String ui = View.askWhichUI();
 		switch(ui) {
 		case "TUI":
-			v = new TUI(null);
+			v = new TUI();
 			break;
 		case "GUI":
 			v = new GUI();
