@@ -76,154 +76,96 @@ public class Board {
     public boolean gameOver() {
         return this.isWinner(lastMark, lastMoveCol, lastMoveRow) || this.isFull();
     }
-    private static int[][] evaluationTable = {{3, 4, 5, 7, 5, 4, 3}, 
-        {4, 6, 8, 10, 8, 6, 4},
-        {5, 8, 11, 13, 11, 8, 5}, 
-        {5, 8, 11, 13, 11, 8, 5},
-        {4, 6, 8, 10, 8, 6, 4},
-        {3, 4, 5, 7, 5, 4, 3}};
-
-    //here is where the evaluation table is called
-    public int evaluateContent(Mark m, int depth) {
-    	//int utility = 138;
-    	int sum = 0;
+    private static int[] evaluateCol = {1, 5, 10, 70, 10, 5, 1};
+    
+    public int evaluate(Mark m, int depth){
+    	int result = 0;
     	Mark enemy = m.other();
     	if(isWinner(m, lastMoveCol, lastMoveRow)){
-    		sum += 10000000;
-    		sum += depth;
+    		result += 10000000;
+    		result += depth*100000;
     	} 
     	if(isWinner(enemy , lastMoveCol, lastMoveRow)){
-    		sum -= 10000000;
-    		sum -= depth;
+    		result -= 10000000;
+    		result -= depth*100000;
     	} 
-    	if(sum == 0) {
+    	if(result == 0) {
     		for (int i = 0; i < HEIGHT; i++){
+    			Mark rowMark = Mark.EMPTY;
+    			boolean gotRow = true;
     	   		for (int j = 0; j <WIDTH; j++){
     	   			if (fields[i][j].equals(m)){
-    	   				sum += evaluationTable[i][j];
+    	   				result += evaluateCol[j];
+    	   				if(gotRow && !rowMark.equals(enemy)){
+    	   					rowMark = m;
+    	   				} else {
+    	   					gotRow = false;
+    	   				}
+    	   				
     	   			}
     	   			else if (fields[i][j].equals(enemy)){
-    	   				sum -= evaluationTable[i][j];
+    	   				result -= evaluateCol[j];
+    	   				if(gotRow && !rowMark.equals(m)){
+    	   					rowMark = enemy;
+    	   				} else {
+    	   					gotRow = false;
+    	   				}
+    	   			}
+    	   		}
+    	   		if (gotRow){
+    	   			if (rowMark.equals(m)){
+    	   				result += 100;
+    	   			} else if (rowMark.equals(enemy)){
+    	   				result -= 80;
     	   			}
     	   		}
     		}
- 		}   	
-    	return sum;//utility + sum;
+
+        	Map<Integer, Integer> winningFields = getImportantFields(m);
+        	Map<Integer, Integer> loosingFields = getImportantFields(enemy);
+        	int multiplier = m.equals(Mark.XX)? 2: 1;
+        	int multiplier2 = m.equals(Mark.XX)? 1: 2;
+        	
+        	
+        	for(Entry<Integer, Integer> win: winningFields.entrySet()){
+        		if(win.getKey()%2 == 0){
+        			result += 100*multiplier;
+        		} else {
+        			result += 100*multiplier2;
+        		}
+        	}
+        	for(Entry<Integer, Integer> loss: loosingFields.entrySet()){
+        		if(loss.getKey()%2 == 0){
+        			result -= 100*multiplier2;
+        		} else {
+        			result -= 100*multiplier;
+        		}
+        	}
+ 		}   
+    	
+    	return result;
     }
     
-    public int evaluate(Mark m,int depth){
-    	int result = 0;
-    	Mark enemy = m.other();
-    	    	
-    	if(isWinner(m, lastMoveCol, lastMoveRow)){
-    		result += 10000000;
-    		result += depth;
-    	} else if(isWinner(enemy , lastMoveCol, lastMoveRow)){
-    		result -= 10000000;
-    		result -= depth;
-    	} else{
-    		Map<Integer, Integer> map = getImportantFields();
-    	
-    		for(Entry<Integer, Integer> i: map.entrySet()){
-    			if(fields[i.getKey()][i.getValue()].equals(m)){
-    				result += getScore(i.getKey(),i.getValue());
-    			} else {
-    				result -= getScore(i.getKey(),i.getValue());
+    public Map<Integer, Integer> getImportantFields(Mark m){
+    	Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+    	for(int i = 0; i<WIDTH; i++){
+    		for(int j = 0; j<HEIGHT; j++){
+    			if(fields[j][i].equals(Mark.EMPTY)){
+    				setField(i, j, m);
+    				if(isWinner(m, i, j)){
+    					result.put(j, i);
+    				}
+    				undoMove();
     			}
     		}
     	}
     	return result;
     }
     
-    public int getScore(int height, int width){
-    	int result = 0;    	
-    	Mark m = fields[height][width];
-    	if(height>0 && fields[height-1][width].equals(Mark.EMPTY)){
-	    	if(height < HEIGHT-2 && fields[height+1][width].equals(m) && fields[height+2][width].equals(m)){
-	    		result += 200;
-			} else if(height < HEIGHT-1 && height>1 && fields[height+1][width].equals(m)){
-				result += 200;
-			} else if(height>2){
-				result += 200;
-			}
-		}
-	    if(width>0 && fields[height][width-1].equals(Mark.EMPTY)) {
-	    	if(width<WIDTH-2 && fields[height][width+1].equals(m) && fields[height][width+2].equals(m)){
-	    		result += 200;
-			} else if(width<WIDTH-1 && width>1 && fields[height][width+1].equals(m)){
-				result += 200;
-			} else if(width>2){
-				result += 200;
-			}
-		}
-	    if(width<WIDTH-1 && fields[height][width+1].equals(Mark.EMPTY)) {
-	    	if(width>1 && fields[height][width-1].equals(m) && fields[height][width-2].equals(m)){
-	    		result += 200;
-			} else if(width>0 && width<WIDTH-2 && fields[height][width-1].equals(m)){
-				result += 200;
-			} else if(width<WIDTH-3){
-				result += 200;
-			}
-		}
-	    if(width > 0 && height > 0 && fields[height-1][width-1].equals(Mark.EMPTY)) {
-	    	if(width<WIDTH-2 && height<HEIGHT-2 && fields[height+1][width+1].equals(m) && fields[height+2][width+2].equals(m)){
-	    		result += 200;
-			} else if(width > 0 && height > 0 && width<WIDTH-1 && height<HEIGHT-1 && fields[height+1][width+1].equals(m)){
-				result += 200;
-			} else if(width > 2 && height > 2){
-				result += 200;
-			}
-		}
-	    if(width < WIDTH -1 && height > 0 && fields[height-1][width+1].equals(Mark.EMPTY)) {
-	    	if(width>1 && height<HEIGHT-2 && fields[height+1][width-1].equals(m) && fields[height+2][width-2].equals(m)){
-	    		result += 200;
-			} else if(width < WIDTH-1 && height > 0 && width>0 && height<HEIGHT-1 && fields[height+1][width-1].equals(m)){
-				result += 200;
-			} else if(width < WIDTH -3 && height > 2){
-				result += 200;
-			}
-		}
-	    if(width < WIDTH -1 && height < HEIGHT-1 && fields[height+1][width+1].equals(Mark.EMPTY)) {
-	    	if(width>1 && height>1 && fields[height-1][width-1].equals(m) && fields[height-2][width-2].equals(m)){
-	    		result += 200;
-			} else if(width < WIDTH-1 && height < HEIGHT-1 && width>0 && height>0 && fields[height-1][width-1].equals(m)){
-				result += 200;
-			} else if(width < WIDTH -3 && height <HEIGHT-3){
-				result += 200;
-			}
-		}
-	    if(width > 0 && height < HEIGHT-1 && fields[height+1][width-1].equals(Mark.EMPTY)) {
-	    	if(width<WIDTH-2 && height>1 && fields[height-1][width+1].equals(m) && fields[height-2][width+2].equals(m)){
-	    		result += 200;
-			} else if(width>0 && height < HEIGHT-1 && width<WIDTH-1 && height>0 && fields[height-1][width+1].equals(m)){
-				result += 200;
-			} else if(width > 2 && height < HEIGHT-3){
-				result += 200;
-			}
-		}
-    	
-    	return result;
-    }
-    
-    public Map<Integer, Integer> getImportantFields(){
-    	Map<Integer, Integer> result = new HashMap<Integer, Integer>();
-    	for(int i = 0; i<WIDTH; i++){
-    		for(int j = 0; j<HEIGHT; j++){
-    			if(!fields[j][i].equals(Mark.EMPTY)){
-    				if(j>0 && fields[j-1][i].equals(Mark.EMPTY))
-    					result.put(j,i);
-    				} else if(i>0 && fields[j][i-1].equals(Mark.EMPTY)) {
-    					result.put(j,i);
-    				} else if(i<WIDTH-1 && fields[j][i+1].equals(Mark.EMPTY)){
-    					result.put(j,i);
-    				}  else if(i<WIDTH-1 && j>0 && fields[j-1][i+1].equals(Mark.EMPTY)){
-    					result.put(j,i);
-    				}  else if(i<WIDTH-1 && j>0 && fields[j-1][i+1].equals(Mark.EMPTY)){
-    					result.put(j,i);
-    				} 
-    			}
-    		}
-    	return result;
+    public void setField(int width, int height, Mark m){
+    	lastMoveRow = height;
+    	lastMoveCol = width;
+    	fields[height][width] = m;
     }
     
     public void undoMove(){
