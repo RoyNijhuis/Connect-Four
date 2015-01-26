@@ -52,7 +52,6 @@ public class TUI extends Thread implements View{
 					}
 				} else if(expecting.equals("local")){
 					if(inputString.equals("local")||inputString.equals("online")){
-						System.out.println("hey");
 						result = inputString;
 						expecting = "";
 					} else {
