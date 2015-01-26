@@ -198,7 +198,8 @@ public class TUI extends Thread implements View{
 		}
 		players[0] = new HumanPlayer(result, Mark.XX);
 		expecting = "player2 "+result;
-		result = "";
+		System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
+		
 		while(expecting.equals("player2 "+result)){
 			try {
 				sleep(10);
