@@ -11,8 +11,6 @@ import players.Player;
 public abstract interface View extends Observer {
 	public int getHumanMove(String name);
 	public Player[] askForPlayers();
-	public void printBoard(Observable o);
-	public void gameOver(Observable o);
 	
 	public static String askWhichUI() {
 		boolean choiceMade = false;

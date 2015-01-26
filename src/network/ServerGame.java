@@ -50,7 +50,6 @@ public class ServerGame extends Thread implements Game{
     		current = clients[i];
     		requestMove(current);
     		int moveDone = waitForMove();
-    		System.out.println("move received on server and broadcasted");
     		broadcastMove(current, moveDone);
     		
     		if(!board.isWinner(board.lastMark(), board.lastWidth(), board.lastHeight())) {

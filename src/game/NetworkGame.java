@@ -27,8 +27,6 @@ public class NetworkGame extends Observable implements Game{
         	self = s1;
         	other = s0;
         }
-        System.out.println("self: " + s0.getName());
-        System.out.println("other: " + s1.getName());
         UI = v;
     	this.addObserver(UI);
     }

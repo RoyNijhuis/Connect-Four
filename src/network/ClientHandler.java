@@ -93,7 +93,6 @@ public class ClientHandler extends Thread {
 					ready_to_start_game = true;
 					server.tryToStartGame(this);
 				} else if(input[0].equals("do_move") && input.length == 2) {
-					System.out.println("do_move received " + getPlayerName());
 					move = Integer.parseInt(input[1]);
 				}
 			} catch (IOException e) {
@@ -112,7 +111,6 @@ public class ClientHandler extends Thread {
 	}
 	
 	public int getMove() {
-		System.out.println("getMove started " + getPlayerName());
 		int result = -1;
 		while(move == -1) {
 			//sleep hier werkt wel???
@@ -123,7 +121,6 @@ public class ClientHandler extends Thread {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("move returned! " + getPlayerName());
 		result = move;
 		move = -1;
 		return result;

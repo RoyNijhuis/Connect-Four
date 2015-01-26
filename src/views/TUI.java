@@ -22,16 +22,14 @@ public class TUI implements View{
 			printBoard(o);
 		} else if(arg.equals("gameOver")) {
 			gameOver(o);
-			Board board = ((NormalGame) o).getBoard();
-			Mark[][] field = board.getField();
-			for(int i=0;i<Board.HEIGHT;i++) {
-	    		for(int j=0;j<Board.WIDTH;j++) {
-	        		System.out.print(" \t|" + field[i][j] + " \t|");
-	        	}
-	    		System.out.println();
-	    	}
 		} else if(arg.equals("columnFull")) {
 			System.out.println("This column is full...");
+		} else if(arg.equals("badHost")) {
+			badHost();
+		} else if(arg.equals("cannotCreateClient")) {
+			cannotCreateClient();
+		} else if(arg.equals("cannotCreateClient")) {
+			cannotCreateClient();
 		}
 	}
 
@@ -54,6 +52,14 @@ public class TUI implements View{
 			}
 		}
 		return move-1;
+	}
+	
+	private void badHost() {
+		System.out.println("Host is niet goed");
+	}
+	
+	private void cannotCreateClient() {
+		System.out.println("Kan Client niet aanmaken");
 	}
 
 	@Override
@@ -86,8 +92,7 @@ public class TUI implements View{
 		return players;
 	}
 
-	@Override
-	public void printBoard(Observable o) {
+	private void printBoard(Observable o) {
 		Board board = ((Game) o).getBoard();
 		Mark[][] field = board.getField();
 		for(int i=0;i<Board.HEIGHT;i++) {
@@ -98,12 +103,11 @@ public class TUI implements View{
     	}//Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
 	}
 
-	@Override
-	public void gameOver(Observable o) {
-		System.out.println(((NormalGame)o).getWinner().getName() + " has won the game!");
+	private void gameOver(Observable o) {
+		System.out.println(((Game)o).getWinner().getName() + " has won the game!");
 	}
 	
-	public static String readString(String tekst) {
+	private static String readString(String tekst) {
 		System.out.print(tekst);
 		String antw = null;
 		try {

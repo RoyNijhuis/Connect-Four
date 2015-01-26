@@ -36,13 +36,13 @@ public class ConnectFour extends Observable{
 		try {
 			host = InetAddress.getByName("localhost");
 		} catch (UnknownHostException e) {
-			System.out.println("Host is niet goed");
+			this.notifyObservers("badHost");
 		}
 		
 		try {
 			new Client(host, 2727).start();
 		} catch (IOException e) {
-			System.out.println("Kan Client niet aanmaken");
+			this.notifyObservers("cannotCreateClient");
 		}
 	}
 	

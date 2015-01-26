@@ -42,7 +42,7 @@ public class Client extends Thread{
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = new TUI();
-    	name = "Roy1";
+    	name = "Roy2";
 	}
 	
 	public void run() {
@@ -121,10 +121,6 @@ public class Client extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	private static void print(String message){
-		System.out.println(message);
 	}
 	
 	public static String readString(String tekst) {
