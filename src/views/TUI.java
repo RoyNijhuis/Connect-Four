@@ -231,11 +231,16 @@ public class TUI extends Thread implements View{
 		System.out.println("The game ended in a draw...");
 	}
 	
+
 	/*private String readString(String tekst) {
 		System.out.print(tekst);
+=======
+	private String readString(String tekst) {
+>>>>>>> origin/master
 		String antw = null;
 		try {
-			
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					System.in));
 			antw = in.readLine();
 		} catch (IOException e) {
 		}

@@ -49,6 +49,7 @@ public class Client extends Observable implements Runnable{
     	this.addObserver(UI);
     	name = "Roy12";
     	this.UI.setClient(this);
+
 	}
 	
 	private void askName() {
@@ -85,7 +86,8 @@ public class Client extends Observable implements Runnable{
 			}
 		} else if(command_split[0].equals("start_game") && command_split.length == 3) {
 			//create players and create networkgame
-			
+			this.setChanged();
+			this.notifyObservers("gameStarted");
 			Player p1=null, p2=null;
 			if(command_split[1].equals(name)) {
 				p1 = new HumanPlayer(name, Mark.XX);
