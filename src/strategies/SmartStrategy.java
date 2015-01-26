@@ -11,6 +11,7 @@ public class SmartStrategy implements Strategy{
 
 	public static final String NAME="Smart";
 	int depth;
+	
 	public SmartStrategy(int d){
 		depth = d*2;
 	}

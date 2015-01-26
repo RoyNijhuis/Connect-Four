@@ -30,6 +30,7 @@ public class TUI extends Thread implements View{
 		resultMove = 0;
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
+	
 	public void run() {
 		while(true){
 			try {
