@@ -18,7 +18,7 @@ public static final String NAME="Smart";
 	public int determineMove(Board b, Mark m){
 		Board copyOfBoard = b.deepCopy();
 		
-		int depth = 10;//TODO hardcoded
+		int depth = 8;//TODO hardcoded
 		
 		Set<Integer> moves = copyOfBoard.possibleMoves();
 		final int[] results = new int[7];

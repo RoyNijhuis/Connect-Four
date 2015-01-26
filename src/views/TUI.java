@@ -12,8 +12,8 @@ import java.util.Observable;
 import java.util.Scanner;
 
 import network.Client;
-import players.HumanPlayer;
-import players.Player;
+import players.*;
+import strategies.SmartStrategy;
 
 
 public class TUI extends Thread implements View{
@@ -42,9 +42,12 @@ public class TUI extends Thread implements View{
 				} else if(expecting.equals("name") && input.length == 1){
 					result = inputString;
 					expecting = "";
-				} else if(expecting.startsWith("player2") && input.length == 1){
+				} else if(expecting.equals("player1") && (input.length == 3||input.length == 2) && (input[0].equals("H")||input[0].equals("C"))){
+					result = inputString;
+					expecting = "";
+				} else if(expecting.startsWith("player2") && (input.length == 3||input.length == 2) && (input[0].equals("H")||input[0].equals("C"))){
 					String[] p1 = expecting.split(" ");
-					if(!p1[1].equals(inputString)){
+					if(!p1[1].equals(input[1])){
 						result = inputString;
 						expecting = "";
 					} else {
@@ -140,7 +143,7 @@ public class TUI extends Thread implements View{
 				e.printStackTrace();
 			}
 		}
-		int move = resultMove;
+		int move = resultMove-1;
 		resultMove = 0;
 		return move;
 	}
@@ -187,27 +190,39 @@ public class TUI extends Thread implements View{
 	public Player[] askForPlayers() {
 		Player[] players = new Player[2];
 		
-		System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
-		expecting = "name";
-		while(expecting.equals("name")){
+		System.out.println("Please enter the Type('H' for HumanPlayer, 'C' for ComputerPlayer)\nfor example: 'H Henk' or 'C X'(X is a integer between 1-5)");
+		expecting = "player1";
+		while(expecting.equals("player1")){
 			try {
 				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		String[] player = result.split(" ");
+		if(player[0].equals("H")){
+			players[0] = new HumanPlayer(player[1], Mark.XX);
+		} else {
+			players[0] = new ComputerPlayer(player[1], Mark.XX, new SmartStrategy());
+		}
+		String name = player[1];
 		players[0] = new HumanPlayer(result, Mark.XX);
-		expecting = "player2 "+result;
-		System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
+		expecting = "player2 "+name;
+		System.out.println("Please enter the Type('H' for HumanPlayer, 'C' for ComputerPlayer)\nfor example: 'H Henk' or 'C Piet X'(X is a integer between 1-5)");
 		
-		while(expecting.equals("player2 "+result)){
+		while(expecting.equals("player2 "+name)){
 			try {
 				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		players[1] = new HumanPlayer(result, Mark.OO);
+		player = result.split(" ");
+		if(player[0].equals("H")){
+			players[1] = new HumanPlayer(player[1], Mark.OO);
+		} else {
+			players[1] = new ComputerPlayer(player[1], Mark.OO, new SmartStrategy());
+		}
 		result = "";
 		return players;
 	}

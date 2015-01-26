@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 
 import network.Client;
-import players.Player;
+import players.*;
 import views.GUI;
 import views.TUI;
 import views.View;
