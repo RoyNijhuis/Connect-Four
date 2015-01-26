@@ -49,7 +49,6 @@ public class Client extends Observable implements Runnable{
     	this.addObserver(UI);
     	name = "Roy12";
     	this.UI.setClient(this);
-    	((TUI)UI).start();
 	}
 	
 	private void askName() {
