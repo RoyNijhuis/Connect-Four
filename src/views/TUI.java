@@ -42,14 +42,29 @@ public class TUI extends Thread implements View{
 				} else if(expecting.equals("name") && input.length == 1){
 					result = inputString;
 					expecting = "";
-				} else if(expecting.equals("player1") && (input.length == 3||input.length == 2) && (input[0].equals("H")||input[0].equals("C"))){
+				} else if(expecting.equals("player1") && (input.length == 2 && input[0].equals("H")) || (input[0].equals("C")&& input.length == 3)){
 					result = inputString;
 					expecting = "";
-				} else if(expecting.startsWith("player2") && (input.length == 3||input.length == 2) && (input[0].equals("H")||input[0].equals("C"))){
+				} else if(expecting.startsWith("player2") && (input.length == 2 && input[0].equals("H")) || (input[0].equals("C")&& input.length == 3)){
 					String[] p1 = expecting.split(" ");
 					if(!p1[1].equals(input[1])){
-						result = inputString;
-						expecting = "";
+						if(input[0].equals("H")){
+							result = inputString;
+							expecting = "";
+						} else {
+							try {
+								int dif = Integer.parseInt(input[2]);
+								if(dif >= 0) {
+									result = inputString;
+									expecting = "";
+								} else {
+									System.out.println("Please enter a positive digit");
+								}
+							} catch (NumberFormatException e) {
+								System.out.println("Please enter a digit after C "+ input[1]);
+							}
+						}
+						
 					} else {
 						System.out.println("Please take a different name as player1");
 					}
@@ -203,7 +218,7 @@ public class TUI extends Thread implements View{
 		if(player[0].equals("H")){
 			players[0] = new HumanPlayer(player[1], Mark.XX);
 		} else {
-			players[0] = new ComputerPlayer(player[1], Mark.XX, new SmartStrategy());
+			players[0] = new ComputerPlayer(player[1], Mark.XX, new SmartStrategy(Integer.parseInt(player[2])));
 		}
 		String name = player[1];
 		players[0] = new HumanPlayer(result, Mark.XX);
@@ -221,7 +236,7 @@ public class TUI extends Thread implements View{
 		if(player[0].equals("H")){
 			players[1] = new HumanPlayer(player[1], Mark.OO);
 		} else {
-			players[1] = new ComputerPlayer(player[1], Mark.OO, new SmartStrategy());
+			players[1] = new ComputerPlayer(player[1], Mark.OO, new SmartStrategy(Integer.parseInt(player[2])));
 		}
 		result = "";
 		return players;

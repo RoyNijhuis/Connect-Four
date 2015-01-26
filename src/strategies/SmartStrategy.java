@@ -9,8 +9,11 @@ import java.util.Set;
 
 public class SmartStrategy implements Strategy{
 
-public static final String NAME="Smart";
-
+	public static final String NAME="Smart";
+	int depth;
+	public SmartStrategy(int d){
+		depth = d*2;
+	}
 	public String getName() {
 		return NAME;
 	}
