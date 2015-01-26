@@ -47,13 +47,13 @@ public class Client extends Observable implements Runnable{
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = UI;
     	this.addObserver(UI);
-    	name = "Roy12";
+    	name = "";
     	this.UI.setClient(this);
 
 	}
 	
 	private void askName() {
-		String name = UI.askPlayerName();
+		name = UI.askPlayerName();
 		sendMessage("join " + name + " " + 12);
 	}
 	

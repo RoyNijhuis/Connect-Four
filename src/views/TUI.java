@@ -116,7 +116,7 @@ public class TUI extends Thread implements View{
 		expecting = "again";
 		while(expecting.equals("again")){
 			try {
-				sleep(1);
+				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -132,10 +132,10 @@ public class TUI extends Thread implements View{
 	@Override
 	public int getHumanMove(String name) {
 		System.out.println(name + ", please enter your move(a digit between 1-7)");
-		expecting = "local";
+		expecting = "move";
 		while(expecting.equals("move")){
 			try {
-				sleep(1);
+				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -158,7 +158,7 @@ public class TUI extends Thread implements View{
 		expecting = "local";
 		while(expecting.equals("local")){
 			try {
-				sleep(1);
+				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -173,7 +173,7 @@ public class TUI extends Thread implements View{
 		expecting = "name";
 		while(expecting.equals("name")){
 			try {
-				sleep(1);
+				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -189,9 +189,9 @@ public class TUI extends Thread implements View{
 		
 		System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
 		expecting = "name";
-		while(expecting.equals("player1")){
+		while(expecting.equals("name")){
 			try {
-				sleep(1);
+				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -199,9 +199,9 @@ public class TUI extends Thread implements View{
 		players[0] = new HumanPlayer(result, Mark.XX);
 		expecting = "player2 "+result;
 		result = "";
-		while(expecting.equals("player2")){
+		while(expecting.equals("player2 "+result)){
 			try {
-				sleep(1);
+				sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
