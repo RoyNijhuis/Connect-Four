@@ -22,8 +22,6 @@ public class SmartStrategy implements Strategy{
 	public int determineMove(Board b, Mark m){
 		Board copyOfBoard = b.deepCopy();
 		
-		int depth = 8;//TODO hardcoded
-		
 		Set<Integer> moves = copyOfBoard.possibleMoves();
 		final int[] results = new int[7];
 		for(int p = 0; p<7;p++){
