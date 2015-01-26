@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Observable;
 import java.util.Observer;
 
+import network.Client;
 import players.Player;
 
 
@@ -13,6 +14,7 @@ public abstract interface View extends Observer {
 	public Player[] askForPlayers();
 	public String askLocalOrOnline();
 	public String askPlayerName();
+	public void setClient(Client client);
 	
 	public static String askWhichUI() {
 		boolean choiceMade = false;

@@ -31,6 +31,7 @@ public class Client extends Observable implements Runnable{
 	
 	private Socket sock;
 	private BufferedReader in;
+	private BufferedReader inconsole;
 	private BufferedWriter out;
 	private NetworkGame game;
 	private View UI;
@@ -41,10 +42,14 @@ public class Client extends Observable implements Runnable{
 		
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
+		out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
+    	
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = UI;
     	this.addObserver(UI);
     	name = "Roy12";
+    	this.UI.setClient(this);
+    	((TUI)UI).start();
 	}
 	
 	private void askName() {
@@ -104,9 +109,13 @@ public class Client extends Observable implements Runnable{
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
 			this.setChanged();
 			this.notifyObservers("gameOver");
+			System.out.println("Game over! The winner is: " + command_split[1]);
+		} else if(command_split[0].equals("message")){
+			System.out.println(command_split[1] + ": " + command_split[2]);
+			game.notifyObservers("gameOver");
 		}
 	}
-
+	
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
 		try {

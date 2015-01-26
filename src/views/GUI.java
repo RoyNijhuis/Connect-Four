@@ -1,6 +1,7 @@
 package views;
 import java.util.Observable;
 
+import network.Client;
 import players.Player;
 
 
@@ -34,5 +35,11 @@ public class GUI implements View {
 	public String askPlayerName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setClient(Client client) {
+		// TODO Auto-generated method stub
+		
 	}
 }
