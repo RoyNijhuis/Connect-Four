@@ -41,8 +41,7 @@ public class Client extends Thread{
 		
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
-		inconsole = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
-    	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
+		out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	this.UI = new TUI(this);
     	((TUI)UI).start();
     	name = "Roy12";

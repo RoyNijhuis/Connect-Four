@@ -92,6 +92,7 @@ public class Server {
 	}
 	
 	public void broadcastMesGlobal(String msg, String name){
+		System.out.println("serverglobal "+msg);
 		for(ClientHandler client: clients) {
 			client.sendMessage("message "+ name+ " " + msg);
 		}

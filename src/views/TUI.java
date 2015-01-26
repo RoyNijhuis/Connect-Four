@@ -31,6 +31,7 @@ public class TUI extends Thread implements View{
 				if(input[0].equals("say")) {
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("global_message " + message);
+					System.out.println("said "+ message);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
