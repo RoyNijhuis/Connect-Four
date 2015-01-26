@@ -19,8 +19,15 @@ import players.Player;
 public class TUI extends Thread implements View{
 	private Client client;
 	private BufferedReader in;
+	String expecting;
+	String result;
+	int resultMove;
 	
 	public TUI(){
+		expecting = null;
+		this.start();
+		result = "";
+		resultMove = 0;
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	public void run() {
@@ -32,6 +39,47 @@ public class TUI extends Thread implements View{
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("chat_global " + message[1]);
 					System.out.println("said "+ message[1]);
+				} else if(expecting.equals("name") && input.length == 1){
+					result = inputString;
+					expecting = "";
+				} else if(expecting.startsWith("player2") && input.length == 1){
+					String[] p1 = expecting.split(" ");
+					if(!p1[1].equals(inputString)){
+						result = inputString;
+						expecting = "";
+					} else {
+						System.out.println("Please take a different name as player1");
+					}
+				} else if(expecting.equals("local")){
+					if(inputString.equals("local")||inputString.equals("online")){
+						System.out.println("hey");
+						result = inputString;
+						expecting = "";
+					} else {
+						System.out.println("Please enter local or online");
+					}
+				} else if(expecting.equals("move")){
+					try {
+						int move = Integer.parseInt(inputString);
+						if(move >= 1 && move <= 7) {
+							resultMove = move;
+							expecting = "";
+						} else {
+							System.out.println("Please enter a digit between 1 and 7");
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("Please enter a digit...");
+					}
+				} else if(expecting.equals("again")){
+					if(inputString.equals("y")||inputString.equals("n")){
+						result = inputString;
+						expecting = "";
+					} else {
+						System.out.println("please enter correct information");
+						System.out.println("Would you like to play again? (y/n)");
+					}
+				} else {
+					System.out.println("please enter correct information");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -66,38 +114,36 @@ public class TUI extends Thread implements View{
 	
 	public void askPlayAgain() {
 		System.out.println("Would you like to play again? (y/n)");
-		String answer = readString("");
-		while(!answer.equals("y") && !answer.equals("n")) {
-			System.out.println("Please enter correct information.");
-			System.out.println("Would you like to play again? (y/n)");
-			answer = readString("");
+		expecting = "again";
+		while(expecting.equals("again")){
+			try {
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		if(answer.equals("y")) {
+		if(result.equals("y")) {
 			new ConnectFour(this);
 		} else {
 			
 		}
+		result = null;
 	}
 
 	@Override
 	public int getHumanMove(String name) {
-		boolean done = false;
-		int move=0;
-		
-		while(!done) {
-			System.out.println(name + ", please enter your move(a digit between 1-7");
+		System.out.println(name + ", please enter your move(a digit between 1-7)");
+		expecting = "local";
+		while(expecting.equals("move")){
 			try {
-				move = Integer.parseInt(readString(""));
-				if(move >= 1 && move <= 7) {
-					done = true;
-				} else {
-					System.out.println("Please enter a digit between 1 and 7");
-				}
-			} catch (NumberFormatException e) {
-				System.out.println("Please enter a digit...");
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
-		return move-1;
+		int move = resultMove;
+		resultMove = 0;
+		return move;
 	}
 	
 	private void badHost() {
@@ -110,46 +156,59 @@ public class TUI extends Thread implements View{
 	
 	public String askLocalOrOnline() {
 		System.out.println("Would you like to play a local game or an online game? (Type in: 'local' or 'online')");
-		String answer = readString("");
-		while(!answer.equals("local") && !answer.equals("online")) {
-			System.out.println("Please enter correct information.");
-			answer = readString("");
+		expecting = "local";
+		while(expecting.equals("local")){
+			try {
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		return answer;
+		String local = result;
+		result = "";
+		return local;
 	}
 	
 	public String askPlayerName() {
-		System.out.println("Please enter your name.");
-		return readString("");
+		System.out.println("Please enter your name");
+		expecting = "name";
+		while(expecting.equals("name")){
+			try {
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		String name = result;
+		result = "";
+		return name;
 	}
 
 	@Override
 	public Player[] askForPlayers() {
 		Player[] players = new Player[2];
-		for(int i=1; i<=2;i++) {
-			Mark m;
-			if(i==1) {
-				m = Mark.XX;
-			} else {
-				m = Mark.OO;
-			}
-			boolean correct = false;
-			while(!correct) {
-				System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
-				String input = readString("");
-				String[] splitString = input.split(" ");
-				if(splitString.length == 2 && splitString[0].equals("H")) {
-					if(i==2 && players[0].getName().equals(splitString[1])) {
-						System.out.println("Please enter a different name than player 1's name(" + players[0].getName() + ")");
-					} else {
-						players[i-1] = new HumanPlayer(splitString[1], m);
-						correct = true;
-					}
-				} else {
-					System.out.println("Please enter valid information...");
-				}
+		
+		System.out.println("Please enter the Type('H' for HumanPlayer, 'N' for NetworkPlayer), for example: 'H Henk' or 'N 1.2.3.4.5.6 2727'(ip and portnumber)");
+		expecting = "name";
+		while(expecting.equals("player1")){
+			try {
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
+		players[0] = new HumanPlayer(result, Mark.XX);
+		expecting = "player2 "+result;
+		result = "";
+		while(expecting.equals("player2")){
+			try {
+				sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		players[1] = new HumanPlayer(result, Mark.OO);
+		result = "";
 		return players;
 	}
 
@@ -172,7 +231,7 @@ public class TUI extends Thread implements View{
 		System.out.println("The game ended in a draw...");
 	}
 	
-	private String readString(String tekst) {
+	/*private String readString(String tekst) {
 		System.out.print(tekst);
 		String antw = null;
 		try {
@@ -182,7 +241,8 @@ public class TUI extends Thread implements View{
 		}
 
 		return (antw == null) ? "" : antw;
-	}
+	}*/
+	
 	@Override
 	public void setClient(Client client) {
 		this.client = client;
