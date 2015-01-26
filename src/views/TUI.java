@@ -1,5 +1,6 @@
 package views;
 import game.Board;
+import game.ConnectFour;
 import game.Game;
 import game.NormalGame;
 import game.Mark;
@@ -52,6 +53,25 @@ public class TUI extends Thread implements View{
 			cannotCreateClient();
 		} else if(arg.equals("cannotCreateClient")) {
 			cannotCreateClient();
+		} else if(arg.equals("askPlayAgain")) {
+			askPlayAgain();
+		}  else if(arg.equals("draw")) {
+			draw();
+		}
+	}
+	
+	public void askPlayAgain() {
+		System.out.println("Would you like to play again? (y/n)");
+		String answer = readString("");
+		while(!answer.equals("y") && !answer.equals("n")) {
+			System.out.println("Please enter correct information.");
+			System.out.println("Would you like to play again? (y/n)");
+			answer = readString("");
+		}
+		if(answer.equals("y")) {
+			new ConnectFour(this);
+		} else {
+			
 		}
 	}
 
@@ -82,6 +102,16 @@ public class TUI extends Thread implements View{
 	
 	private void cannotCreateClient() {
 		System.out.println("Kan Client niet aanmaken");
+	}
+	
+	public String askLocalOrOnline() {
+		System.out.println("Would you like to play a local game or an online game? (Type in: 'local' or 'online'");
+		String answer = readString("");
+		while(!answer.equals("local") && !answer.equals("online")) {
+			System.out.println("Please enter correct information.");
+			answer = readString("");
+		}
+		return answer;
 	}
 
 	@Override
@@ -127,6 +157,10 @@ public class TUI extends Thread implements View{
 
 	private void gameOver(Observable o) {
 		System.out.println(((Game)o).getWinner().getName() + " has won the game!");
+	}
+	
+	private void draw() {
+		System.out.println("The game ended in a draw...");
 	}
 	
 	private String readString(String tekst) {

@@ -25,24 +25,33 @@ public class Server {
 
 	/** Start een Server-applicatie op. */
 	public static void main(String[] args) {
-		System.out.println("Please enter port: ");
-		int port = Integer.parseInt(readString(""));
-		
-		Server server = new Server(port);
+		Server server = null;
+		while(server == null) {
+			System.out.println("Please enter port: ");
+			int port = Integer.parseInt(readString(""));
+			try {
+				server = new Server(port);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("This port is already being used.");
+			}
+		}
+		System.out.println("The server is running and can accept clients!");
 		server.run();
-		
 	}
 
 
 	private int port;
 	private List<ClientHandler> clients;
 	private List<ServerGame> games;
+	private ServerSocket socket;
 	
     /** Constructs a new Server object */
-	public Server(int portArg) {
+	public Server(int portArg) throws IOException{
 		this.port = portArg;
 		this.clients = new ArrayList<ClientHandler>();
 		this.games = new ArrayList<ServerGame>();
+		this.socket = new ServerSocket(port);
 	}
 	
 	public List<ClientHandler> getClients() {
@@ -56,11 +65,9 @@ public class Server {
 	     * communication with the Client. 
 	 */
 	public void run() {
-		ServerSocket ss = null;
 		try {
-			ss = new ServerSocket(port);
 			while(true) {
-				Socket s = ss.accept();
+				Socket s = socket.accept();
 				ClientHandler ch = new ClientHandler(this, s);
 				addHandler(ch);
 				ch.start();
@@ -140,13 +147,13 @@ public class Server {
 	public static String readString(String tekst) {
 		System.out.print(tekst);
 		String antw = null;
+		BufferedReader in = null;
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
+			in = new BufferedReader(new InputStreamReader(
 					System.in));
 			antw = in.readLine();
 		} catch (IOException e) {
 		}
-
 		return (antw == null) ? "" : antw;
 	}
 	
