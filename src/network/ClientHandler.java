@@ -23,11 +23,11 @@ public class ClientHandler extends Thread {
 	private BufferedReader in;
 	private BufferedWriter out;
 	private String clientName;
-	private boolean ready_to_start_game;
+	private boolean readyToStartGame;
 	private ServerGame game;
 	private Mark mark;
 	private int move;
-	private TUIServer UI;
+	private TUIServer sUI;
 	/**
 	 * Constructs a ClientHandler object
 	 * Initialises both Data streams.
@@ -36,10 +36,10 @@ public class ClientHandler extends Thread {
 	public ClientHandler(Server serverArg, Socket sockArg, TUIServer ui) throws IOException {
 		this.server = serverArg;
 		this.sock = sockArg;
-		this.UI = ui;
+		this.sUI = ui;
 		this.in = new BufferedReader(new InputStreamReader(sockArg.getInputStream(), "UTF-8"));
     	this.out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream(), "UTF-8"));
-    	ready_to_start_game=false;
+    	readyToStartGame = false;
     	game = null;
     	mark = null;
     	move = -1;
@@ -71,23 +71,22 @@ public class ClientHandler extends Thread {
 	 */
 	public void run() {
 		boolean running = true;
-		while(running) {
+		while (running) {
 			try {
 				
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
-				UI.message(inputString);
-				if(input[0].equals("join") && input.length == 3) {
+				sUI.message(inputString);
+				if (input[0].equals("join") && input.length == 3) {
 					clientName = input[1];
-					int group = Integer.parseInt(input[2]);
-					int playersWithSameName=0;
-					//check name
-					for(ClientHandler c: server.getClients()) {
-						if(c.getPlayerName().equals(clientName)) {
+					//int group = Integer.parseInt(input[2]);
+					int playersWithSameName = 0;
+					for (ClientHandler c: server.getClients()) {
+						if (c.getPlayerName().equals(clientName)) {
 							playersWithSameName++;
 						}
 					}
-					if(playersWithSameName == 1) {
+					if (playersWithSameName == 1) {
 						sendMessage("accept 12");
 					} else {
 						sendMessage("error 004");
@@ -95,23 +94,23 @@ public class ClientHandler extends Thread {
 						//running = false;
 						//break;
 					}
-				} else if(input[0].equals("ready_for_game") && input.length == 1) {
-					ready_to_start_game = true;
+				} else if (input[0].equals("ready_for_game") && input.length == 1) {
+					readyToStartGame = true;
 					server.tryToStartGame(this);
-				} else if(input[0].equals("do_move")) {
+				} else if (input[0].equals("do_move")) {
 					move = Integer.parseInt(input[1]);
-				} else if(input[0].equals("chat_global")){
-					String message[] = inputString.split(" ", 2);
+				} else if (input[0].equals("chat_global")) {
+					String[] message = inputString.split(" ", 2);
 					server.broadcastMesGlobal(message[1], clientName);
-				} else if(input[0].equals("chat_local")){
-					if(game != null){
-						String message[] = inputString.split(" ", 2);
+				} else if (input[0].equals("chat_local")) {
+					if (game != null) {
+						String[] message = inputString.split(" ", 2);
 						server.broadcastToGame(game, message[1], clientName);
 					}
-				} else if(input[0].equals("error")){
-
+				} else if (input[0].equals("error")) {
+					sUI.message("error" + input);
 				} else {
-					sendMessage("error 007");//TODO error unknown command
+					sendMessage("error 007");
 				}
 			} catch (IOException e) {
 				shutdown();
@@ -128,13 +127,13 @@ public class ClientHandler extends Thread {
 		sendMessage("request_move " + c.getPlayerName());
 	}
 	
-	public void broadCastMove(ClientHandler player, int move) {
-		sendMessage("done_move " + player.getPlayerName() + " " + move);
+	public void broadCastMove(ClientHandler player, int moves) {
+		sendMessage("done_move " + player.getPlayerName() + " " + moves);
 	}
 	
 	public int getMove() {
 		int result = -1;
-		while(move == -1) {
+		while (move == -1) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -152,11 +151,11 @@ public class ClientHandler extends Thread {
 	}
 	
 	public boolean getReady() {
-		return ready_to_start_game;
+		return readyToStartGame;
 	}
 	
 	public void setReady(boolean r) {
-		this.ready_to_start_game = r;
+		this.readyToStartGame = r;
 	}
 
 	/**
@@ -180,7 +179,7 @@ public class ClientHandler extends Thread {
          * is no longer participating in the chat. 
 	 */
 	private void shutdown() {
-		if(game != null){
+		if (game != null) {
 			server.leftGame(game, this);
 		}
 		server.removeHandler(this);

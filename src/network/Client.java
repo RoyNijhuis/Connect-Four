@@ -2,6 +2,10 @@ package network;
 
 import game.Mark;
 import game.NetworkGame;
+import players.HumanPlayer;
+import players.NetworkPlayer;
+import players.Player;
+import views.View;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,56 +14,40 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Observable;
 
-import players.ComputerPlayer;
-import players.HumanPlayer;
-import players.NetworkPlayer;
-import players.Player;
-import strategies.SmartStrategy;
-import views.TUI;
-import views.View;
-
-
-/**
- * Client class for a simple client-server application
- * @author  Theo Ruys
- * @version 2005.02.21
- */
-public class Client extends Observable implements Runnable{
+public class Client extends Observable implements Runnable {
 	
 	private Socket sock;
 	private BufferedReader in;
-	private BufferedReader inconsole;
 	private BufferedWriter out;
 	private NetworkGame game;
-	private View UI;
+	private View sUI;
 	private String name;
 	
-	public Client(InetAddress host, int port, View UI)throws IOException {
+	public Client(InetAddress host, int port, View aUI) throws IOException {
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
 		out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	
     	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
-    	this.UI = UI;
-    	this.addObserver(UI);
+    	this.sUI = aUI;
+    	this.addObserver(sUI);
     	name = "";
-    	this.UI.setClient(this);
+    	this.sUI.setClient(this);
 	}
 	
 	public void askName() {
-		name = UI.askPlayerName();
+		name = sUI.askPlayerName();
 		sendMessage("join " + name + " " + 12);
 	}
 	
 	public void run() {
 		askName();
 		boolean running = true;
-		while(running) {
+		while (running) {
     		try {
-    			String line=in.readLine();
+    			String line = in.readLine();
     			analyseCommand(line);
 			} catch (IOException e) {
 				try {
@@ -75,49 +63,49 @@ public class Client extends Observable implements Runnable{
 	}
 	
 	private void analyseCommand(String command) {
-		String[] command_split = command.split(" ");
-		if(command_split[0].equals("accept") && command_split.length >= 2) {
+		String[] commandSplit = command.split(" ");
+		if (commandSplit[0].equals("accept") && commandSplit.length >= 2) {
 			this.setChanged();
-			this.notifyObservers("accepted " + command_split[1]);
+			this.notifyObservers("accepted " + commandSplit[1]);
 			sendMessage("ready_for_game");
-		} else if(command_split[0].equals("error")) {
-			switch(command_split[1]) {
-			case "004":
-				this.setChanged();
-				this.notifyObservers("nameExists");
-				askName();
-				break;
-			case "002":
-				this.setChanged();
-				this.notifyObservers("columnFull");
-				break;
+		} else if (commandSplit[0].equals("error")) {
+			switch (commandSplit[1]) {
+				case "004":
+					this.setChanged();
+					this.notifyObservers("nameExists");
+					askName();
+					break;
+				case "002":
+					this.setChanged();
+					this.notifyObservers("columnFull");
+					break;
 			}
-		} else if(command_split[0].equals("start_game") && command_split.length == 3) {
+		} else if (commandSplit[0].equals("start_game") && commandSplit.length == 3) {
 			//create players and create networkgame
 			this.setChanged();
 			this.notifyObservers("gameStarted");
-			Player p1=null, p2=null;
-			if(command_split[1].equals(name)) {
+			Player p1 = null, p2 = null;
+			if (commandSplit[1].equals(name)) {
 				p1 = new HumanPlayer(name, Mark.XX);
-				p2 = new NetworkPlayer(command_split[2], Mark.OO);
-			} else if(command_split[2].equals(name)) {
-				p1 = new NetworkPlayer(command_split[1], Mark.XX);
+				p2 = new NetworkPlayer(commandSplit[2], Mark.OO);
+			} else if (commandSplit[2].equals(name)) {
+				p1 = new NetworkPlayer(commandSplit[1], Mark.XX);
 				p2 = new HumanPlayer(name, Mark.OO);
 			}
-			game = new NetworkGame(p1, p2, UI);
-		} else if(command_split[0].equals("request_move") && command_split.length == 2) {
-			if(name.equals(command_split[1])) {
+			game = new NetworkGame(p1, p2, sUI);
+		} else if (commandSplit[0].equals("request_move") && commandSplit.length == 2) {
+			if (name.equals(commandSplit[1])) {
 				int move = game.askForMove();
 				sendMessage("do_move" + " " + move);
 			}
-		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
-			game.moveDone(command_split[1], Integer.parseInt(command_split[2]));
-		} else if(command_split[0].equals("game_end") && command_split.length == 1) {
+		} else if (commandSplit[0].equals("done_move") && commandSplit.length == 3) {
+			game.moveDone(commandSplit[1], Integer.parseInt(commandSplit[2]));
+		} else if (commandSplit[0].equals("game_end") && commandSplit.length == 1) {
 			this.setChanged();
 			this.notifyObservers("draw");
-		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
+		} else if (commandSplit[0].equals("game_end") && commandSplit.length == 2) {
 			game.gameOver();
-		} else if(command_split[0].equals("message") && command_split.length>=3){
+		} else if (commandSplit[0].equals("message") && commandSplit.length >= 3) {
 			this.setChanged();
 			this.notifyObservers(command);
 		} else {
@@ -146,13 +134,13 @@ public class Client extends Observable implements Runnable{
 	public static String readString(String tekst) {
 		String antw = null;
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					System.in));
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			antw = in.readLine();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return (antw == null) ? "" : antw;
 	}
 
-} // end of class Client
+}

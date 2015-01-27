@@ -24,7 +24,7 @@ import views.View;
  * @author  Theo Ruys
  * @version 2005.02.21
  */
-public class Server extends Observable{
+public class Server {
 	private TUIServer UI;
 	
 	/** Start een Server-applicatie op. */
@@ -58,7 +58,6 @@ public class Server extends Observable{
 		this.games = new ArrayList<ServerGame>();
 		this.socket = new ServerSocket(port);
 		this.UI = UI;
-		this.addObserver(UI);
 	}
 	
 	public List<ClientHandler> getClients() {
@@ -133,7 +132,7 @@ public class Server extends Observable{
 	 * @param msg message that is send
 	 */
 	public void broadcast(String msg) {
-		for(ClientHandler client: clients) {
+		for (ClientHandler client: clients) {
 			client.sendMessage(msg);
 		}
 	}
