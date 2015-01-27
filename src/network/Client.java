@@ -76,7 +76,7 @@ public class Client extends Observable implements Runnable{
 	
 	private void analyseCommand(String command) {
 		String[] command_split = command.split(" ");
-		if(command_split[0].equals("accept") && command_split.length == 2) {
+		if(command_split[0].equals("accept") && command_split.length >= 2) {
 			this.setChanged();
 			this.notifyObservers("accepted " + command_split[1]);
 			sendMessage("ready_for_game");
