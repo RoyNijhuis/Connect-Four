@@ -222,7 +222,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	@Override
 	public int getHumanMove(String s) {
 		askingMove = true;
-		while(moveMade == -1) {
+		while (moveMade == -1) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -256,15 +256,15 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		submitPlayersButton = new JButton("Play!");
 		player1 = new JTextField();
 		player2 = new JTextField();
-		name1.setBounds(20,20,100,20);
-		name2.setBounds(20,40,100,20);
-		player1.setBounds(80,20,100,20);
-		player2.setBounds(80,40,100,20);
+		name1.setBounds(20, 20, 100, 20);
+		name2.setBounds(20, 40, 100, 20);
+		player1.setBounds(80, 20, 100, 20);
+		player2.setBounds(80, 40, 100, 20);
 		human1.setBounds(180, 20, 100, 20);
 		human2.setBounds(180, 40, 100, 20);
 		AI1.setBounds(280, 20, 100, 20);
 		AI2.setBounds(280, 40, 100, 20);
-		submitPlayersButton.setBounds(20,60,100,20);
+		submitPlayersButton.setBounds(20, 60, 100, 20);
 		submitPlayersButton.addActionListener(this);
 		choosePlayers.add(name1);
 		choosePlayers.add(name2);
@@ -279,7 +279,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		revalidate();
 		repaint();
 		
-		while(playersChosen == null) {
+		while (playersChosen == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -306,7 +306,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		this.add(localOrOnline);
 		revalidate();
 		repaint();
-		while(localOnline == null) {
+		while (localOnline == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -338,7 +338,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		revalidate();
 		repaint();
 		System.out.println("name is not yet chosen");
-		while(nameChosen == null) {
+		while (nameChosen == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -353,15 +353,15 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	}
 
 	@Override
-	public void setClient(Client client) {
-		this.client = client;
+	public void setClient(Client clients) {
+		this.client = clients;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(localBtn)) {
+		if (e.getSource().equals(localBtn)) {
 			localOnline = "local";
-		} else if(e.getSource().equals(onlineBtn)) {
+		} else if (e.getSource().equals(onlineBtn)) {
 			localOnline = "online";
 			System.out.println("online gekozen");
 		} else if(e.getSource().equals(submitBtn)) {
