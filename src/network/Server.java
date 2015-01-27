@@ -75,7 +75,7 @@ public class Server extends Observable{
 		try {
 			while(true) {
 				Socket s = socket.accept();
-				ClientHandler ch = new ClientHandler(this, s);
+				ClientHandler ch = new ClientHandler(this, s, UI);
 				addHandler(ch);
 				ch.start();
 			}
@@ -119,7 +119,14 @@ public class Server extends Observable{
 		}
 	}
 	
-		
+	public void leftGame(ServerGame game, ClientHandler c){
+		for(ClientHandler client: game.getClients()) {
+			if(!client.equals(c)){
+				client.sendMessage("game_end "+ client.getPlayerName());
+			}
+			
+		}
+	}
 	/**
 	 * Sends a message using the collection of connected ClientHandlers
 	     * to all connected Clients.

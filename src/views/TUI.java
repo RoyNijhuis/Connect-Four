@@ -36,12 +36,14 @@ public class TUI extends Thread implements View{
 			try {
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
-				if(input[0].equals("say")) {
+				if(input[0].equals("say") && input.length >= 2 && client != null) {
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("chat_global " + message[1]);
-				} else if(input[0].equals("sayLocal")) {
+					System.out.println("said global: "+ message[1]);
+				} else if(input[0].equals("sayLocal") && input.length >= 2 && client != null) {
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("chat_local " + message[1]);
+					System.out.println("said local: "+ message[1]);
 				} else if(expecting.equals("name") && input.length == 1){
 					result = inputString;
 					expecting = "";
@@ -124,16 +126,11 @@ public class TUI extends Thread implements View{
 			askPlayAgain();
 		} else if(arg.equals("draw")) {
 			draw();
-		} else if(((String)arg).startsWith("accepted")) {
+		}  else if(((String)arg).startsWith("accepted")) {
 			String[] splitString = ((String) arg).split(" ");
 			System.out.println("You are accepted!(group number: " + splitString[1] + ")");
 		} else if(((String)arg).startsWith("nameExists")) {
 			System.out.println("There already exists a player with this name on the server...");
-		} else if(((String)arg).startsWith("message")) {
-			String[] splitString = ((String)arg).split(" ", 3);
-			String name = splitString[1];
-			String message = splitString[2];
-			System.out.println(name + " says: " + message);
 		}
 	}
 	

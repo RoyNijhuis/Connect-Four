@@ -37,9 +37,7 @@ public class Client extends Observable implements Runnable{
 	private View UI;
 	private String name;
 	
-	public Client(InetAddress host, int port, View UI)
-			throws IOException {
-		
+	public Client(InetAddress host, int port, View UI)throws IOException {
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
 		out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
@@ -121,8 +119,9 @@ public class Client extends Observable implements Runnable{
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
 			game.gameOver();
 		} else if(command_split[0].equals("message")){
-			this.setChanged();
-			this.notifyObservers(command);
+			System.out.println(command_split[1] + ": " + command_split[2]);//TODO
+		} else {
+			sendMessage("error 007");
 		}
 	}
 	

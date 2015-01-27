@@ -1,5 +1,6 @@
 package views;
 import game.Board;
+import game.ConnectFour;
 import game.Game;
 import game.Mark;
 
@@ -26,7 +27,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import network.Client;
+import players.ComputerPlayer;
+import players.HumanPlayer;
 import players.Player;
+import strategies.SmartStrategy;
 
 
 public class GUI extends JFrame implements View, ActionListener, MouseListener{
@@ -35,18 +39,18 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	JPanel askName;
 	String localOnline;
 	String nameChosen;
-	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton;
+	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton, homeMenu;
 	JLabel label, playerName;
 	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
-	JTextField txt, chatMessage;
+	JTextField txt, chatMessage, player1, player2;
 	JTextArea chat;
 	JLabel errorField, messageField;
 	BufferedImage boardImage, XXImage, OOImage;
 	JLabel boardLabel;
-	JRadioButton local, global;
-	ButtonGroup buttonGroup;
+	JRadioButton local, global, human1, human2, AI1, AI2;
+	ButtonGroup buttonGroup, player1Group, player2Group;
 	ArrayList<JLabel> marks;
 	private int moveMade;
 	private boolean askingMove;
@@ -55,7 +59,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	
 	public GUI() {
 		moveMade = -1;
-		playersChosen = new Player[2];
+		playersChosen = null;
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
 		nameChosen = null;
@@ -109,6 +113,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		} else if(((String)arg).startsWith("gameStarted")) {
 			//setup game panel
 			this.setSize(800, 800);
+			this.remove(choosePlayers);
 			setupBoard();
 			printBoard(null);
 		} else if(((String)arg).startsWith("message")) {
@@ -142,6 +147,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			global = new JRadioButton("Global");
 			buttonGroup.add(local);
 			buttonGroup.add(global);
+			homeMenu = new JButton("Leave");
 			chat.setLineWrap(true);
 			errorField = new JLabel();
 			errorField.setForeground(Color.RED);
@@ -159,6 +165,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			sendChatMessage.setBounds(350,730,80, 25);
 			local.setBounds(450, 730, 75, 25);
 			global.setBounds(550, 730, 75, 25);
+			homeMenu.setBounds(670, 730, 100,20);
+			homeMenu.addActionListener(this);
 			local.setSelected(true);
 			errorField.setText("This is an error");
 			messageField.setText("This is a message");
@@ -172,12 +180,12 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			game.add(local);
 			game.add(global);
 			game.add(sendChatMessage);
+			game.add(homeMenu);
 			this.add(game);
 			revalidate();
 			repaint();
 		} else {
 			errorField.setText("");
-			messageField.setText("");
 			Board board = ((Game) o).getBoard();
 			Mark[][] field = board.getField();
 			for(int hor=0;hor<7;hor++) {
@@ -219,14 +227,44 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 
 	public Player[] askForPlayers() {
 		choosePlayers = new JLabel();
-		localOrOnline.removeAll();
+		this.remove(localOrOnline);
 		JLabel name1 = new JLabel("Player 1: ");
-		JLabel name2 = new JLabel("Player 1: ");
-		submitPlayersButton = new JButton("Online");
+		JLabel name2 = new JLabel("Player 2: ");
+		player1Group = new ButtonGroup();
+		player2Group = new ButtonGroup();
+		human1 = new JRadioButton("Human");
+		human2 = new JRadioButton("Human");
+		AI1 = new JRadioButton("Computer");
+		AI2 = new JRadioButton("Computer");
+		human1.setSelected(true);
+		human2.setSelected(true);
+		player1Group.add(human1);
+		player2Group.add(human2);
+		player1Group.add(AI1);
+		player2Group.add(AI2);
+		submitPlayersButton = new JButton("Play!");
+		player1 = new JTextField();
+		player2 = new JTextField();
+		name1.setBounds(20,20,100,20);
+		name2.setBounds(20,40,100,20);
+		player1.setBounds(80,20,100,20);
+		player2.setBounds(80,40,100,20);
+		human1.setBounds(180, 20, 100, 20);
+		human2.setBounds(180, 40, 100, 20);
+		AI1.setBounds(280, 20, 100, 20);
+		AI2.setBounds(280, 40, 100, 20);
+		submitPlayersButton.setBounds(20,60,100,20);
 		submitPlayersButton.addActionListener(this);
 		choosePlayers.add(name1);
 		choosePlayers.add(name2);
+		choosePlayers.add(player1);
+		choosePlayers.add(player2);
 		choosePlayers.add(submitPlayersButton);
+		choosePlayers.add(human1);
+		choosePlayers.add(human2);
+		choosePlayers.add(AI1);
+		choosePlayers.add(AI2);
+		this.add(choosePlayers);
 		revalidate();
 		repaint();
 		
@@ -323,7 +361,22 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 				client.sendMessage("chat_local " + txt);
 			}
 		} else if(e.getSource().equals(submitPlayersButton)) {
-			//String player1 = //check players and type of players(human/ai)
+			String playerName1 = player1.getText();
+			String playerName2 = player2.getText();
+			playersChosen = new Player[2];
+			if(human1.isSelected()) {
+				playersChosen[0] = new HumanPlayer(playerName1, Mark.XX);
+			} else if(AI1.isSelected()) {
+				playersChosen[0] = new ComputerPlayer(playerName1, Mark.XX, new SmartStrategy(4));
+			}
+			if(human2.isSelected()) {
+				playersChosen[1] = new HumanPlayer(playerName2, Mark.OO);
+			} else if(AI2.isSelected()) {
+				playersChosen[1] = new ComputerPlayer(playerName2, Mark.OO, new SmartStrategy(4));
+			}
+		} else if(e.getSource().equals(homeMenu)) {
+			new ConnectFour(this);
+			System.out.println("ja hij is hier");
 		}
 	}
 
