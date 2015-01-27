@@ -36,17 +36,17 @@ import strategies.SmartStrategy;
 public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
 	JPanel localOrOnline;
-	JPanel askName;
+	JPanel askName, askServer, askPort;
 	String localOnline;
-	String nameChosen;
+	String nameChosen, IPChosen, portChosen;
 	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton, homeMenu;
 	JLabel label, playerName;
 	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
-	JTextField txt, chatMessage, player1, player2;
+	JTextField txt, chatMessage, player1, player2, ipText, portText;
 	JTextArea chat;
-	JLabel errorField, messageField;
+	JLabel errorField, messageField, hint;
 	BufferedImage boardImage, XXImage, OOImage;
 	JLabel boardLabel;
 	JRadioButton local, global, human1, human2, AI1, AI2;
@@ -62,6 +62,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		super();
 		moveMade = -1;
 		playersChosen = null;
+		IPChosen = null;
+		portChosen = null;
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
 		nameChosen = null;
@@ -158,9 +160,11 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			sendChatMessage = new JButton("Send");
 			sendChatMessage.addActionListener(this);
 			chatMessage = new JTextField();
+			hint = new JLabel();
+			hint.setBounds(330,510,200,10);
 			chat.setBounds(20,525,640,200);
 			chat.setEditable(false);
-			messageField.setBounds(330,510,300,10);
+			messageField.setBounds(330,510,200,10);
 			boardLabel.setBounds(20, 20, 640, 480);
 			errorField.setBounds(20, 510, 300, 10);
 			chatMessage.setBounds(40, 730,300,25);
@@ -184,6 +188,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			game.add(global);
 			game.add(sendChatMessage);
 			game.add(homeMenu);
+			game.add(hint);
 			this.add(game);
 			revalidate();
 			repaint();
@@ -451,9 +456,61 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		
 	}
 
-	@Override
 	public void giveHint(int i) {
-		// TODO Auto-generated method stub
+		hint.setText("Hint: column " + i);
+	}
+
+	@Override
+	public String askIPAdress() {
+		askServer = new JPanel();
+		this.remove(localOrOnline);
+		askName.removeAll();
+		JLabel labelIP = new JLabel("IP adress: ");
+		JLabel labelPort = new JLabel("Port: ");
+		txt = new JTextField();
+		txt.setColumns(10);
+		submitBtn = new JButton("Connect");
+		ipText = new JTextField();
+		portText = new JTextField();
+		ipText.setColumns(25);
+		portText.setColumns(25);
 		
+		submitBtn.addActionListener(this);
+		askServer.add(labelIP);
+		askServer.add(ipText);
+		askServer.add(labelPort);
+		askServer.add(portText);
+		askServer.add(submitBtn);
+		errorField = new JLabel();
+		askServer.add(errorField);
+		this.add(askServer);
+		revalidate();
+		repaint();
+		while(IPChosen == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String temp = IPChosen;
+		IPChosen = null;
+		return temp;
+	}
+
+	@Override
+	public String askPort() {
+		while(portChosen == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String temp = portChosen;
+		portChosen = null;
+		return temp;
 	}
 }
