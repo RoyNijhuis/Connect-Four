@@ -131,6 +131,9 @@ public class TUI extends Thread implements View{
 			System.out.println("You are accepted!(group number: " + splitString[1] + ")");
 		} else if(((String)arg).startsWith("nameExists")) {
 			System.out.println("There already exists a player with this name on the server...");
+		} else if(((String)arg).startsWith("message")){
+			String[] splitString = ((String)arg).split(" ", 3);
+			System.out.println(splitString[1]+": "+ splitString[2]);
 		}
 	}
 	

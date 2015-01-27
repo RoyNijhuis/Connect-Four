@@ -108,7 +108,6 @@ public class Client extends Observable implements Runnable{
 		} else if(command_split[0].equals("request_move") && command_split.length == 2) {
 			if(name.equals(command_split[1])) {
 				int move = game.askForMove();
-				System.out.println("Move made: " + move);
 				sendMessage("do_move" + " " + move);
 			}
 		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
@@ -118,8 +117,9 @@ public class Client extends Observable implements Runnable{
 			this.notifyObservers("draw");
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
 			game.gameOver();
-		} else if(command_split[0].equals("message")){
-			System.out.println(command_split[1] + ": " + command_split[2]);//TODO
+		} else if(command_split[0].equals("message") && command_split.length>=3){
+			this.setChanged();
+			this.notifyObservers(command);
 		} else {
 			sendMessage("error 007");
 		}
