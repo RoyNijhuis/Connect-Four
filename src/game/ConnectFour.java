@@ -40,14 +40,14 @@ public class ConnectFour extends Observable {
 			String port = v.askPort();
 			int portNumber = Integer.parseInt(port);
 			System.out.println("ask");
-			if(gameType.equals("local")) {
+			if (gameType.equals("local")) {
 				Player[] players = v.askForPlayers();
 				this.setChanged();
 				this.notifyObservers("gameStarted");
 				done = true;
 				this.createNewGame(players, v);
-			} else if(gameType.equals("online")) {
-				InetAddress host=null;
+			} else if (gameType.equals("online")) {
+				InetAddress host = null;
 				try {
 					host = InetAddress.getByName(ip);
 				} catch (UnknownHostException e) {
@@ -71,20 +71,20 @@ public class ConnectFour extends Observable {
 	public ConnectFour(View v) {
 		this.addObserver(v);
 		boolean done = false;
-		while(!done) {
+		while (!done) {
 			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
 			String ip = v.askIPAdress();
 			String port = v.askPort();
 			System.out.println("ask");
-			if(gameType.equals("local")) {
+			if (gameType.equals("local")) {
 				Player[] players = v.askForPlayers();
 				this.setChanged();
 				this.notifyObservers("gameStarted");
 				done = true;
 				this.createNewGame(players, v);
-			} else if(gameType.equals("online")) {
-				InetAddress host=null;
+			} else if (gameType.equals("online")) {
+				InetAddress host = null;
 				try {
 					host = InetAddress.getByName("spitfire.student.utwente.nl");
 				} catch (UnknownHostException e) {
@@ -104,8 +104,7 @@ public class ConnectFour extends Observable {
 		}
 	}
 	
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) {
 		new ConnectFour();
 	}
 	
@@ -114,8 +113,8 @@ public class ConnectFour extends Observable {
 	}
 	
 	public static void shutdown() {
-		for(Thread t: threads) {
-			if(t!=null) {
+		for (Thread t: threads) {
+			if (t != null) {
 				t.interrupt();
 				t = null;
 			}
