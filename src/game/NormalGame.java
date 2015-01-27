@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Scanner;
 
 import players.Player;
+import views.GUI;
 import views.View;
 
 public class NormalGame extends Observable implements Game{
@@ -17,6 +18,7 @@ public class NormalGame extends Observable implements Game{
     
     public NormalGame(Player s0, Player s1, View v) {
         board = new Board();
+        System.out.println("Game created!");
         players = new Player[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;
@@ -56,6 +58,9 @@ public class NormalGame extends Observable implements Game{
                     this.notifyObservers("columnFull");
         			i--;
         		}
+        	}
+        	if(UI instanceof GUI) {
+        		((GUI)UI).checkRetry();
         	}
         }
     }

@@ -33,7 +33,7 @@ import players.Player;
 import strategies.SmartStrategy;
 
 
-public class GUI extends JFrame implements View, ActionListener, MouseListener{
+public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
 	JPanel localOrOnline;
 	JPanel askName;
@@ -56,8 +56,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	private boolean askingMove;
 	private Player[] playersChosen;
 	Client client;
+	public static boolean retry=false;
 	
 	public GUI() {
+		super();
 		moveMade = -1;
 		playersChosen = null;
 		marks = new ArrayList<JLabel>();
@@ -132,6 +134,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			e.printStackTrace();
 		}
 		boardLabel = new JLabel(new ImageIcon(boardImage));
+		System.out.println("current label: " + boardLabel);
 		boardLabel.addMouseListener(this);
 	}
 	
@@ -283,14 +286,16 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 
 	@Override
 	public String askLocalOrOnline() {
+		localOnline = null;
 		localOrOnline.removeAll();
+		this.remove(game);
 		localBtn = new JButton("Local");
 		onlineBtn = new JButton("Online");
 		localBtn.addActionListener(this);
 		onlineBtn.addActionListener(this);
 		localOrOnline.add(localBtn);
 		localOrOnline.add(onlineBtn);
-		localOrOnline.add(errorField);
+		this.add(localOrOnline);
 		revalidate();
 		repaint();
 		while(localOnline == null) {
@@ -375,15 +380,23 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 				playersChosen[1] = new ComputerPlayer(playerName2, Mark.OO, new SmartStrategy(4));
 			}
 		} else if(e.getSource().equals(homeMenu)) {
+			retry = true;
+		}
+	}
+	
+	public void checkRetry() {
+		if(retry) {
+			retry = false;
+			this.remove(game);
+			game.removeAll();
+			ConnectFour.shutdown();
 			new ConnectFour(this);
-			System.out.println("ja hij is hier");
 		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource().equals(boardLabel)) {
-			System.out.println("Clicked on board!");
 			//clicked on board
 			int clickX = e.getX();
 			if(askingMove) {

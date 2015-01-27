@@ -11,9 +11,11 @@ import views.TUI;
 import views.View;
 
 public class ConnectFour extends Observable{
+	static Thread[] threads;
 	
 	public ConnectFour() {
 		View v;
+		threads = new Thread[2];
 		String ui = View.askWhichUI();
 		switch(ui) {
 		case "TUI":
@@ -47,7 +49,8 @@ public class ConnectFour extends Observable{
 				}
 				
 				try {
-					new Thread(new Client(host, 2003, v)).start();
+					threads[0] = new Thread(new Client(host, 2003, v));
+					threads[0].start();
 					System.out.println("komt langs");
 					done = true;
 				} catch (IOException e) {
@@ -56,11 +59,11 @@ public class ConnectFour extends Observable{
 				}
 			}
 		}
+		this.deleteObserver(v);
 	}
 	
 	public ConnectFour(View v) {
 		this.addObserver(v);
-		
 		boolean done = false;
 		while(!done) {
 			System.out.println("in loop");
@@ -82,8 +85,8 @@ public class ConnectFour extends Observable{
 				}
 				
 				try {
-					new Thread(new Client(host, 2003, v)).start();
-					System.out.println("komt langs");
+					threads[1] = new Thread(new Client(host, 2003, v));
+					threads[1].start();
 					done = true;
 				} catch (IOException e) {
 					this.setChanged();
@@ -100,5 +103,14 @@ public class ConnectFour extends Observable{
 	
 	public void createNewGame(Player[] players, View v) {
 		NormalGame game = new NormalGame(players[0], players[1], v);
+	}
+	
+	public static void shutdown() {
+		for(Thread t: threads) {
+			if(t!=null) {
+				t.interrupt();
+				t = null;
+			}
+		}
 	}
 }
