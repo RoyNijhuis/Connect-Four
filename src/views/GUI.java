@@ -1,11 +1,16 @@
 package views;
 import game.Board;
+import game.Game;
+import game.Mark;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 
 import javax.imageio.ImageIO;
@@ -20,7 +25,7 @@ import network.Client;
 import players.Player;
 
 
-public class GUI extends JFrame implements View, ActionListener{
+public class GUI extends JFrame implements View, ActionListener, MouseListener{
 
 	JPanel localOrOnline;
 	JPanel askName;
@@ -32,10 +37,16 @@ public class GUI extends JFrame implements View, ActionListener{
 	JPanel game;
 	JTextField txt;
 	JLabel errorField;
-	BufferedImage boardImage;
+	BufferedImage boardImage, XXImage, OOImage;
 	JLabel boardLabel;
+	ArrayList<JLabel> marks;
+	private int moveMade;
+	private boolean askingMove;
 	
 	public GUI() {
+		moveMade = -1;
+		marks = new ArrayList<JLabel>();
+		askingMove = false;
 		nameChosen = null;
 		localOrOnline = new JPanel();
 		waitForGame = new JPanel();
@@ -48,6 +59,13 @@ public class GUI extends JFrame implements View, ActionListener{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.add(localOrOnline);
+		try {
+			XXImage = ImageIO.read(new File("XX.png"));
+			OOImage = ImageIO.read(new File("OO.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -79,6 +97,7 @@ public class GUI extends JFrame implements View, ActionListener{
 			errorField.setText("There already exists a player with this name on the server...");
 		} else if(((String)arg).startsWith("gameStarted")) {
 			//setup game panel
+			this.setSize(800, 800);
 			setupBoard();
 			printBoard(null);
 		}
@@ -92,25 +111,57 @@ public class GUI extends JFrame implements View, ActionListener{
 			e.printStackTrace();
 		}
 		boardLabel = new JLabel(new ImageIcon(boardImage));
+		boardLabel.addMouseListener(this);
 	}
 	
 	private void printBoard(Observable o) {
 		if(o == null) {
 			//print empty board, no move has been requested or made
 			this.remove(waitForGame);
+			game.setLayout(null);
+			boardLabel.setBounds(100, 100, 640, 480);
 			game.add(boardLabel);
 			this.add(game);
 			revalidate();
 			repaint();
 		} else {
-			
+			Board board = ((Game) o).getBoard();
+			Mark[][] field = board.getField();
+			for(int hor=0;hor<7;hor++) {
+				for(int ver=0;ver<6;ver++) {
+					JLabel temp = null;
+					if(field[ver][hor].equals(Mark.XX)) {
+						temp = new JLabel(new ImageIcon(XXImage));
+					} else if(field[ver][hor].equals(Mark.OO)) {
+						temp = new JLabel(new ImageIcon(OOImage));
+					}
+					//draw mark
+					if(temp != null) {
+						temp.setBounds(115+hor*90, 106+ver*80, 70, 70);
+						game.add(temp);
+					}
+				}
+			}
+			revalidate();
+			repaint();
 		}
 	}
 
 	@Override
 	public int getHumanMove(String s) {
-		// TODO Auto-generated method stub
-		return 0;
+		askingMove = true;
+		while(moveMade == -1) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		int temp = moveMade;
+		moveMade = -1;
+		askingMove = false;
+		return temp;
 	}
 
 	@Override
@@ -121,6 +172,7 @@ public class GUI extends JFrame implements View, ActionListener{
 
 	@Override
 	public String askLocalOrOnline() {
+		localOrOnline.removeAll();
 		localBtn = new JButton("Local");
 		onlineBtn = new JButton("Online");
 		localBtn.addActionListener(this);
@@ -128,6 +180,8 @@ public class GUI extends JFrame implements View, ActionListener{
 		localOrOnline.add(localBtn);
 		localOrOnline.add(onlineBtn);
 		localOrOnline.add(errorField);
+		revalidate();
+		repaint();
 		while(localOnline == null) {
 			try {
 				Thread.sleep(10);
@@ -136,7 +190,9 @@ public class GUI extends JFrame implements View, ActionListener{
 				e.printStackTrace();
 			}
 		}
-		return localOnline;
+		String temp = localOnline;
+		localOnline = null;
+		return temp;
 	}
 
 	@Override
@@ -184,5 +240,62 @@ public class GUI extends JFrame implements View, ActionListener{
 			nameChosen = txt.getText();
 		} 
 		System.out.println("test");
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(e.getSource().equals(boardLabel)) {
+			System.out.println("Clicked on board!");
+			//clicked on board
+			int clickX = e.getX();
+			if(askingMove) {
+				if(clickX>=0 && clickX < 95) {
+					//row 1
+					moveMade=0;
+				} else if(clickX>=95 && clickX < 185) {
+					//row 2
+					moveMade=1;
+				} else if(clickX>=185 && clickX < 275) {
+					//row 2
+					moveMade=2;
+				} else if(clickX>=275 && clickX < 365) {
+					//row 3
+					moveMade=3;
+				} else if(clickX>=365 && clickX < 455) {
+					//row 4
+					moveMade=4;
+				} else if(clickX>=455 && clickX < 545) {
+					//row 5
+					moveMade=5;
+				} else if(clickX>=545 && clickX < 640) {
+					//row 6
+					moveMade=6;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

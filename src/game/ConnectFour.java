@@ -28,26 +28,32 @@ public class ConnectFour extends Observable{
 		}
 		this.addObserver(v);
 		
-		String gameType = v.askLocalOrOnline();
-		if(gameType.equals("local")) {
-			Player players[] = v.askForPlayers();
-			this.setChanged();
-			this.notifyObservers("playersAsked");
-			this.createNewGame(players, v);
-		} else if(gameType.equals("online")) {
-			InetAddress host=null;
-			try {
-				host = InetAddress.getByName("localhost");
-			} catch (UnknownHostException e) {
+		boolean done = false;
+		while(!done) {
+			String gameType = v.askLocalOrOnline();
+			if(gameType.equals("local")) {
+				Player players[] = v.askForPlayers();
 				this.setChanged();
-				this.notifyObservers("badHost");
-			}
-			
-			try {
-				new Thread(new Client(host, 2727, v)).start();
-			} catch (IOException e) {
-				this.setChanged();
-				this.notifyObservers("cannotCreateClient");
+				this.notifyObservers("playersAsked");
+				done = true;
+				this.createNewGame(players, v);
+			} else if(gameType.equals("online")) {
+				InetAddress host=null;
+				try {
+					host = InetAddress.getByName("localhost");
+				} catch (UnknownHostException e) {
+					this.setChanged();
+					this.notifyObservers("badHost");
+				}
+				
+				try {
+					new Thread(new Client(host, 2727, v)).start();
+					System.out.println("komt langs");
+					done = true;
+				} catch (IOException e) {
+					this.setChanged();
+					this.notifyObservers("cannotCreateClient");
+				}
 			}
 		}
 	}
@@ -61,7 +67,6 @@ public class ConnectFour extends Observable{
 			this.notifyObservers("playersAsked");
 			this.createNewGame(players, v);
 		} else if(gameType.equals("online")) {
-			System.out.println("jajaja");
 			InetAddress host=null;
 			try {
 				host = InetAddress.getByName("localhost");

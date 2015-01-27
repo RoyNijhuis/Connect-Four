@@ -100,6 +100,7 @@ public class Client extends Observable implements Runnable{
 		} else if(command_split[0].equals("request_move") && command_split.length == 2) {
 			if(name.equals(command_split[1])) {
 				int move = game.askForMove();
+				System.out.println("Move made: " + move);
 				sendMessage("do_move" + " " + move);
 			}
 		} else if(command_split[0].equals("done_move") && command_split.length == 3) {
