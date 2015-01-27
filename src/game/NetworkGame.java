@@ -1,12 +1,11 @@
 package game;
 
-import java.util.Observable;
-import java.util.Scanner;
-
 import players.ComputerPlayer;
 import players.HumanPlayer;
 import players.Player;
 import views.View;
+
+import java.util.Observable;
 
 public class NetworkGame extends Observable implements Game{
 

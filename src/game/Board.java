@@ -94,31 +94,31 @@ public class Board {
             for (int i = 0; i < HEIGHT; i++) {
                 Mark rowMark = Mark.EMPTY;
                 boolean gotRow = true;
-                   for (int j = 0; j < WIDTH; j++) {
-                       if (fields[i][j].equals(mark)) {
-                           result += evaluateCol[j];
-                           if (gotRow && !rowMark.equals(enemy)) {
-                               rowMark = mark;
-                           } else {
-                               gotRow = false;
-                           }
+                for (int j = 0; j < WIDTH; j++) {
+                    if (fields[i][j].equals(mark)) {
+                        result += evaluateCol[j];
+                        if (gotRow && !rowMark.equals(enemy)) {
+                            rowMark = mark;
+                        } else {
+                            gotRow = false;
+                        }
                            
-                       } else if (fields[i][j].equals(enemy)) {
-                           result -= evaluateCol[j];
-                           if (gotRow && !rowMark.equals(mark)) {
-                               rowMark = enemy;
-                           } else {
-                               gotRow = false;
-                           }
-                       }
-                   }
-                   if (gotRow) {
-                       if (rowMark.equals(mark)) {
-                           result += 100;
-                       } else if (rowMark.equals(enemy)) {
-                           result -= 80;
-                       }
-                   }
+                    } else if (fields[i][j].equals(enemy)) {
+                        result -= evaluateCol[j];
+                        if (gotRow && !rowMark.equals(mark)) {
+                            rowMark = enemy;
+                        } else {
+                            gotRow = false;
+                        }
+                    }
+                }
+                if (gotRow) {
+                    if (rowMark.equals(mark)) {
+                        result += 100;
+                    } else if (rowMark.equals(enemy)) {
+                        result -= 80;
+                    }
+                }
             }
 
             Map<Integer, Integer> winningFields = getImportantFields(mark);
@@ -141,7 +141,7 @@ public class Board {
                     result -= 100 * multiplier;
                 }
             }
-         }   
+        }   
         
         return result;
     }
@@ -185,7 +185,7 @@ public class Board {
                     madeMove = true;
                     
                 } else {
-                    row --;
+                    row--;
                 }
             }
             return true;
@@ -212,7 +212,7 @@ public class Board {
                 counter = 0;
             }
             if (counter >= 4) {
-                 result = true;
+                result = true;
             }
         }
         return result;
@@ -230,7 +230,7 @@ public class Board {
             while (!win) {
                 if (fields[height + counted][width].equals(mark)) {
                     win = counted >= counter;
-                    counted ++;
+                    counted++;
                 } else {
                     break;
                 }
@@ -244,7 +244,7 @@ public class Board {
         int counter = 4;
         int counted = 1;
         int steps = 1;
-        while (!win && (height + counted) < HEIGHT && (width + counted) < WIDTH ) {
+        while (!win && (height + counted) < HEIGHT && (width + counted) < WIDTH) {
             if (fields[height + counted][width + counted].equals(mark)) {
                 counted += 1;
                 steps += 1;
@@ -278,7 +278,7 @@ public class Board {
         }
         counted = 1;
         
-        while (!win && (height + counted) < HEIGHT && (width - counted) >= 0 ) {
+        while (!win && (height + counted) < HEIGHT && (width - counted) >= 0) {
             if (fields[height + counted][width - counted].equals(mark)) {
                 counted += 1;
                 steps += 1;
