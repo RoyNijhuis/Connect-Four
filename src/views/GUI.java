@@ -39,7 +39,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	JPanel askName, askServer, askPort;
 	String localOnline;
 	String nameChosen, IPChosen, portChosen;
-	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton, homeMenu;
+	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton, homeMenu, connectBtn;
 	JLabel label, playerName;
 	JLabel choosePlayers;
 	JPanel waitForGame;
@@ -235,7 +235,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
 	public Player[] askForPlayers() {
 		choosePlayers = new JLabel();
-		this.remove(localOrOnline);
+		this.remove(askServer);
 		JLabel name1 = new JLabel("Player 1: ");
 		JLabel name2 = new JLabel("Player 2: ");
 		player1Group = new ButtonGroup();
@@ -318,7 +318,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
 	@Override
 	public String askPlayerName() {
-		this.remove(localOrOnline);
+		this.remove(askServer);
 		askName.removeAll();
 		JLabel label = new JLabel("Enter your name: ");
 		txt = new JTextField();
@@ -387,6 +387,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			}
 		} else if(e.getSource().equals(homeMenu)) {
 			retry = true;
+		} else if(e.getSource().equals(connectBtn)) {
+			IPChosen = ipText.getText();
+			portChosen = portText.getText();
 		}
 	}
 	
@@ -469,18 +472,18 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		JLabel labelPort = new JLabel("Port: ");
 		txt = new JTextField();
 		txt.setColumns(10);
-		submitBtn = new JButton("Connect");
+		connectBtn = new JButton("Connect");
 		ipText = new JTextField();
 		portText = new JTextField();
-		ipText.setColumns(25);
-		portText.setColumns(25);
+		ipText.setColumns(28);
+		portText.setColumns(28);
 		
-		submitBtn.addActionListener(this);
+		connectBtn.addActionListener(this);
 		askServer.add(labelIP);
 		askServer.add(ipText);
 		askServer.add(labelPort);
 		askServer.add(portText);
-		askServer.add(submitBtn);
+		askServer.add(connectBtn);
 		errorField = new JLabel();
 		askServer.add(errorField);
 		this.add(askServer);

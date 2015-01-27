@@ -38,6 +38,7 @@ public class ConnectFour extends Observable {
 			String gameType = v.askLocalOrOnline();
 			String ip = v.askIPAdress();
 			String port = v.askPort();
+			int portNumber = Integer.parseInt(port);
 			System.out.println("ask");
 			if(gameType.equals("local")) {
 				Player[] players = v.askForPlayers();
@@ -48,14 +49,14 @@ public class ConnectFour extends Observable {
 			} else if(gameType.equals("online")) {
 				InetAddress host=null;
 				try {
-					host = InetAddress.getByName("spitfire.student.utwente.nl");
+					host = InetAddress.getByName(ip);
 				} catch (UnknownHostException e) {
 					this.setChanged();
 					this.notifyObservers("badHost");
 				}
 				
 				try {
-					threads[1] = new Thread(new Client(host, 2003, v));
+					threads[1] = new Thread(new Client(host, portNumber, v));
 					threads[1].start();
 					done = true;
 				} catch (IOException e) {
