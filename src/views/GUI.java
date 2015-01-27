@@ -117,10 +117,13 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		} else if(((String)arg).startsWith("gameStarted")) {
 			//setup game panel
 			this.setSize(800, 800);
-			this.remove(choosePlayers);
+			if(choosePlayers != null) {
+				this.remove(choosePlayers);
+			}
 			setupBoard();
 			printBoard(null);
 		} else if(((String)arg).startsWith("message")) {
+			System.out.println("tekst bijgedaan");
 			String[] splitString = ((String)arg).split(" ", 3);
 			String name = splitString[1];
 			String message = splitString[2];
@@ -366,6 +369,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		} else if(e.getSource().equals(sendChatMessage)) {
 			String txt = chatMessage.getText();
 			if(global.isSelected()) {
+				System.out.println("GLOBAL SELECTED");
 				client.sendMessage("chat_global " + txt);
 			} else if(local.isSelected()) {
 				client.sendMessage("chat_local " + txt);

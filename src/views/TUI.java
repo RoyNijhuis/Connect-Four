@@ -282,12 +282,12 @@ public class TUI extends Thread implements View{
 	@Override
 	public String askIPAdress() {
 		
-		return null;
+		return "localhost";
 	}
 
 	@Override
 	public String askPort() {
 		
-		return null;
+		return "2727";
 	}
 }

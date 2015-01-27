@@ -64,5 +64,7 @@ public class NetworkGame extends Observable implements Game {
     public void gameOver() {
     	this.setChanged();
     	this.notifyObservers("gameOver");
+    	this.setChanged();
+        this.notifyObservers("askPlayAgain");
     }
 }
