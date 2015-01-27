@@ -39,7 +39,11 @@ public class TUI extends Thread implements View{
 				if(input[0].equals("say")) {
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("chat_global " + message[1]);
-					System.out.println("said "+ message[1]);
+					System.out.println("said global: "+ message[1]);
+				} else if(input[0].equals("sayLocal")) {
+					String[] message = inputString.split(" ", 2);
+					client.sendMessage("chat_local " + message[1]);
+					System.out.println("said local: "+ message[1]);
 				} else if(expecting.equals("name") && input.length == 1){
 					result = inputString;
 					expecting = "";
