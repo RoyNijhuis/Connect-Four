@@ -7,14 +7,14 @@ import players.Player;
 import views.GUI;
 import views.View;
 
-public class NormalGame extends Observable implements Game{
+public class NormalGame extends Observable implements Game {
 
     public static final int NUMBER_PLAYERS = 2;
 
     private Board board;
     private Player[] players;
     private Player current;
-    private View UI;
+    private View uIS;
     
     public NormalGame(Player s0, Player s1, View v) {
         board = new Board();
@@ -22,12 +22,12 @@ public class NormalGame extends Observable implements Game{
         players = new Player[NUMBER_PLAYERS];
         players[0] = s0;
         players[1] = s1;
-        UI = v;
-    	this.addObserver(UI);
+        uIS = v;
+    	this.addObserver(uIS);
         play();
     }
     
-    public Board getBoard(){
+    public Board getBoard() {
     	return board;
     }
     
@@ -35,17 +35,14 @@ public class NormalGame extends Observable implements Game{
         this.setChanged();
         this.notifyObservers("printBoard");
         boolean gameOver = false;
-        while(!gameOver)
-        {
-        	for(int i=0;i<players.length;i++)
-        	{
+        while (!gameOver) {
+        	for (int i = 0; i < players.length; i++) {
         		current = players[i];
-        		if(players[i].makeMove(board, UI)) {
+        		if (players[i].makeMove(board, uIS)) {
         			this.setChanged();
                     this.notifyObservers("printBoard");
                     
-            		if(board.gameOver())
-            		{
+            		if (board.gameOver()) {
             			gameOver = true;
             			this.setChanged();
                         this.notifyObservers("gameOver");
@@ -59,8 +56,8 @@ public class NormalGame extends Observable implements Game{
         			i--;
         		}
         	}
-        	if(UI instanceof GUI) {
-        		((GUI)UI).checkRetry();
+        	if (uIS instanceof GUI) {
+        		((GUI) uIS).checkRetry();
         	}
         }
     }
