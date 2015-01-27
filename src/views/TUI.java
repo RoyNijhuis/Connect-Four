@@ -36,11 +36,11 @@ public class TUI extends Thread implements View{
 			try {
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
-				if(input[0].equals("say")) {
+				if(input[0].equals("say") && input.length >= 2 && client != null) {
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("chat_global " + message[1]);
 					System.out.println("said global: "+ message[1]);
-				} else if(input[0].equals("sayLocal")) {
+				} else if(input[0].equals("sayLocal") && input.length >= 2 && client != null) {
 					String[] message = inputString.split(" ", 2);
 					client.sendMessage("chat_local " + message[1]);
 					System.out.println("said local: "+ message[1]);
@@ -126,7 +126,7 @@ public class TUI extends Thread implements View{
 			askPlayAgain();
 		} else if(arg.equals("draw")) {
 			draw();
-		} else if(((String)arg).startsWith("accepted")) {
+		}  else if(((String)arg).startsWith("accepted")) {
 			String[] splitString = ((String) arg).split(" ");
 			System.out.println("You are accepted!(group number: " + splitString[1] + ")");
 		} else if(((String)arg).startsWith("nameExists")) {

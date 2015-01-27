@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import views.TUIServer;
+
 /**
  * ClientHandler.
  * @author  Theo Ruys
@@ -25,15 +27,16 @@ public class ClientHandler extends Thread {
 	private ServerGame game;
 	private Mark mark;
 	private int move;
-
+	private TUIServer UI;
 	/**
 	 * Constructs a ClientHandler object
 	 * Initialises both Data streams.
 	 *@ requires server != null && sock != null;
 	 */
-	public ClientHandler(Server serverArg, Socket sockArg) throws IOException {
+	public ClientHandler(Server serverArg, Socket sockArg, TUIServer ui) throws IOException {
 		this.server = serverArg;
 		this.sock = sockArg;
+		this.UI = ui;
 		this.in = new BufferedReader(new InputStreamReader(sockArg.getInputStream(), "UTF-8"));
     	this.out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream(), "UTF-8"));
     	ready_to_start_game=false;
@@ -73,7 +76,7 @@ public class ClientHandler extends Thread {
 				
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
-				System.out.println(inputString);
+				UI.message(inputString);
 				if(input[0].equals("join") && input.length == 3) {
 					clientName = input[1];
 					int group = Integer.parseInt(input[2]);
@@ -105,6 +108,8 @@ public class ClientHandler extends Thread {
 						String message[] = inputString.split(" ", 2);
 						server.broadcastToGame(game, message[1], clientName);
 					}
+				} else if(input[0].equals("error")){
+
 				} else {
 					sendMessage("error 007");//TODO error unknown command
 				}
@@ -175,6 +180,9 @@ public class ClientHandler extends Thread {
          * is no longer participating in the chat. 
 	 */
 	private void shutdown() {
+		if(game != null){
+			server.leftGame(game, this);
+		}
 		server.removeHandler(this);
 	}
 
