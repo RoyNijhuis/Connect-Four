@@ -76,7 +76,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		if(arg.equals("printBoard")) {
 			printBoard(o);
 		} else if(arg.equals("gameOver")) {
-			//gameOver(o);
+			messageField.setText("Game over! The winner is: " + ((Game)o).getWinner().getName());
 		} else if(arg.equals("columnFull")) {
 			errorField.setText("This column is full");
 		} else if(arg.equals("badHost")) {
@@ -86,7 +86,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		}else if(arg.equals("askPlayAgain")) {
 			//askPlayAgain();
 		} else if(arg.equals("draw")) {
-			//draw();
+			messageField.setText("Game over! There is no winner, it is a draw...");
 		} else if(((String)arg).startsWith("accepted")) {
 			System.out.println("accepted!");
 			this.remove(askName);

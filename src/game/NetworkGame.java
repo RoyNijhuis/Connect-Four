@@ -48,8 +48,10 @@ public class NetworkGame extends Observable implements Game{
     public void moveDone(String name, int move) {
     	if(self.getName().equals(name)) {
     		board.makeMove(move, self.getMark());
+    		current = self;
     	} else if(other.getName().equals(name)) {
     		board.makeMove(move, other.getMark());
+    		current = other;
     	}
     	//notify observers
     	this.setChanged();
@@ -63,5 +65,10 @@ public class NetworkGame extends Observable implements Game{
     
     public Player getWinner() {
     	return current;
+    }
+    
+    public void gameOver() {
+    	this.setChanged();
+    	this.notifyObservers("gameOver");
     }
 }
