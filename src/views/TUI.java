@@ -284,4 +284,8 @@ public class TUI extends Thread implements View{
 		this.client = client;
 		
 	}
+	
+	public void giveHint(int i){
+		System.out.println("Hint: "+ (i+1));
+	}
 }

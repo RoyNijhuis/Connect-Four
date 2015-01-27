@@ -15,6 +15,7 @@ public abstract interface View extends Observer {
 	public String askLocalOrOnline();
 	public String askPlayerName();
 	public void setClient(Client client);
+	public void giveHint(int i);
 	
 	public static String askWhichUI() {
 		boolean choiceMade = false;
