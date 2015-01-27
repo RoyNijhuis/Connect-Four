@@ -35,8 +35,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	JPanel askName;
 	String localOnline;
 	String nameChosen;
-	JButton localBtn, onlineBtn, submitBtn, sendChatMessage;
+	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton;
 	JLabel label, playerName;
+	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
 	JTextField txt, chatMessage;
@@ -49,10 +50,12 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	ArrayList<JLabel> marks;
 	private int moveMade;
 	private boolean askingMove;
+	private Player[] playersChosen;
 	Client client;
 	
 	public GUI() {
 		moveMade = -1;
+		playersChosen = new Player[2];
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
 		nameChosen = null;
@@ -214,10 +217,30 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		return temp;
 	}
 
-	@Override
 	public Player[] askForPlayers() {
-		// TODO Auto-generated method stub
-		return null;
+		choosePlayers = new JLabel();
+		localOrOnline.removeAll();
+		JLabel name1 = new JLabel("Player 1: ");
+		JLabel name2 = new JLabel("Player 1: ");
+		submitPlayersButton = new JButton("Online");
+		submitPlayersButton.addActionListener(this);
+		choosePlayers.add(name1);
+		choosePlayers.add(name2);
+		choosePlayers.add(submitPlayersButton);
+		revalidate();
+		repaint();
+		
+		while(playersChosen == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		Player[] temp = playersChosen;
+		playersChosen = null;
+		return temp;
 	}
 
 	@Override
@@ -299,6 +322,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			} else if(local.isSelected()) {
 				client.sendMessage("chat_local " + txt);
 			}
+		} else if(e.getSource().equals(submitPlayersButton)) {
+			//String player1 = //check players and type of players(human/ai)
 		}
 	}
 

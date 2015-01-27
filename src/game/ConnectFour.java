@@ -40,14 +40,14 @@ public class ConnectFour extends Observable{
 			} else if(gameType.equals("online")) {
 				InetAddress host=null;
 				try {
-					host = InetAddress.getByName("localhost");
+					host = InetAddress.getByName("spitfire.student.utwente.nl");
 				} catch (UnknownHostException e) {
 					this.setChanged();
 					this.notifyObservers("badHost");
 				}
 				
 				try {
-					new Thread(new Client(host, 2727, v)).start();
+					new Thread(new Client(host, 2003, v)).start();
 					System.out.println("komt langs");
 					done = true;
 				} catch (IOException e) {
