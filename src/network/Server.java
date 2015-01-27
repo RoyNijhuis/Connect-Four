@@ -12,31 +12,36 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 import java.util.Scanner;
 import java.util.Vector;
+
+import views.TUIServer;
+import views.View;
 
 /**
  * Server. 
  * @author  Theo Ruys
  * @version 2005.02.21
  */
-public class Server {
-	private static final String USAGE = "usage: " + Server.class.getName() + " <port>";
-
+public class Server extends Observable{
+	private TUIServer UI;
+	
 	/** Start een Server-applicatie op. */
 	public static void main(String[] args) {
+		TUIServer UIServer = new TUIServer();
 		Server server = null;
 		while(server == null) {
-			System.out.println("Please enter port: ");
-			int port = Integer.parseInt(readString(""));
+			int port = Integer.parseInt(UIServer.readString("Enter a port number"));
 			try {
-				server = new Server(port);
+				server = new Server(port,UIServer);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.out.println("This port is already being used.");
+				UIServer.message("This port is already being used.");
 			}
 		}
-		System.out.println("The server is running and can accept clients!");
+		UIServer.message("The server is running and can accept clients!");
 		server.run();
 	}
 
@@ -47,11 +52,13 @@ public class Server {
 	private ServerSocket socket;
 	
     /** Constructs a new Server object */
-	public Server(int portArg) throws IOException{
+	public Server(int portArg, TUIServer UI) throws IOException{
 		this.port = portArg;
 		this.clients = new ArrayList<ClientHandler>();
 		this.games = new ArrayList<ServerGame>();
 		this.socket = new ServerSocket(port);
+		this.UI = UI;
+		this.addObserver(UI);
 	}
 	
 	public List<ClientHandler> getClients() {
@@ -99,7 +106,8 @@ public class Server {
 	}
 	
 	public void broadcastMesGlobal(String msg, String name){
-		System.out.println("serverglobal "+msg);
+		UI.message("global message: "+name+": "+msg);
+	        
 		for(ClientHandler client: clients) {
 			client.sendMessage("message "+ name+ " " + msg);
 		}
@@ -114,7 +122,8 @@ public class Server {
 	}
 	
 	public void print(String message){
-		System.out.println(message);
+	    UI.message(message);
+		
 	}
 	
 	/**
@@ -143,18 +152,4 @@ public class Server {
 	public void removeHandler(ClientHandler handler) {
 		clients.remove(handler);
 	}
-	
-	public static String readString(String tekst) {
-		System.out.print(tekst);
-		String antw = null;
-		BufferedReader in = null;
-		try {
-			in = new BufferedReader(new InputStreamReader(
-					System.in));
-			antw = in.readLine();
-		} catch (IOException e) {
-		}
-		return (antw == null) ? "" : antw;
-	}
-	
 } // end of class Server

@@ -58,7 +58,6 @@ public class SmartStrategy implements Strategy{
 		int result = 3;
 		int biggest = results[3];
 		for(int i = 0; i<7; i++){
-			System.out.println(results[i]);
 			if(results[i]>biggest){
 				biggest = results[i];
 				result = i;

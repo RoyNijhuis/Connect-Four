@@ -324,4 +324,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void giveHint(int i) {
+		// TODO Auto-generated method stub
+		
+	}
 }
