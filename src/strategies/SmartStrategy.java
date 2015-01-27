@@ -9,16 +9,18 @@ import java.util.Set;
 
 public class SmartStrategy implements Strategy{
 
-public static final String NAME="Smart";
-
+	public static final String NAME="Smart";
+	int depth;
+	
+	public SmartStrategy(int d){
+		depth = d*2;
+	}
 	public String getName() {
 		return NAME;
 	}
 	
 	public int determineMove(Board b, Mark m){
 		Board copyOfBoard = b.deepCopy();
-		
-		int depth = 10;//TODO hardcoded
 		
 		Set<Integer> moves = copyOfBoard.possibleMoves();
 		final int[] results = new int[7];
@@ -67,87 +69,12 @@ public static final String NAME="Smart";
 		}
 		return result;
 	}
-	/*
-	public int move(Board b, Mark m, int n){
-		int depth = n;
-		depth--;
-		int result = -3;
-		if(depth==0){
-			Board copyOfBoard = b.deepCopy();
-			
-			Mark enemy;
-			if(m == Mark.OO)
-			{
-				enemy = Mark.XX;
-			}
-			else
-			{
-				enemy = Mark.OO;
-			}
-			
-			Set<Integer> moves = copyOfBoard.possibleMoves();
-			
-			for(int i: moves){
-				int tempResult = -3;
-				copyOfBoard.makeMove(i, m);
-			
-				if(copyOfBoard.isFull()){
-					tempResult = -1;
-				} else if(copyOfBoard.gameOver()){
-					tempResult = i;
-				} else {
-					tempResult = enemyMove(copyOfBoard, enemy, depth);
-				}
-				if(tempResult>result){
-					result = tempResult;
-				}
-				copyOfBoard.undoMove();
-			}
-		} else {
-			result = 1;
-		}
-		return result;
-	}
-	
-	public int enemyMove(Board b, Mark m, int n){
-		Board copyOfBoard = b.deepCopy();
-		int result = -3;
-		Mark enemy;
-		if(m == Mark.OO)
-		{
-			enemy = Mark.XX;
-		}
-		else
-		{
-			enemy = Mark.OO;
-		}
-		
-		Set<Integer> moves = copyOfBoard.possibleMoves();
-		
-		for(int i: moves){
-			int tempResult = -3;
-			copyOfBoard.makeMove(i, m);
-			if(copyOfBoard.isFull()){
-				tempResult = -1;
-			} else if(copyOfBoard.gameOver()){
-				tempResult = -2;
-			} else {
-				tempResult = move(copyOfBoard, enemy, n);
-			}
-			if(tempResult<result||result == -3){
-				result = tempResult;
-			}
-			copyOfBoard.undoMove();
-		}
-		return result;
-	}*/
 	
 	public int alphaBeta(Board b, Mark m,int alpha, int beta, int depth, boolean myTurn){
 		Board copyOfBoard = b.deepCopy();
 		Set<Integer> moves = copyOfBoard.possibleMoves();
 		Mark enemy = m.other();
 		if(b.gameOver() || depth == 0){
-			//System.out.println(b.evaluateContent(m));
 			return b.evaluate(m, depth);
 		} else if(myTurn){
 			int v = Integer.MIN_VALUE;

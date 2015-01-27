@@ -118,10 +118,8 @@ public class ClientHandler extends Thread {
 	public int getMove() {
 		int result = -1;
 		while(move == -1) {
-			//sleep hier werkt wel???
 			try {
 				Thread.sleep(10);
-				//TODO TODOWAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAROM MOET HIER EEN SLEEEEEEEEEEEEEEP???????????????????????????
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
