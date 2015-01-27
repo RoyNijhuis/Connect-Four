@@ -12,35 +12,35 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 
 
-public class ConnectFour extends Observable{
+public class ConnectFour extends Observable {
 	static Thread[] threads;
 	
 	public ConnectFour() {
 		View v;
 		threads = new Thread[2];
 		String ui = View.askWhichUI();
-		switch(ui) {
-		case "TUI":
-			v = new TUI();
-			break;
-		case "GUI":
-			v = new GUI();
-			break;
-		default:
-			v = null;
-			break;
+		switch (ui) {
+		    case "TUI":
+		    	v = new TUI();
+		    	break;
+		    case "GUI":
+		    	v = new GUI();
+		    	break;
+		    default:
+		    	v = null;
+		    	break;
 		}
 		this.addObserver(v);
 		
 		boolean done = false;
-		while(!done) {
+		while (!done) {
 			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
 			String ip = v.askIPAdress();
 			String port = v.askPort();
 			System.out.println("ask");
 			if(gameType.equals("local")) {
-				Player players[] = v.askForPlayers();
+				Player[] players = v.askForPlayers();
 				this.setChanged();
 				this.notifyObservers("gameStarted");
 				done = true;
@@ -77,7 +77,7 @@ public class ConnectFour extends Observable{
 			String port = v.askPort();
 			System.out.println("ask");
 			if(gameType.equals("local")) {
-				Player players[] = v.askForPlayers();
+				Player[] players = v.askForPlayers();
 				this.setChanged();
 				this.notifyObservers("gameStarted");
 				done = true;
@@ -103,7 +103,7 @@ public class ConnectFour extends Observable{
 		}
 	}
 	
-	public static void main(String args[]) 
+	public static void main(String[] args) 
 	{
 		new ConnectFour();
 	}
