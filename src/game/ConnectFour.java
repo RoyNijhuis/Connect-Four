@@ -9,6 +9,7 @@ import views.View;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -113,10 +114,10 @@ public class ConnectFour extends Observable {
 	}
 	
 	public static void shutdown() {
-		for (Thread t: threads) {
-			if (t != null) {
-				t.interrupt();
-				t = null;
+		for (int i = 0; i < threads.length; i++) {
+			if (threads[i] != null) {
+				threads[i].interrupt();
+				threads[i] = null;
 			}
 		}
 	}
