@@ -49,10 +49,9 @@ public class Client extends Observable implements Runnable{
     	this.addObserver(UI);
     	name = "";
     	this.UI.setClient(this);
-
 	}
 	
-	private void askName() {
+	public void askName() {
 		name = UI.askPlayerName();
 		sendMessage("join " + name + " " + 12);
 	}

@@ -87,9 +87,9 @@ public class ClientHandler extends Thread {
 						sendMessage("accept 12");
 					} else {
 						sendMessage("error 004");
-						shutdown();
-						running = false;
-						break;
+						//shutdown();
+						//running = false;
+						//break;
 					}
 				} else if(input[0].equals("ready_for_game") && input.length == 1) {
 					ready_to_start_game = true;

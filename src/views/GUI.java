@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import network.Client;
@@ -32,11 +33,12 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	String localOnline;
 	String nameChosen;
 	JButton localBtn, onlineBtn, submitBtn;
-	JLabel label;
+	JLabel label, playerName;
 	JPanel waitForGame;
 	JPanel game;
-	JTextField txt;
-	JLabel errorField;
+	JTextField txt, chatMessage;
+	JTextArea chat;
+	JLabel errorField, messageField;
 	BufferedImage boardImage, XXImage, OOImage;
 	JLabel boardLabel;
 	ArrayList<JLabel> marks;
@@ -119,8 +121,27 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			//print empty board, no move has been requested or made
 			this.remove(waitForGame);
 			game.setLayout(null);
-			boardLabel.setBounds(100, 100, 640, 480);
+			chat = new JTextArea();
+			messageField = new JLabel();
+			errorField = new JLabel();
+			playerName = new JLabel();
+			chatMessage = new JTextField();
+			chat.setBounds(20,525,640,200);
+			chat.setEditable(false);
+			messageField.setBounds(330,510,300,10);
+			boardLabel.setBounds(20, 20, 640, 480);
+			errorField.setBounds(20, 510, 300, 10);
+			chatMessage.setBounds(40, 730,300,25);
+			playerName.setBounds(5, 730, 50, 10);
+			errorField.setText("This is an error");
+			messageField.setText("This is a message");
+			playerName.setText("Chat: ");
 			game.add(boardLabel);
+			game.add(messageField);
+			game.add(chat);
+			game.add(errorField);
+			game.add(playerName);
+			game.add(chatMessage);
 			this.add(game);
 			revalidate();
 			repaint();
@@ -198,6 +219,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	@Override
 	public String askPlayerName() {
 		this.remove(localOrOnline);
+		askName.removeAll();
 		JLabel label = new JLabel("Enter your name: ");
 		txt = new JTextField();
 		txt.setColumns(10);
@@ -212,6 +234,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		this.add(askName);
 		revalidate();
 		repaint();
+		System.out.println("name is not yet chosen");
 		while(nameChosen == null) {
 			try {
 				Thread.sleep(10);
@@ -220,7 +243,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 				e.printStackTrace();
 			}
 		}
-		return nameChosen;
+		System.out.println("name is chosen");
+		String temp = nameChosen;
+		nameChosen = null;
+		return temp;
 	}
 
 	@Override
