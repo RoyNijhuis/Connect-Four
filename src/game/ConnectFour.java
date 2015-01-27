@@ -1,14 +1,16 @@
 package game;
+
+import network.Client;
+import players.Player;
+import views.GUI;
+import views.TUI;
+import views.View;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Observable;
 
-import network.Client;
-import players.*;
-import views.GUI;
-import views.TUI;
-import views.View;
 
 public class ConnectFour extends Observable{
 	static Thread[] threads;

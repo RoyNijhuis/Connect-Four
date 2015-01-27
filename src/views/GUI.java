@@ -380,6 +380,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 				playersChosen[0] = new ComputerPlayer(playerName1, Mark.XX, new SmartStrategy(4));
 			}
 			if(human2.isSelected()) {
+				System.out.println(playerName2);
 				playersChosen[1] = new HumanPlayer(playerName2, Mark.OO);
 			} else if(AI2.isSelected()) {
 				playersChosen[1] = new ComputerPlayer(playerName2, Mark.OO, new SmartStrategy(4));

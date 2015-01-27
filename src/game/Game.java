@@ -3,6 +3,7 @@ package game;
 import players.Player;
 
 public interface Game {
-	public Board getBoard();
-	public Player getWinner();
+    public Board getBoard();
+    
+    public Player getWinner();
 }
