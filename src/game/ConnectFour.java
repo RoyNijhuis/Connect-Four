@@ -32,7 +32,11 @@ public class ConnectFour extends Observable{
 		
 		boolean done = false;
 		while(!done) {
+			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
+			String ip = v.askIPAdress();
+			String port = v.askPort();
+			System.out.println("ask");
 			if(gameType.equals("local")) {
 				Player players[] = v.askForPlayers();
 				this.setChanged();
@@ -49,9 +53,8 @@ public class ConnectFour extends Observable{
 				}
 				
 				try {
-					threads[0] = new Thread(new Client(host, 2003, v));
-					threads[0].start();
-					System.out.println("komt langs");
+					threads[1] = new Thread(new Client(host, 2003, v));
+					threads[1].start();
 					done = true;
 				} catch (IOException e) {
 					this.setChanged();
@@ -68,6 +71,8 @@ public class ConnectFour extends Observable{
 		while(!done) {
 			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
+			String ip = v.askIPAdress();
+			String port = v.askPort();
 			System.out.println("ask");
 			if(gameType.equals("local")) {
 				Player players[] = v.askForPlayers();
@@ -96,7 +101,7 @@ public class ConnectFour extends Observable{
 		}
 	}
 	
-	public static void main(String args[])
+	public static void main(String args[]) 
 	{
 		new ConnectFour();
 	}

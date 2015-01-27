@@ -278,4 +278,16 @@ public class TUI extends Thread implements View{
 	public void giveHint(int i){
 		System.out.println("Hint: "+ (i+1));
 	}
+
+	@Override
+	public String askIPAdress() {
+		
+		return null;
+	}
+
+	@Override
+	public String askPort() {
+		
+		return null;
+	}
 }

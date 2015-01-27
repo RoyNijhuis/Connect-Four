@@ -14,6 +14,8 @@ public abstract interface View extends Observer {
 	public Player[] askForPlayers();
 	public String askLocalOrOnline();
 	public String askPlayerName();
+	public String askIPAdress();
+	public String askPort();
 	public void setClient(Client client);
 	public void giveHint(int i);
 	
