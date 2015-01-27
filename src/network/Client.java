@@ -121,7 +121,8 @@ public class Client extends Observable implements Runnable{
 		} else if(command_split[0].equals("game_end") && command_split.length == 2) {
 			game.gameOver();
 		} else if(command_split[0].equals("message")){
-			System.out.println(command_split[1] + ": " + command_split[2]);
+			this.setChanged();
+			this.notifyObservers(command);
 		}
 	}
 	
