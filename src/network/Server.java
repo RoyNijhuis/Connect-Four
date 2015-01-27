@@ -113,19 +113,13 @@ public class Server extends Observable{
 		}
 	}
 	
-	public void broadcastToGame(ServerGame game, String message) {
-		for(ServerGame g: games) {
-			if(g.equals(game)) {
-				
-			}
+	public void broadcastToGame(ServerGame game, String message, String name) {
+		for(ClientHandler client: game.getClients()) {
+			client.sendMessage("message "+ name+ " "+ message);
 		}
 	}
 	
-	public void print(String message){
-	    UI.message(message);
 		
-	}
-	
 	/**
 	 * Sends a message using the collection of connected ClientHandlers
 	     * to all connected Clients.

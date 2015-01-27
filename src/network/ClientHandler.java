@@ -99,6 +99,13 @@ public class ClientHandler extends Thread {
 				} else if(input[0].equals("chat_global")){
 					String message[] = inputString.split(" ", 2);
 					server.broadcastMesGlobal(message[1], clientName);
+				} else if(input[0].equals("chat_local")){
+					if(game != null){
+						String message[] = inputString.split(" ", 2);
+						server.broadcastToGame(game, message[1], clientName);
+					}
+				} else {
+					sendMessage("error 007");//TODO error unknown command
 				}
 			} catch (IOException e) {
 				shutdown();

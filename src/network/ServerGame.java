@@ -40,6 +40,10 @@ public class ServerGame extends Thread implements Game{
         winner = null;
     }
     
+    public ClientHandler[] getClients(){
+    	return clients;
+    }
+    
     public Board getBoard(){
     	return board;
     }
