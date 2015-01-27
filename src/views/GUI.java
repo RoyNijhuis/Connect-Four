@@ -15,11 +15,13 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -33,8 +35,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	JPanel askName;
 	String localOnline;
 	String nameChosen;
-	JButton localBtn, onlineBtn, submitBtn;
+	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton;
 	JLabel label, playerName;
+	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
 	JTextField txt, chatMessage;
@@ -42,12 +45,17 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 	JLabel errorField, messageField;
 	BufferedImage boardImage, XXImage, OOImage;
 	JLabel boardLabel;
+	JRadioButton local, global;
+	ButtonGroup buttonGroup;
 	ArrayList<JLabel> marks;
 	private int moveMade;
 	private boolean askingMove;
+	private Player[] playersChosen;
+	Client client;
 	
 	public GUI() {
 		moveMade = -1;
+		playersChosen = new Player[2];
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
 		nameChosen = null;
@@ -103,6 +111,11 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			this.setSize(800, 800);
 			setupBoard();
 			printBoard(null);
+		} else if(((String)arg).startsWith("message")) {
+			String[] splitString = ((String)arg).split(" ", 3);
+			String name = splitString[1];
+			String message = splitString[2];
+			chat.setText(chat.getText() + "\n" + name + " says: " + message);
 		}
 	}
 	
@@ -124,9 +137,17 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			game.setLayout(null);
 			chat = new JTextArea();
 			messageField = new JLabel();
+			buttonGroup = new ButtonGroup();
+			local = new JRadioButton("Local");
+			global = new JRadioButton("Global");
+			buttonGroup.add(local);
+			buttonGroup.add(global);
+			chat.setLineWrap(true);
 			errorField = new JLabel();
 			errorField.setForeground(Color.RED);
 			playerName = new JLabel();
+			sendChatMessage = new JButton("Send");
+			sendChatMessage.addActionListener(this);
 			chatMessage = new JTextField();
 			chat.setBounds(20,525,640,200);
 			chat.setEditable(false);
@@ -135,6 +156,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			errorField.setBounds(20, 510, 300, 10);
 			chatMessage.setBounds(40, 730,300,25);
 			playerName.setBounds(5, 730, 50, 10);
+			sendChatMessage.setBounds(350,730,80, 25);
+			local.setBounds(450, 730, 75, 25);
+			global.setBounds(550, 730, 75, 25);
+			local.setSelected(true);
 			errorField.setText("This is an error");
 			messageField.setText("This is a message");
 			playerName.setText("Chat: ");
@@ -144,6 +169,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			game.add(errorField);
 			game.add(playerName);
 			game.add(chatMessage);
+			game.add(local);
+			game.add(global);
+			game.add(sendChatMessage);
 			this.add(game);
 			revalidate();
 			repaint();
@@ -189,10 +217,30 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		return temp;
 	}
 
-	@Override
 	public Player[] askForPlayers() {
-		// TODO Auto-generated method stub
-		return null;
+		choosePlayers = new JLabel();
+		localOrOnline.removeAll();
+		JLabel name1 = new JLabel("Player 1: ");
+		JLabel name2 = new JLabel("Player 1: ");
+		submitPlayersButton = new JButton("Online");
+		submitPlayersButton.addActionListener(this);
+		choosePlayers.add(name1);
+		choosePlayers.add(name2);
+		choosePlayers.add(submitPlayersButton);
+		revalidate();
+		repaint();
+		
+		while(playersChosen == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		Player[] temp = playersChosen;
+		playersChosen = null;
+		return temp;
 	}
 
 	@Override
@@ -255,8 +303,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 
 	@Override
 	public void setClient(Client client) {
-		// TODO Auto-generated method stub
-		
+		this.client = client;
 	}
 	
 	@Override
@@ -268,8 +315,16 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			System.out.println("online gekozen");
 		} else if(e.getSource().equals(submitBtn)) {
 			nameChosen = txt.getText();
-		} 
-		System.out.println("test");
+		} else if(e.getSource().equals(sendChatMessage)) {
+			String txt = chatMessage.getText();
+			if(global.isSelected()) {
+				client.sendMessage("chat_global " + txt);
+			} else if(local.isSelected()) {
+				client.sendMessage("chat_local " + txt);
+			}
+		} else if(e.getSource().equals(submitPlayersButton)) {
+			//String player1 = //check players and type of players(human/ai)
+		}
 	}
 
 	@Override
