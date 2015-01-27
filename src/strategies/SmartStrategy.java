@@ -15,6 +15,7 @@ public class SmartStrategy implements Strategy{
 	public SmartStrategy(int d){
 		depth = d*2;
 	}
+	
 	public String getName() {
 		return NAME;
 	}

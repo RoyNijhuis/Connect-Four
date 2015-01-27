@@ -107,6 +107,10 @@ public class ClientHandler extends Thread {
 		}
 	}
 	
+	public void broadcastMoveCannotBeDone() {
+		sendMessage("error " + "002");
+	}
+	
 	public void requestMove(ClientHandler c) {
 		sendMessage("request_move " + c.getPlayerName());
 	}

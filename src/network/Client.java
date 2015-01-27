@@ -81,6 +81,10 @@ public class Client extends Observable implements Runnable{
 				this.notifyObservers("nameExists");
 				askName();
 				break;
+			case "002":
+				this.setChanged();
+				this.notifyObservers("columnFull");
+				break;
 			}
 		} else if(command_split[0].equals("start_game") && command_split.length == 3) {
 			//create players and create networkgame

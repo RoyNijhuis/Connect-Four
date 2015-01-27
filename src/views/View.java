@@ -52,7 +52,6 @@ public abstract interface View extends Observer {
 			antw = in.readLine();
 		} catch (IOException e) {
 		}
-
 		return (antw == null) ? "" : antw;
 	}
 }

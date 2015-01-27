@@ -3,6 +3,7 @@ import game.Board;
 import game.Game;
 import game.Mark;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -77,7 +78,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 		} else if(arg.equals("gameOver")) {
 			//gameOver(o);
 		} else if(arg.equals("columnFull")) {
-			//System.out.println("This column is full...");
+			errorField.setText("This column is full");
 		} else if(arg.equals("badHost")) {
 			errorField.setText("Host is niet goed...");
 		} else if(arg.equals("cannotCreateClient")) {
@@ -124,6 +125,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			chat = new JTextArea();
 			messageField = new JLabel();
 			errorField = new JLabel();
+			errorField.setForeground(Color.RED);
 			playerName = new JLabel();
 			chatMessage = new JTextField();
 			chat.setBounds(20,525,640,200);
@@ -146,6 +148,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 			revalidate();
 			repaint();
 		} else {
+			errorField.setText("");
+			messageField.setText("");
 			Board board = ((Game) o).getBoard();
 			Mark[][] field = board.getField();
 			for(int hor=0;hor<7;hor++) {
@@ -158,7 +162,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener{
 					}
 					//draw mark
 					if(temp != null) {
-						temp.setBounds(115+hor*90, 106+ver*80, 70, 70);
+						temp.setBounds(35+hor*90, 26+ver*80, 70, 70);
 						game.add(temp);
 					}
 				}

@@ -47,10 +47,20 @@ public class ServerGame extends Thread implements Game{
     public void play() {
     	for(int i=0;i<NUMBER_PLAYERS;i++)
     	{
+    		boolean moveMade = false;
     		current = clients[i];
-    		requestMove(current);
-    		int moveDone = waitForMove();
-    		broadcastMove(current, moveDone);
+    		while(!moveMade) {
+        		requestMove(current);
+        		int moveDone = waitForMove();
+        		
+        		if(board.makeMove(moveDone, current.getMarkInCurrentGame())) {
+        			broadcastMove(current, moveDone);
+        			moveMade = true;
+        			break;
+        		} else {
+        			current.broadcastMoveCannotBeDone();
+        		}
+    		}
     		
     		if(!board.isWinner(board.lastMark(), board.lastWidth(), board.lastHeight())) {
     			if(board.isFull()) {
@@ -74,8 +84,6 @@ public class ServerGame extends Thread implements Game{
     }
     
     private void broadcastMove(ClientHandler player, int move) {
-    	//register move on the server
-    	board.makeMove(move, player.getMarkInCurrentGame());
     	
     	//send move to clients
     	for(int i=0;i<NUMBER_PLAYERS;i++)
