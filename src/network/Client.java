@@ -36,7 +36,7 @@ public class Client extends Observable implements Runnable{
 	private NetworkGame game;
 	private View UI;
 	private String name;
-
+	
 	public Client(InetAddress host, int port, View UI)
 			throws IOException {
 		
