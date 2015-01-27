@@ -70,6 +70,7 @@ public class ClientHandler extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
+				
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
 				System.out.println(inputString);

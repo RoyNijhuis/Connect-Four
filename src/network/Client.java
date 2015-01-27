@@ -58,12 +58,20 @@ public class Client extends Observable implements Runnable{
 	
 	public void run() {
 		askName();
-		while(true) {
+		boolean running = true;
+		while(running) {
     		try {
     			String line=in.readLine();
     			analyseCommand(line);
 			} catch (IOException e) {
+				try {
+					sock.close();
+					running = false;
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				e.printStackTrace();
+				
 			}
     	}
 	}
@@ -114,7 +122,6 @@ public class Client extends Observable implements Runnable{
 			game.gameOver();
 		} else if(command_split[0].equals("message")){
 			System.out.println(command_split[1] + ": " + command_split[2]);
-			game.notifyObservers("gameOver");
 		}
 	}
 	
