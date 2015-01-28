@@ -7,7 +7,7 @@ import game.Mark;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BoardTest {
+public class BoardAndMarkTest {
 
 	@Before
 	public void setUp() throws Exception {
@@ -69,9 +69,5 @@ public class BoardTest {
 		b.makeMove(1, Mark.XX);
 		b.makeMove(2, Mark.XX);
 		assertEquals(false, b.gameOver());
-	}
-	
-	public void test() {
-		fail("Not yet implemented");
 	}
 }
