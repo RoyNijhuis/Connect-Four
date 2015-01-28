@@ -44,7 +44,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
-	JTextField txt, chatMessage, player1, player2, ipText, portText, difficultyText;
+	JTextField txt, chatMessage, player1, player2, ipText, portText, difficultyText, difficultyText2;
 	JTextArea chat;
 	JLabel errorField, messageField, hint;
 	BufferedImage boardImage, XXImage, OOImage;
@@ -188,7 +188,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			sendChatMessage.addActionListener(this);
 			chatMessage = new JTextField();
 			hint = new JLabel();
-			hint.setBounds(330,510,200,10);
+			hint.setBounds(500,510,200,10);
 			chat.setBounds(20,525,640,200);
 			chat.setEditable(false);
 			messageField.setBounds(330,510,200,10);
@@ -274,6 +274,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		AI2 = new JRadioButton("Computer");
 		human1.setSelected(true);
 		human2.setSelected(true);
+		difficultyLabel = new JLabel("Computer difficulty(1-4): ");
+		JLabel difficultyLabel2 = new JLabel("Computer difficulty(1-4): ");
+		difficultyText = new JTextField();
+		difficultyText2 = new JTextField();
 		player1Group.add(human1);
 		player2Group.add(human2);
 		player1Group.add(AI1);
@@ -282,14 +286,18 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		player1 = new JTextField();
 		player2 = new JTextField();
 		name1.setBounds(20, 20, 100, 20);
-		name2.setBounds(20, 40, 100, 20);
+		name2.setBounds(20, 60, 100, 20);
 		player1.setBounds(80, 20, 100, 20);
-		player2.setBounds(80, 40, 100, 20);
+		player2.setBounds(80, 60, 100, 20);
 		human1.setBounds(180, 20, 100, 20);
-		human2.setBounds(180, 40, 100, 20);
+		human2.setBounds(180, 60, 100, 20);
 		AI1.setBounds(280, 20, 100, 20);
-		AI2.setBounds(280, 40, 100, 20);
-		submitPlayersButton.setBounds(20, 60, 100, 20);
+		AI2.setBounds(280, 60, 100, 20);
+		submitPlayersButton.setBounds(20, 100, 100, 20);
+		difficultyLabel.setBounds(20,40,150,20);
+		difficultyLabel2.setBounds(20,80,150,20);
+		difficultyText.setBounds(220,40,100,20);
+		difficultyText2.setBounds(220,80,100,20);
 		submitPlayersButton.addActionListener(this);
 		choosePlayers.add(name1);
 		choosePlayers.add(name2);
@@ -300,6 +308,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		choosePlayers.add(human2);
 		choosePlayers.add(AI1);
 		choosePlayers.add(AI2);
+		choosePlayers.add(difficultyLabel);
+		choosePlayers.add(difficultyLabel2);
+		choosePlayers.add(difficultyText);
+		choosePlayers.add(difficultyText2);
 		this.add(choosePlayers);
 		revalidate();
 		repaint();
@@ -424,13 +436,15 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			if(human1.isSelected()) {
 				playersChosen[0] = new HumanPlayer(playerName1, Mark.XX);
 			} else if(AI1.isSelected()) {
-				playersChosen[0] = new ComputerPlayer(playerName1, Mark.XX, new SmartStrategy(4));
+				int dif = Integer.parseInt(difficultyText.getText());
+				playersChosen[0] = new ComputerPlayer(playerName1, Mark.XX, new SmartStrategy(dif));
 			}
 			if(human2.isSelected()) {
 				System.out.println(playerName2);
 				playersChosen[1] = new HumanPlayer(playerName2, Mark.OO);
 			} else if(AI2.isSelected()) {
-				playersChosen[1] = new ComputerPlayer(playerName2, Mark.OO, new SmartStrategy(4));
+				int dif = Integer.parseInt(difficultyText2.getText());
+				playersChosen[1] = new ComputerPlayer(playerName2, Mark.OO, new SmartStrategy(dif));
 			}
 		} else if(e.getSource().equals(homeMenu)) {
 			retry = true;
@@ -507,7 +521,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	}
 
 	public void giveHint(int i) {
-		hint.setText("Hint: column " + i);
+		hint.setText("Hint: column " + (i+1));
 	}
 
 	@Override
