@@ -33,10 +33,11 @@ public class Board {
     public Board() {
         fields = new Mark[HEIGHT][WIDTH];
         
-        //@ loop_invariant 0<= i && i< HEIGHT;
-        //@ loop_invariant 0<= j && j< WIDTH;
-        //@ loop_invariant \forAll int x; 0 <= x && x < i; 
-        //@ (\forAll int y; 0 <= y && y < j; fields[x][y] == Mark.EMPTY);
+        /*@ loop_invariant 0<= i && i< HEIGHT;
+          loop_invariant 0<= j && j< WIDTH;
+          loop_invariant \forAll int x; 0 <= x && x < i; 
+          (\forAll int y; 0 <= y && y < j; fields[x][y] == Mark.EMPTY);
+        @*/
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 fields[i][j] = Mark.EMPTY;
