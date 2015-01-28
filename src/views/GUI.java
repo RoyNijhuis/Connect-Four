@@ -576,6 +576,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		}
 		Player temp = playerChosen;
 		playerChosen = null;
-		return playerChosen;
+		return temp;
 	}
 }

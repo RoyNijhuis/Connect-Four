@@ -87,11 +87,13 @@ public class Client extends Observable implements Runnable {
 			this.notifyObservers("gameStarted");
 			Player p1 = null, p2 = null;
 			if (commandSplit[1].equals(name)) {
-				p1 = new HumanPlayer(name, Mark.XX);
+				p1 = self;
+				p1.setMark(Mark.XX);
 				p2 = new NetworkPlayer(commandSplit[2], Mark.OO);
 			} else if (commandSplit[2].equals(name)) {
 				p1 = new NetworkPlayer(commandSplit[1], Mark.XX);
-				p2 = new HumanPlayer(name, Mark.OO);
+				p2 = self;
+				p2.setMark(Mark.OO);
 			}
 			game = new NetworkGame(p1, p2, sUI);
 		} else if (commandSplit[0].equals("request_move") && commandSplit.length == 2) {
