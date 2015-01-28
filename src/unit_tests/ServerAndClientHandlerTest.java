@@ -18,7 +18,7 @@ public class ServerAndClientHandlerTest {
 	private InetAddress host;
 	@Before
 	public void setUp() throws Exception {
-		//NOTE: Er wordt bij elke test van uitgegegaan dat de server AAN staat, 
+		//NOTE: Er wordt bij elke test vanuit gegegaan dat de server AAN staat, 
 		//      tenzij dit anders vermeldt is. (op poort 2727 en ip: localhost)
 		c1 = null;
 		c2 = null;

@@ -120,7 +120,6 @@ public class ClientHandler extends Thread {
 		//@ loop_invariant \result == (running == false);
 		while (running) {
 			try {
-				
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
 				sUI.message(inputString);
