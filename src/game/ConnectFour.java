@@ -69,6 +69,7 @@ public class ConnectFour extends Observable {
 	}
 	
 	public ConnectFour(View v) {
+		v.reset();
 		this.addObserver(v);
 		boolean done = false;
 		while (!done) {
