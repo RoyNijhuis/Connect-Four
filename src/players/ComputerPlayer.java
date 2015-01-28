@@ -9,8 +9,6 @@ import views.View;
 
 public class ComputerPlayer extends Player {
 
-	//private String name;
-	//private Mark mark;
 	private Strategy strategy;
 	
 	public ComputerPlayer(String theName, Mark theMark) {

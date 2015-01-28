@@ -10,19 +10,41 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+/**
+ * AI. 
+ * @author  Roy & Edwin
+ * @version 2015.01.28
+ */
+
 public class SmartStrategy implements Strategy {
 
 	public static final String NAME = "Smart";
 	int depth;
 	
+	/** 
+	 * Start een nieuwe SmartStrategy op.
+	 * @param d the amount of moves the strategy will think ahead
+	 */
+	
 	public SmartStrategy(int d) {
 		depth = d * 2;
 	}
 	
+	/**
+	 * @return name returns the name
+	 */
 	public String getName() {
 		return NAME;
 	}
 	
+	/**
+	 * Calculates and returns the best move using a thread
+	 * for every possible move.
+	 * each thread calculates the value of the move using alphabeta
+	 * then the move with the best value is chosen
+	 * @param board the current state of the board
+	 * @param mark the mark of the player
+	 */
 	public int determineMove(Board b, Mark m) {
 		Board copyOfBoard = b.deepCopy();
 		
@@ -42,9 +64,6 @@ public class SmartStrategy implements Strategy {
 	        		int z = alphaBeta(copy, m, Integer.MIN_VALUE, Integer.MAX_VALUE, depth, false);
 	        		
 	        		results[i] = z;
-	        		
-	        		//results[i] = alphaBeta(copy, enemy,Integer.MIN_VALUE, 
-	        		//Integer.MAX_VALUE, depth, false);
 	        		copy.undoMove();
 	        	}
 	        	
@@ -73,6 +92,19 @@ public class SmartStrategy implements Strategy {
 		}
 		return result;
 	}
+	
+	/**
+	 * Calculates and returns the value the move based on
+	 * the assumption that you will always take the best move
+	 * and the enemy the worst move for you
+	 * this is calculated with alphabeta pruning.
+	 * @param board the state of the board
+	 * @param mark the mark of the player
+	 * @param alpha the alpha value in the alphabeta pruning
+	 * @param beta the beta value in the alphabeta pruning
+	 * @param depthz the depth is how many moves you are looking ahead of the current game
+	 * @param myTurn is it my turn or my enemy's turn
+	 */
 	
 	public int alphaBeta(Board b, Mark m, int alpha, int beta, int depthz, boolean myTurn) {
 		Board copyOfBoard = b.deepCopy();
@@ -121,6 +153,17 @@ public class SmartStrategy implements Strategy {
 	
 	private static int[] evaluateCol = {1, 5, 10, 70, 10, 5, 1};
     
+	/**
+	 * Calculates and returns the value of the board for mark
+	 * first it looks if a player has won.
+	 * then it gives adds a score based on how close to the middle
+	 * the marks are, and if there are any row with only one player's marks
+	 * after that a score is added based on amount of winning moves for you/your opponent
+	 * @param mark Mark that is used by the player
+	 * @param depths the depth is how many moves you are looking ahead of the current game
+	 * @param board the board situation
+	 */
+	
     public int evaluate(Mark mark, int depths, Board board) {
         int result = 0;
         Mark enemy = mark.other();
@@ -189,6 +232,12 @@ public class SmartStrategy implements Strategy {
         return result;
     }
     
+    /**
+	 * Calculates and returns a map with the height/width of a field,
+	 * the fields it returns are empty but would win the game for this mark.
+	 * @param mark Mark that is used by the player
+	 * @param board the board situation
+	 */
     public Map<Integer, Integer> getImportantFields(Mark mark, Board b) {
     	Mark[][] fields = b.getField();
         Map<Integer, Integer> result = new HashMap<Integer, Integer>();
