@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 
 /**
  * AI. 
- * @author  Roy & Edwin
+ * @author  Roy en Edwin
  * @version 2015.01.28
  */
 
@@ -42,8 +42,8 @@ public class SmartStrategy implements Strategy {
 	 * for every possible move.
 	 * each thread calculates the value of the move using alphabeta
 	 * then the move with the best value is chosen
-	 * @param board the current state of the board
-	 * @param mark the mark of the player
+	 * @param b the current state of the board
+	 * @param m the mark of the player
 	 */
 	public int determineMove(Board b, Mark m) {
 		Board copyOfBoard = b.deepCopy();
@@ -98,8 +98,8 @@ public class SmartStrategy implements Strategy {
 	 * the assumption that you will always take the best move
 	 * and the enemy the worst move for you
 	 * this is calculated with alphabeta pruning.
-	 * @param board the state of the board
-	 * @param mark the mark of the player
+	 * @param b the state of the board
+	 * @param m the mark of the player
 	 * @param alpha the alpha value in the alphabeta pruning
 	 * @param beta the beta value in the alphabeta pruning
 	 * @param depthz the depth is how many moves you are looking ahead of the current game
@@ -162,6 +162,7 @@ public class SmartStrategy implements Strategy {
 	 * @param mark Mark that is used by the player
 	 * @param depths the depth is how many moves you are looking ahead of the current game
 	 * @param board the board situation
+	 * @return int De waarde voor de positie op het bord
 	 */
 	
     public int evaluate(Mark mark, int depths, Board board) {
@@ -236,7 +237,8 @@ public class SmartStrategy implements Strategy {
 	 * Calculates and returns a map with the height/width of a field,
 	 * the fields it returns are empty but would win the game for this mark.
 	 * @param mark Mark that is used by the player
-	 * @param board the board situation
+	 * @param b the board situation
+	 * @return Map<int, int> De map van.
 	 */
     public Map<Integer, Integer> getImportantFields(Mark mark, Board b) {
     	Mark[][] fields = b.getField();

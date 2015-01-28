@@ -6,7 +6,7 @@ import players.Player;
 
 /**
  * Board. 
- * @author  Roy & Edwin
+ * @author  Roy en Edwin
  * @version 2015.01.28
  */
 

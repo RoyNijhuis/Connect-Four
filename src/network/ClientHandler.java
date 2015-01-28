@@ -13,7 +13,7 @@ import views.TUIServer;
 
 /**
  * Board. 
- * @author  Roy & Edwin
+ * @author  Roy en Edwin
  * @version 2015.01.28
  */
 
@@ -41,6 +41,7 @@ public class ClientHandler extends Thread {
 	 * @param serverArg the server
 	 * @param sockArg the socket
 	 * @param ui the view
+	 * @throws IOException
 	 */
     //@ requires serverArg != null && sockArg != null && ui != null;
     //@ ensures server == serverArg;

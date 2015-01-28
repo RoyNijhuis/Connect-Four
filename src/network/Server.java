@@ -12,7 +12,7 @@ import views.TUIServer;
 
 /**
  * Server. 
- * @author  Roy & Edwin
+ * @author  Roy en Edwin
  * @version 2015.01.28
  */
 public class Server {
@@ -42,6 +42,9 @@ public class Server {
 	
 	/**
      * Constructs a new Server object. 
+     * @param portArg de poort
+     * @param zUI de UI
+     * throws IOException
      */
 	public Server(int portArg, TUIServer zUI) throws IOException {
 		this.port = portArg;

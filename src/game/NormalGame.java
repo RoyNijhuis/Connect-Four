@@ -15,6 +15,12 @@ public class NormalGame extends Observable implements Game {
     private Player current;
     private View uIS;
     
+    /**
+     * @param s0 speler 1
+     * @param s1 speler 2
+     * @param v de UI
+     * Deze functie maakt een nieuwe NormalGame aan met spelers.
+     */
     public NormalGame(Player s0, Player s1, View v) {
         board = new Board();
         System.out.println("Game created!");
@@ -26,10 +32,17 @@ public class NormalGame extends Observable implements Game {
         play();
     }
     
+    /**
+     * @return Board geeft een Board terug
+     * Deze functie maakt een nieuwe NormalGame aan met spelers.
+     */
     public Board getBoard() {
     	return board;
     }
     
+    /**
+     * Deze functie blijft het spel spelen zolang de game niet afgelopen is.
+     */
     private void play() {
         this.setChanged();
         this.notifyObservers("printBoard");
@@ -66,6 +79,10 @@ public class NormalGame extends Observable implements Game {
         System.out.println("out of game loop");
     }
     
+    /**
+     * @return Player geeft de winnaar terug
+     * Deze functie maakt een nieuwe NormalGame aan met spelers.
+     */
     public Player getWinner() {
     	return current;
     }

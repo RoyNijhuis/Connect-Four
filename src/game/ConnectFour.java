@@ -15,6 +15,10 @@ import java.util.Observable;
 public class ConnectFour extends Observable {
 	static Thread[] threads;
 	
+	/**
+     * Deze functie vraagt welke UI gebruikt moet worden en vraagt of online 
+     * of lokaal gespeeld wil worden.
+     */
 	public ConnectFour() {
 		View v;
 		threads = new Thread[2];
@@ -66,6 +70,9 @@ public class ConnectFour extends Observable {
 		this.deleteObserver(v);
 	}
 	
+	/** @param v als de game opnieuw gespeeld wil worden, wordt de oude UI meegegeven
+     * Deze functie doet hetzelfde als de originele constructor, alleen maakt geen nieuwe UI aan.
+     */
 	public ConnectFour(View v) {
 		v.reset();
 		this.addObserver(v);
@@ -106,6 +113,11 @@ public class ConnectFour extends Observable {
 		new ConnectFour();
 	}
 	
+	/**
+     * @param players de spelers van het spel
+     * @param v de UI
+     * Deze functie maakt een nieuwe NormalGame aan met spelers.
+     */
 	public void createNewGame(Player[] players, View v) {
 		new NormalGame(players[0], players[1], v);
 	}

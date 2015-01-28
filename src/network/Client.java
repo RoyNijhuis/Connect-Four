@@ -27,6 +27,13 @@ public class Client extends Observable implements Runnable {
 	private String[] extensions;
 	private boolean otherHasChat;
 	
+	/**
+     * @param host de host om mee te verbinden
+     * @param port de poort van de hostverbinding
+     * @param aUI de UI
+     * Deze functie maakt een nieuwe Client aan.
+     * @throws IOException
+     */
 	public Client(InetAddress host, int port, View aUI) throws IOException {
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
@@ -40,12 +47,18 @@ public class Client extends Observable implements Runnable {
     	otherHasChat = false;
 	}
 	
+	/**
+     * Deze functie laat weten aan de UI dat de naam en het type speler gevraagd moeten worden.
+     */
 	public void askNameAndType() {
 		name = sUI.askPlayerName();
 		self = sUI.askType(name);
 		sendMessage("join " + name + " " + 12 + " " + "Chat");
 	}
 	
+	/**
+     * Deze functie leest continu input van de server
+     */
 	public void run() {
 		askNameAndType();
 		boolean running = true;
@@ -65,6 +78,10 @@ public class Client extends Observable implements Runnable {
     	}
 	}
 	
+	/**
+     * @param command Het commando dat ontvangen is van de server
+     * Deze functie analyseert elk commando volgens het protocol
+     */
 	private void analyseCommand(String command) {
 		String[] commandSplit = command.split(" ");
 		if (commandSplit[0].equals("accept") && commandSplit.length >= 2) {
@@ -123,6 +140,10 @@ public class Client extends Observable implements Runnable {
 		}
 	}
 	
+	/**
+     * @param msg Het commando van de server
+     * Deze functie verstuurt een bericht naar de server
+     */
 	public void sendMessage(String msg) {
 		String result = new String(msg);
 		if ((msg.startsWith("chat_local") || msg.startsWith("chat_global")) && !otherHasChat) {
@@ -143,6 +164,9 @@ public class Client extends Observable implements Runnable {
 		}
 	}
 
+	/**
+     * Sluit de verbindingen af.
+     */
 	public void shutdown() {
 		try {
 			sock.close();
@@ -151,6 +175,11 @@ public class Client extends Observable implements Runnable {
 		}
 	}
 	
+	/**
+     * @param tekst De uit te printen tekst
+     * Leest van de inputstream.
+     * @return String Fe gelezen string
+     */
 	public static String readString(String tekst) {
 		String antw = null;
 		try {
@@ -162,5 +191,4 @@ public class Client extends Observable implements Runnable {
 
 		return (antw == null) ? "" : antw;
 	}
-
 }
