@@ -45,10 +45,27 @@ public class TUI extends Thread implements View {
 				} else if (expecting.equals("name") && input.length == 1) {
 					result = inputString;
 					expecting = "";
-				} else if (expecting.equals("player1") && (input.length == 2 
-					  	  && input[0].equals("H")) || (input[0].equals("C") && input.length == 3)) {
-					result = inputString;
-					expecting = "";
+				} else if (expecting.equals("player1") && (input[0].equals("H") 
+								|| input[0].equals("C"))) {
+					if (input.length == 2 && input[0].equals("H")) {
+						result = inputString;
+						expecting = "";
+					} else if (input[0].equals("C") && input.length == 3) {
+						try {
+							int dif = Integer.parseInt(input[2]);
+							if (dif >= 0) {
+								result = inputString;
+								expecting = "";
+							} else {
+								System.out.println("Please enter a positive digit");
+							}
+						} catch (NumberFormatException e) {
+							System.out.println("please enter a digit at the end");
+						}
+					} else {
+						System.out.println("Please enter correct information");
+					}
+					
 				} else if (expecting.startsWith("player2") && (input.length == 2 &&
 						  input[0].equals("H")) || (input[0].equals("C") && input.length == 3)) {
 					String[] p1 = expecting.split(" ");
@@ -72,6 +89,26 @@ public class TUI extends Thread implements View {
 						
 					} else {
 						System.out.println("Please take a different name as player1");
+					}
+				} else if (expecting.equals("aplayer") && (input[0].equals("H")) 
+								|| (input[0].equals("C"))) {
+					if (input.length == 1 && input[0].equals("H")) {
+						result = inputString;
+						expecting = "";
+					} else if (input[0].equals("C") && input.length == 2) {
+						try {
+							int dif = Integer.parseInt(input[1]);
+							if (dif >= 0) {
+								result = inputString;
+								expecting = "";
+							} else {
+								System.out.println("Please enter a positive digit");
+							}
+						} catch (NumberFormatException e) {
+							System.out.println("please enter a digit at the end");
+						}
+					} else {
+						System.out.println("Please enter correct information");
 					}
 				} else if (expecting.equals("local")) {
 					if (inputString.equals("local") || inputString.equals("online")) {
@@ -337,7 +374,28 @@ public class TUI extends Thread implements View {
 		
 	}
 
-	public Player askType() {
+	public Player askType(String name) {
+		Player player;
 		
+		System.out.println("Please enter the Type('H' for HumanPlayer, 'C' for "
+				  + "ComputerPlayer)\nIf you choose 'C' add a digit between 1-5\n"
+				  + "For example: 'C 4' or 'H'");
+		expecting = "aplayer";
+		while  (expecting.equals("aplayer")) {
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		String[] type = result.split(" ");
+		if (type[0].equals("H")) {
+			player = new HumanPlayer(name, Mark.XX);
+		} else {
+			player = new ComputerPlayer(name, Mark.XX, 
+					new SmartStrategy(Integer.parseInt(type[1])));
+		}
+		result = "";
+		return player;
 	}
 }
