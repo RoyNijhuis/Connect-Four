@@ -280,7 +280,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		revalidate();
 		repaint();
 		
-		while (playersChosen == null) {
+		while (playersChosen == null || playersChosen[0] == null || playersChosen[1] == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -289,7 +289,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			}
 		}
 		Player[] temp = playersChosen;
-		playersChosen = null;
 		return temp;
 	}
 

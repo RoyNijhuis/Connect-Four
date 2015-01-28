@@ -74,9 +74,6 @@ public class ConnectFour extends Observable {
 		while (!done) {
 			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
-			String ip = v.askIPAdress();
-			String port = v.askPort();
-			int portNumber = Integer.parseInt(port);
 			System.out.println("ask");
 			if (gameType.equals("local")) {
 				Player[] players = v.askForPlayers();
@@ -85,6 +82,9 @@ public class ConnectFour extends Observable {
 				done = true;
 				this.createNewGame(players, v);
 			} else if (gameType.equals("online")) {
+				String ip = v.askIPAdress();
+				String port = v.askPort();
+				int portNumber = Integer.parseInt(port);
 				InetAddress host = null;
 				try {
 					host = InetAddress.getByName(ip);
