@@ -202,9 +202,8 @@ public class TUI extends Thread implements View {
 		}
 		if (result.equals("y")) {
 			new ConnectFour(this);
-		} else {
-			//TODO
 		}
+		
 		result = null;
 	}
 
@@ -268,7 +267,8 @@ public class TUI extends Thread implements View {
 		Player[] players = new Player[2];
 		
 		System.out.println("Please enter the Type('H' for HumanPlayer, 'C' for "
-				  + "ComputerPlayer)\nfor example: 'H Henk' or 'C Piet X'(X is a integer between 1-5)");
+				  + "ComputerPlayer)\nfor example: 'H Henk' or 'C Piet X'"
+				  + "(X is a integer between 1-5)");
 		expecting = "player1";
 		while  (expecting.equals("player1")) {
 			try {
@@ -369,10 +369,7 @@ public class TUI extends Thread implements View {
 	}
 
 	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void reset() { }
 
 	public Player askType(String name) {
 		Player player;

@@ -33,8 +33,8 @@ public class ClientHandler extends Thread {
 		this.server = serverArg;
 		this.sock = sockArg;
 		this.sUI = ui;
-		this.in = new BufferedReader(new InputStreamReader(sockArg.getInputStream(), "UTF-8"));
-    	this.out = new BufferedWriter(new OutputStreamWriter(sockArg.getOutputStream(), "UTF-8"));
+		this.in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
+    	this.out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
     	readyToStartGame = false;
     	game = null;
     	mark = null;
@@ -42,7 +42,7 @@ public class ClientHandler extends Thread {
     	chat = false;
 	}
 	
-	public boolean getChat(){
+	public boolean getChat() {
 		return chat;
 	}
 	

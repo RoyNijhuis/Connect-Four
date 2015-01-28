@@ -3,9 +3,8 @@ package network;
 import game.Board;
 import game.Game;
 import players.Player;
-import views.View;
 
-public class ServerGame extends Thread implements Game{
+public class ServerGame extends Thread implements Game {
 
 	public static final int NUMBER_PLAYERS = 2;
 	
@@ -50,7 +49,7 @@ public class ServerGame extends Thread implements Game{
     	return clients;
     }
     
-    public Board getBoard(){
+    public Board getBoard() {
     	return board;
     }
     
@@ -93,7 +92,6 @@ public class ServerGame extends Thread implements Game{
     
     private void broadcastMove(ClientHandler player, int move) {
     	
-    	//send move to clients
     	for (int i = 0; i < NUMBER_PLAYERS; i++) {
     		clients[i].broadCastMove(player, move);
     	}
@@ -105,7 +103,6 @@ public class ServerGame extends Thread implements Game{
 
 	@Override
 	public Player getWinner() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,13 +1,13 @@
 package players;
 import game.Board;
 import game.Mark;
-import strategies.NaiveStrategy;
+//import strategies.NaiveStrategy;
 import strategies.Strategy;
 import views.View;
 
 
 
-public class ComputerPlayer extends Player{
+public class ComputerPlayer extends Player {
 
 	//private String name;
 	//private Mark mark;
@@ -17,10 +17,9 @@ public class ComputerPlayer extends Player{
         super(theName, theMark);
     }
 	
-	public ComputerPlayer(String name, Mark mark, Strategy strategy)
-	{
+	public ComputerPlayer(String name, Mark mark, Strategy strategys) {
 		this(name, mark);
-		this.strategy = strategy;
+		this.strategy = strategys;
 	}
 	
 	@Override

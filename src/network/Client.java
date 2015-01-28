@@ -68,9 +68,9 @@ public class Client extends Observable implements Runnable {
 	private void analyseCommand(String command) {
 		String[] commandSplit = command.split(" ");
 		if (commandSplit[0].equals("accept") && commandSplit.length >= 2) {
-			for(int i = 2; i < commandSplit.length; i++) {
+			for (int i = 2; i < commandSplit.length; i++) {
 				extensions[i] = commandSplit[i];
-				if(extensions[i].equals("Chat")) {
+				if (extensions[i].equals("Chat")) {
 					otherHasChat = true;
 				}
 			}
@@ -127,11 +127,11 @@ public class Client extends Observable implements Runnable {
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
 		String result = new String(msg);
-		if((msg.startsWith("chat_local") || msg.startsWith("chat_global")) && !otherHasChat) {
+		if ((msg.startsWith("chat_local") || msg.startsWith("chat_global")) && !otherHasChat) {
 			result = null;
 		}
 		try {
-			if(result != null) {
+			if (result != null) {
 				out.write(msg + "\n");
 				out.flush();
 			}

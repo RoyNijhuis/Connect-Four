@@ -35,21 +35,24 @@ import strategies.SmartStrategy;
 
 public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
+	private static final long serialVersionUID = 1;
 	JPanel localOrOnline;
 	JPanel askName, askServer, askPort;
 	String localOnline;
-	String nameChosen, IPChosen, portChosen;
-	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton, homeMenu, connectBtn;
+	String nameChosen, iPChosen, portChosen;
+	JButton localBtn, onlineBtn, submitBtn, sendChatMessage;
+	JButton submitPlayersButton, homeMenu, connectBtn;
 	JLabel label, playerName, difficultyLabel;
 	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
-	JTextField txt, chatMessage, player1, player2, ipText, portText, difficultyText, difficultyText2;
+	JTextField txt, chatMessage, player1, player2, ipText;
+	JTextField portText, difficultyText, difficultyText2;
 	JTextArea chat;
 	JLabel errorField, messageField, hint;
-	BufferedImage boardImage, XXImage, OOImage;
+	BufferedImage boardImage, xXImage, oOImage;
 	JLabel boardLabel;
-	JRadioButton local, global, human1, human2, AI1, AI2;
+	JRadioButton local, global, human1, human2, aI1, aI2;
 	ButtonGroup buttonGroup, player1Group, player2Group;
 	ArrayList<JLabel> marks;
 	private Player playerChosen;
@@ -57,15 +60,13 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	private boolean askingMove;
 	private Player[] playersChosen;
 	Client client;
-	public static boolean retry=false;
-	private String typeChosen;
+	public static boolean retry = false;
 	
 	public GUI() {
 		super();
 		moveMade = -1;
-		typeChosen = null;
 		playersChosen = null;
-		IPChosen = null;
+		iPChosen = null;
 		portChosen = null;
 		playerChosen = null;
 		marks = new ArrayList<JLabel>();
@@ -83,10 +84,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.add(localOrOnline);
 		try {
-			XXImage = ImageIO.read(new File("XX.png"));
-			OOImage = ImageIO.read(new File("OO.png"));
+			xXImage = ImageIO.read(new File("XX.png"));
+			oOImage = ImageIO.read(new File("OO.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -94,9 +94,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	public void reset() {
 		moveMade = -1;
 		playersChosen = null;
-		IPChosen = null;
+		iPChosen = null;
 		portChosen = null;
-		typeChosen = null;
 		playerChosen = null;
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
@@ -113,21 +112,19 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		if(arg.equals("printBoard")) {
+		if (arg.equals("printBoard")) {
 			printBoard(o);
-		} else if(((String)arg).startsWith("gameOver")) {
-			messageField.setText("Game over! The winner is: " + ((String)arg).split(" ")[1]);
-		} else if(arg.equals("columnFull")) {
+		} else if (((String) arg).startsWith("gameOver")) {
+			messageField.setText("Game over! The winner is: " + ((String) arg).split(" ")[1]);
+		} else if (arg.equals("columnFull")) {
 			errorField.setText("This column is full");
-		} else if(arg.equals("badHost")) {
+		} else if (arg.equals("badHost")) {
 			errorField.setText("Host is niet goed...");
-		} else if(arg.equals("cannotCreateClient")) {
+		} else if (arg.equals("cannotCreateClient")) {
 			errorField.setText("Kan Client niet aanmaken...");
-		}else if(arg.equals("askPlayAgain")) {
-			//askPlayAgain();
-		} else if(arg.equals("draw")) {
+		}  else if (arg.equals("draw")) {
 			messageField.setText("Game over! There is no winner, it is a draw...");
-		} else if(((String)arg).startsWith("accepted")) {
+		} else if (((String) arg).startsWith("accepted")) {
 			System.out.println("accepted!");
 			this.remove(askName);
 			label = new JLabel();
@@ -136,18 +133,18 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			this.add(waitForGame);
 			revalidate();
 			repaint();
-		} else if(((String)arg).startsWith("nameExists")) {
+		} else if (((String) arg).startsWith("nameExists")) {
 			errorField.setText("There already exists a player with this name on the server...");
-		} else if(((String)arg).startsWith("gameStarted")) {
+		} else if (((String) arg).startsWith("gameStarted")) {
 			//setup game panel
 			this.setSize(800, 800);
-			if(choosePlayers != null) {
+			if (choosePlayers != null) {
 				this.remove(choosePlayers);
 			}
 			setupBoard();
 			printBoard(null);
-		} else if(((String)arg).startsWith("message")) {
-			String[] splitString = ((String)arg).split(" ", 3);
+		} else if (((String) arg).startsWith("message")) {
+			String[] splitString = ((String) arg).split(" ", 3);
 			String name = splitString[1];
 			String message = splitString[2];
 			chat.setText(chat.getText() + "\n" + name + " says: " + message);
@@ -158,7 +155,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		try {
 			boardImage = ImageIO.read(new File("board.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		boardLabel = new JLabel(new ImageIcon(boardImage));
@@ -167,7 +163,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	}
 	
 	private void printBoard(Observable o) {
-		if(o == null) {
+		if (o == null) {
 			//print empty board, no move has been requested or made
 			this.remove(waitForGame);
 			game.setLayout(null);
@@ -187,18 +183,18 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			sendChatMessage.addActionListener(this);
 			chatMessage = new JTextField();
 			hint = new JLabel();
-			hint.setBounds(730,510,70,10);
-			chat.setBounds(20,525,640,200);
+			hint.setBounds(730, 510, 70, 10);
+			chat.setBounds(20, 525, 640, 200);
 			chat.setEditable(false);
-			messageField.setBounds(330,510,400,10);
+			messageField.setBounds(330, 510, 400, 10);
 			boardLabel.setBounds(20, 20, 640, 480);
 			errorField.setBounds(20, 510, 300, 10);
-			chatMessage.setBounds(40, 730,300,25);
+			chatMessage.setBounds(40, 730, 300, 25);
 			playerName.setBounds(5, 730, 50, 10);
-			sendChatMessage.setBounds(350,730,80, 25);
+			sendChatMessage.setBounds(350, 730, 80, 25);
 			local.setBounds(450, 730, 75, 25);
 			global.setBounds(550, 730, 75, 25);
-			homeMenu.setBounds(670, 730, 100,20);
+			homeMenu.setBounds(670, 730, 100, 20);
 			homeMenu.addActionListener(this);
 			local.setSelected(true);
 			errorField.setText("This is an error");
@@ -222,17 +218,17 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			errorField.setText("");
 			Board board = ((Game) o).getBoard();
 			Mark[][] field = board.getField();
-			for(int hor=0;hor<7;hor++) {
-				for(int ver=0;ver<6;ver++) {
+			for (int hor = 0; hor < 7; hor++) {
+				for (int ver = 0; ver < 6; ver++) {
 					JLabel temp = null;
-					if(field[ver][hor].equals(Mark.XX)) {
-						temp = new JLabel(new ImageIcon(XXImage));
-					} else if(field[ver][hor].equals(Mark.OO)) {
-						temp = new JLabel(new ImageIcon(OOImage));
+					if (field[ver][hor].equals(Mark.XX)) {
+						temp = new JLabel(new ImageIcon(xXImage));
+					} else if (field[ver][hor].equals(Mark.OO)) {
+						temp = new JLabel(new ImageIcon(oOImage));
 					}
 					//draw mark
-					if(temp != null) {
-						temp.setBounds(35+hor*90, 26+ver*80, 70, 70);
+					if (temp != null) {
+						temp.setBounds(35 + hor * 90, 26 + ver * 80, 70, 70);
 						game.add(temp);
 					}
 				}
@@ -249,7 +245,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -269,8 +264,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		player2Group = new ButtonGroup();
 		human1 = new JRadioButton("Human");
 		human2 = new JRadioButton("Human");
-		AI1 = new JRadioButton("Computer");
-		AI2 = new JRadioButton("Computer");
+		aI1 = new JRadioButton("Computer");
+		aI2 = new JRadioButton("Computer");
 		human1.setSelected(true);
 		human2.setSelected(true);
 		difficultyLabel = new JLabel("Computer difficulty(1-4): ");
@@ -279,8 +274,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		difficultyText2 = new JTextField();
 		player1Group.add(human1);
 		player2Group.add(human2);
-		player1Group.add(AI1);
-		player2Group.add(AI2);
+		player1Group.add(aI1);
+		player2Group.add(aI2);
 		submitPlayersButton = new JButton("Play!");
 		player1 = new JTextField();
 		player2 = new JTextField();
@@ -290,13 +285,13 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		player2.setBounds(80, 60, 100, 20);
 		human1.setBounds(180, 20, 100, 20);
 		human2.setBounds(180, 60, 100, 20);
-		AI1.setBounds(280, 20, 100, 20);
-		AI2.setBounds(280, 60, 100, 20);
+		aI1.setBounds(280, 20, 100, 20);
+		aI2.setBounds(280, 60, 100, 20);
 		submitPlayersButton.setBounds(20, 100, 100, 20);
-		difficultyLabel.setBounds(20,40,150,20);
-		difficultyLabel2.setBounds(20,80,150,20);
-		difficultyText.setBounds(220,40,100,20);
-		difficultyText2.setBounds(220,80,100,20);
+		difficultyLabel.setBounds(20, 40, 150, 20);
+		difficultyLabel2.setBounds(20, 80, 150, 20);
+		difficultyText.setBounds(220, 40, 100, 20);
+		difficultyText2.setBounds(220, 80, 100, 20);
 		submitPlayersButton.addActionListener(this);
 		choosePlayers.add(name1);
 		choosePlayers.add(name2);
@@ -305,8 +300,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		choosePlayers.add(submitPlayersButton);
 		choosePlayers.add(human1);
 		choosePlayers.add(human2);
-		choosePlayers.add(AI1);
-		choosePlayers.add(AI2);
+		choosePlayers.add(aI1);
+		choosePlayers.add(aI2);
 		choosePlayers.add(difficultyLabel);
 		choosePlayers.add(difficultyLabel2);
 		choosePlayers.add(difficultyText);
@@ -319,7 +314,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -345,7 +339,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -358,7 +351,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	public String askPlayerName() {
 		this.remove(askServer);
 		askName.removeAll();
-		JLabel label = new JLabel("Enter your name: ");
+		JLabel labelz = new JLabel("Enter your name: ");
 		txt = new JTextField();
 		txt.setColumns(10);
 		submitBtn = new JButton("Connect");
@@ -368,15 +361,15 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		
 		player1Group = new ButtonGroup();
 		human1 = new JRadioButton("Human");
-		AI1 = new JRadioButton("Computer");
+		aI1 = new JRadioButton("Computer");
 		human1.setSelected(true);
 		player1Group.add(human1);
-		player1Group.add(AI1);
+		player1Group.add(aI1);
 		submitBtn.addActionListener(this);
-		askName.add(label);
+		askName.add(labelz);
 		askName.add(txt);
 		askName.add(human1);
-		askName.add(AI1);
+		askName.add(aI1);
 		askName.add(difficultyLabel);
 		askName.add(difficultyText);
 		askName.add(submitBtn);
@@ -390,7 +383,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -412,49 +404,50 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		} else if (e.getSource().equals(onlineBtn)) {
 			localOnline = "online";
 			System.out.println("online gekozen");
-		} else if(e.getSource().equals(submitBtn)) {
+		} else if (e.getSource().equals(submitBtn)) {
 			nameChosen = txt.getText();
-			if(human1.isSelected()) {
+			if (human1.isSelected()) {
 				playerChosen = new HumanPlayer(txt.getText(), Mark.EMPTY);
-			} else if(AI1.isSelected()) {
+			} else if (aI1.isSelected()) {
 				int difficulty = Integer.parseInt(difficultyText.getText());
-				playerChosen = new ComputerPlayer(txt.getText(), Mark.EMPTY, new SmartStrategy(difficulty));
+				playerChosen = new ComputerPlayer(txt.getText(), 
+						Mark.EMPTY, new SmartStrategy(difficulty));
 			}
-		} else if(e.getSource().equals(sendChatMessage)) {
-			String txt = chatMessage.getText();
-			if(global.isSelected()) {
+		} else if (e.getSource().equals(sendChatMessage)) {
+			String txts = chatMessage.getText();
+			if (global.isSelected()) {
 				System.out.println("GLOBAL SELECTED");
-				client.sendMessage("chat_global " + txt);
-			} else if(local.isSelected()) {
-				client.sendMessage("chat_local " + txt);
+				client.sendMessage("chat_global " + txts);
+			} else if (local.isSelected()) {
+				client.sendMessage("chat_local " + txts);
 			}
-		} else if(e.getSource().equals(submitPlayersButton)) {
+		} else if (e.getSource().equals(submitPlayersButton)) {
 			String playerName1 = player1.getText();
 			String playerName2 = player2.getText();
 			playersChosen = new Player[2];
-			if(human1.isSelected()) {
+			if (human1.isSelected()) {
 				playersChosen[0] = new HumanPlayer(playerName1, Mark.XX);
-			} else if(AI1.isSelected()) {
+			} else if (aI1.isSelected()) {
 				int dif = Integer.parseInt(difficultyText.getText());
 				playersChosen[0] = new ComputerPlayer(playerName1, Mark.XX, new SmartStrategy(dif));
 			}
-			if(human2.isSelected()) {
+			if (human2.isSelected()) {
 				System.out.println(playerName2);
 				playersChosen[1] = new HumanPlayer(playerName2, Mark.OO);
-			} else if(AI2.isSelected()) {
+			} else if (aI2.isSelected()) {
 				int dif = Integer.parseInt(difficultyText2.getText());
 				playersChosen[1] = new ComputerPlayer(playerName2, Mark.OO, new SmartStrategy(dif));
 			}
-		} else if(e.getSource().equals(homeMenu)) {
+		} else if (e.getSource().equals(homeMenu)) {
 			retry = true;
-		} else if(e.getSource().equals(connectBtn)) {
-			IPChosen = ipText.getText();
+		} else if (e.getSource().equals(connectBtn)) {
+			iPChosen = ipText.getText();
 			portChosen = portText.getText();
 		}
 	}
 	
 	public void checkRetry() {
-		if(retry) {
+		if (retry) {
 			retry = false;
 			this.remove(game);
 			game.removeAll();
@@ -465,62 +458,50 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getSource().equals(boardLabel)) {
+		if (e.getSource().equals(boardLabel)) {
 			//clicked on board
 			int clickX = e.getX();
-			if(askingMove) {
-				if(clickX>=0 && clickX < 95) {
+			if (askingMove) {
+				if (clickX >= 0 && clickX < 95) {
 					//row 1
-					moveMade=0;
-				} else if(clickX>=95 && clickX < 185) {
+					moveMade = 0;
+				} else if (clickX >= 95 && clickX < 185) {
 					//row 2
-					moveMade=1;
-				} else if(clickX>=185 && clickX < 275) {
+					moveMade = 1;
+				} else if (clickX >= 185 && clickX < 275) {
 					//row 2
-					moveMade=2;
-				} else if(clickX>=275 && clickX < 365) {
+					moveMade = 2;
+				} else if (clickX >= 275 && clickX < 365) {
 					//row 3
-					moveMade=3;
-				} else if(clickX>=365 && clickX < 455) {
+					moveMade = 3;
+				} else if (clickX >= 365 && clickX < 455) {
 					//row 4
-					moveMade=4;
-				} else if(clickX>=455 && clickX < 545) {
+					moveMade = 4;
+				} else if (clickX >= 455 && clickX < 545) {
 					//row 5
-					moveMade=5;
-				} else if(clickX>=545 && clickX < 640) {
+					moveMade = 5;
+				} else if (clickX >= 545 && clickX < 640) {
 					//row 6
-					moveMade=6;
+					moveMade = 6;
 				}
 			}
 		}
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) { };
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) { };
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) { };
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) { };
 
 	public void giveHint(int i) {
-		hint.setText("Hint: column " + (i+1));
+		hint.setText("Hint: column " + (i + 1));
 	}
 
 	@Override
@@ -549,26 +530,24 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		this.add(askServer);
 		revalidate();
 		repaint();
-		while(IPChosen == null) {
+		while (iPChosen == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		String temp = IPChosen;
-		IPChosen = null;
+		String temp = iPChosen;
+		iPChosen = null;
 		return temp;
 	}
 
 	@Override
 	public String askPort() {
-		while(portChosen == null) {
+		while (portChosen == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -583,7 +562,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

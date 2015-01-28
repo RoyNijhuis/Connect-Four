@@ -44,10 +44,10 @@ public class NormalGame extends Observable implements Game {
             		if (board.gameOver()) {
             			gameOver = true;
             			this.setChanged();
-            			if(board.isFull()){
+            			if (board.isFull()) {
             				this.notifyObservers("draw");
             			} else {
-            				this.notifyObservers("gameOver");
+            				this.notifyObservers("gameOver " + current);
             			}
                         this.setChanged();
                         this.notifyObservers("askPlayAgain");
