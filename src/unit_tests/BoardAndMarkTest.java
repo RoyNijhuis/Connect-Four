@@ -26,7 +26,7 @@ public class BoardAndMarkTest {
 	}
 	
 	@Test
-	public void tesFullWhenFull() {
+	public void testFullWhenFull() {
 		Board b = new Board();
 		Mark[][] repres = b.getField();
 		for (int i = 0; i < 6; i++) {
@@ -38,7 +38,7 @@ public class BoardAndMarkTest {
 	}
 	
 	@Test
-	public void tesFullWhenNotFull() {
+	public void testFullWhenNotFull() {
 		Board b = new Board();
 		Mark[][] repres = b.getField();
 		for (int i = 0; i < 6; i++) {
@@ -51,7 +51,7 @@ public class BoardAndMarkTest {
 	}
 	
 	@Test
-	public void tesGameOverWhenGameOver() {
+	public void testGameOverWhenGameOver() {
 		Board b = new Board();
 		Mark[][] repres = b.getField();
 		b.makeMove(0, Mark.XX);
@@ -62,7 +62,7 @@ public class BoardAndMarkTest {
 	}
 	
 	@Test
-	public void tesGameOverWhenNotGameOver() {
+	public void testGameOverWhenNotGameOver() {
 		Board b = new Board();
 		Mark[][] repres = b.getField();
 		b.makeMove(0, Mark.XX);
