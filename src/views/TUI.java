@@ -337,7 +337,7 @@ public class TUI extends Thread implements View {
 		
 	}
 
-	public String askType() {
+	public Player askType() {
 		
 	}
 }
