@@ -237,8 +237,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	}
 
 	public Player[] askForPlayers() {
+		System.out.println("test");
 		choosePlayers = new JLabel();
-		this.remove(askServer);
+		this.remove(localOrOnline);
 		JLabel name1 = new JLabel("Player 1: ");
 		JLabel name2 = new JLabel("Player 2: ");
 		player1Group = new ButtonGroup();
