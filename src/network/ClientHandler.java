@@ -94,9 +94,6 @@ public class ClientHandler extends Thread {
 						sendMessage("accept 12 Chat");
 					} else {
 						sendMessage("error 004");
-						//shutdown();
-						//running = false;
-						//break;
 					}
 				} else if (input[0].equals("ready_for_game") && input.length == 1) {
 					readyToStartGame = true;
@@ -190,4 +187,4 @@ public class ClientHandler extends Thread {
 		server.removeHandler(this);
 	}
 
-} // end of class ClientHandler
+}

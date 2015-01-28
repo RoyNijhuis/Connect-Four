@@ -90,7 +90,6 @@ public class Client extends Observable implements Runnable {
 					break;
 			}
 		} else if (commandSplit[0].equals("start_game") && commandSplit.length == 3) {
-			//create players and create networkgame
 			this.setChanged();
 			this.notifyObservers("gameStarted");
 			Player p1 = null, p2 = null;
@@ -124,7 +123,6 @@ public class Client extends Observable implements Runnable {
 		}
 	}
 	
-	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
 		String result = new String(msg);
 		if ((msg.startsWith("chat_local") || msg.startsWith("chat_global")) && !otherHasChat) {

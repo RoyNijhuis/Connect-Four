@@ -12,8 +12,8 @@ import views.TUIServer;
 
 /**
  * Server. 
- * @author  Theo Ruys
- * @version 2005.02.21
+ * @author  Roy & Edwin
+ * @version 2015.01.28
  */
 public class Server {
 	private TUIServer sUI;
@@ -75,12 +75,8 @@ public class Server {
 	}
 	
 	public void tryToStartGame(ClientHandler client) {
-		//kijk of er andere clients zijn
 		for (ClientHandler c: clients) {
 			if (!c.equals(client) && c.getReady() && client.getReady()) {
-				//start game met andere client
-				//client.sendMessage("debug Je bent verbonden met " + c.getPlayerName());
-				//c.sendMessage("debug Je bent verbonden met " + client.getPlayerName());
 				client.sendMessage("start_game " 
 								+ client.getPlayerName() + " " + c.getPlayerName());
 				c.sendMessage("start_game " + client.getPlayerName() + " " + c.getPlayerName());
@@ -156,4 +152,4 @@ public class Server {
 	public void removeHandler(ClientHandler handler) {
 		clients.remove(handler);
 	}
-} // end of class Server
+}

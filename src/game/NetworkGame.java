@@ -52,7 +52,6 @@ public class NetworkGame extends Observable implements Game {
     		board.makeMove(move, other.getMark());
     		current = other;
     	}
-    	//notify observers
     	this.setChanged();
         this.notifyObservers("printBoard");
     }

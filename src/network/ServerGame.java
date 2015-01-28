@@ -20,7 +20,6 @@ public class ServerGame extends Thread implements Game {
     		play();
     	}
     	
-    	//announce winner/draw
     	if (winner == null && !terminated) {
     		for (ClientHandler c: clients) {
     			c.broadcastDraw();
