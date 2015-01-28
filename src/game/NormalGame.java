@@ -60,6 +60,7 @@ public class NormalGame extends Observable implements Game {
         		((GUI) uIS).checkRetry();
         	}
         }
+        System.out.println("out of game loop");
     }
     
     public Player getWinner() {

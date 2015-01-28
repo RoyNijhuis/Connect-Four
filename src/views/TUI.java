@@ -330,4 +330,14 @@ public class TUI extends Thread implements View {
 		result = "";
 		return name;
 	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String askType() {
+		
+	}
 }

@@ -57,10 +57,12 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	private Player[] playersChosen;
 	Client client;
 	public static boolean retry=false;
+	private String typeChosen;
 	
 	public GUI() {
 		super();
 		moveMade = -1;
+		typeChosen = null;
 		playersChosen = null;
 		IPChosen = null;
 		portChosen = null;
@@ -85,6 +87,25 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void reset() {
+		moveMade = -1;
+		playersChosen = null;
+		IPChosen = null;
+		portChosen = null;
+		typeChosen = null;
+		marks = new ArrayList<JLabel>();
+		askingMove = false;
+		nameChosen = null;
+		localOrOnline = new JPanel();
+		waitForGame = new JPanel();
+		askName = new JPanel();
+		game = new JPanel();
+		localOnline = null;
+		label = new JLabel("Waiting for a game...");
+		errorField = new JLabel("");
+		this.add(localOrOnline);
 	}
 	
 	@Override
@@ -328,6 +349,12 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		txt.setColumns(10);
 		submitBtn = new JButton("Connect");
 		
+		player1Group = new ButtonGroup();
+		human1 = new JRadioButton("Human");
+		AI1 = new JRadioButton("Computer");
+		human1.setSelected(true);
+		player1Group.add(human1);
+		player1Group.add(AI1);
 		submitBtn.addActionListener(this);
 		askName.add(label);
 		askName.add(txt);
@@ -366,6 +393,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			System.out.println("online gekozen");
 		} else if(e.getSource().equals(submitBtn)) {
 			nameChosen = txt.getText();
+			//check radiobuttons for types
 		} else if(e.getSource().equals(sendChatMessage)) {
 			String txt = chatMessage.getText();
 			if(global.isSelected()) {
@@ -518,6 +546,21 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		}
 		String temp = portChosen;
 		portChosen = null;
+		return temp;
+	}
+
+	@Override
+	public String askType() {
+		while (typeChosen == null) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String temp = typeChosen;
+		typeChosen = null;
 		return temp;
 	}
 }

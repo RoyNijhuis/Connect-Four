@@ -23,27 +23,28 @@ public class Client extends Observable implements Runnable {
 	private BufferedWriter out;
 	private NetworkGame game;
 	private View sUI;
+	private Player self;
 	private String name;
 	
 	public Client(InetAddress host, int port, View aUI) throws IOException {
 		this.sock = new Socket(host, port);
 		in = new BufferedReader(new InputStreamReader(sock.getInputStream(), "UTF-8"));
 		out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
-    	
-    	out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream(), "UTF-8"));
+    	self = null;
     	this.sUI = aUI;
     	this.addObserver(sUI);
     	name = "";
     	this.sUI.setClient(this);
 	}
 	
-	public void askName() {
+	public void askNameAndType() {
 		name = sUI.askPlayerName();
+		self = sUI.askType();
 		sendMessage("join " + name + " " + 12);
 	}
 	
 	public void run() {
-		askName();
+		askNameAndType();
 		boolean running = true;
 		while (running) {
     		try {
@@ -73,7 +74,7 @@ public class Client extends Observable implements Runnable {
 				case "004":
 					this.setChanged();
 					this.notifyObservers("nameExists");
-					askName();
+					askNameAndType();
 					break;
 				case "002":
 					this.setChanged();
