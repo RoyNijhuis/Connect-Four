@@ -56,7 +56,6 @@ public class Client extends Observable implements Runnable {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				e.printStackTrace();
 				sUI.disconnectedError();
 			}
     	}
@@ -126,7 +125,6 @@ public class Client extends Observable implements Runnable {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
 			sUI.disconnectedError();
 		}
 	}

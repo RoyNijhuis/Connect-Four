@@ -165,8 +165,8 @@ public class TUI extends Thread implements View {
 	public void update(Observable o, Object arg) {
 		if (arg.equals("printBoard")) {
 			printBoard(o);
-		} else if (arg.equals("gameOver")) {
-			gameOver(o);
+		} else if (((String) arg).startsWith("gameOver")) {
+			gameOver(((String) arg).split(" ")[1]);
 		} else if (arg.equals("columnFull")) {
 			System.out.println("This column is full...");
 		} else if (arg.equals("badHost")) {
@@ -318,8 +318,8 @@ public class TUI extends Thread implements View {
     	} //Mark[][] field = Board.getField();//DIT MOET NOG WORDEN TOEGEVOEGD!!!
 	}
 
-	private void gameOver(Observable o) {
-		System.out.println(((Game) o).getWinner().getName() + " has won the game!");
+	private void gameOver(String winner) {
+		System.out.println(winner + " has won the game!");
 	}
 	
 	private void draw() {
@@ -397,5 +397,11 @@ public class TUI extends Thread implements View {
 		}
 		result = "";
 		return player;
+	}
+
+	@Override
+	public void disconnectedError() {
+		System.out.println("Connection Failed");
+		
 	}
 }
