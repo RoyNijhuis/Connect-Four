@@ -358,6 +358,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		submitBtn.addActionListener(this);
 		askName.add(label);
 		askName.add(txt);
+		askName.add(human1);
+		askName.add(AI1);
 		askName.add(submitBtn);
 		errorField = new JLabel();
 		askName.add(errorField);
@@ -550,7 +552,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	}
 
 	@Override
-	public Player askType() {
+	public Player askType(String name) {
 		while (typeChosen == null) {
 			try {
 				Thread.sleep(10);
