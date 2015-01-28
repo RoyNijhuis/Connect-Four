@@ -111,7 +111,7 @@ public class ConnectFour extends Observable {
 	}
 	
 	public void createNewGame(Player[] players, View v) {
-		NormalGame game = new NormalGame(players[0], players[1], v);
+		new NormalGame(players[0], players[1], v);
 	}
 	
 	public static void shutdown() {

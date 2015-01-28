@@ -20,6 +20,7 @@ public abstract interface View extends Observer {
 	public void setClient(Client client);
 	public void giveHint(int i);
 	public void reset();
+	public void disconnectedError();
 	
 	public static String askWhichUI() {
 		boolean choiceMade = false;

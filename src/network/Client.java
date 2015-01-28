@@ -2,7 +2,6 @@ package network;
 
 import game.Mark;
 import game.NetworkGame;
-import players.HumanPlayer;
 import players.NetworkPlayer;
 import players.Player;
 import views.View;
@@ -58,7 +57,7 @@ public class Client extends Observable implements Runnable {
 					e1.printStackTrace();
 				}
 				e.printStackTrace();
-				
+				sUI.disconnectedError();
 			}
     	}
 	}
@@ -122,7 +121,13 @@ public class Client extends Observable implements Runnable {
 			out.write(msg + "\n");
 			out.flush();
 		} catch (IOException e) {
+			try {
+				sock.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
+			sUI.disconnectedError();
 		}
 	}
 

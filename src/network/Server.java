@@ -1,23 +1,14 @@
 
 package network;
 
-import game.Game;
 import game.Mark;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
-import java.util.Scanner;
-import java.util.Vector;
-
 import views.TUIServer;
-import views.View;
 
 /**
  * Server. 
@@ -36,7 +27,6 @@ public class Server {
 			try {
 				server = new Server(port, uIServer);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.out.println("This port is already being used.");
 				uIServer.message("This port is already being used.");
 			}
@@ -81,7 +71,6 @@ public class Server {
 				ch.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

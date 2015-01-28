@@ -1,7 +1,6 @@
 package game;
 
 import java.util.Observable;
-import java.util.Scanner;
 
 import players.Player;
 import views.GUI;

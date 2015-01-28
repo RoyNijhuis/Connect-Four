@@ -11,11 +11,6 @@ import java.net.Socket;
 
 import views.TUIServer;
 
-/**
- * ClientHandler.
- * @author  Theo Ruys
- * @version 2005.02.21
- */
 public class ClientHandler extends Thread {
 
 	private Server server;

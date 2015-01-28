@@ -16,17 +16,17 @@ public class ServerGame extends Thread implements Game{
     private ClientHandler winner;
     
     public void run() {
-    	while(!gameDone) {
+    	while (!gameDone) {
     		play();
     	}
     	
     	//announce winner/draw
-    	if(winner == null) {
-    		for(ClientHandler c: clients) {
+    	if (winner == null) {
+    		for (ClientHandler c: clients) {
     			c.broadcastDraw();
     		}
     	} else {
-    		for(ClientHandler c: clients) {
+    		for (ClientHandler c: clients) {
     			c.broadcastWinner(winner);
     		}
     	}
@@ -40,7 +40,7 @@ public class ServerGame extends Thread implements Game{
         winner = null;
     }
     
-    public ClientHandler[] getClients(){
+    public ClientHandler[] getClients() {
     	return clients;
     }
     
@@ -49,15 +49,14 @@ public class ServerGame extends Thread implements Game{
     }
     
     public void play() {
-    	for(int i=0;i<NUMBER_PLAYERS;i++)
-    	{
+    	for (int i = 0; i < NUMBER_PLAYERS; i++) {
     		boolean moveMade = false;
     		current = clients[i];
-    		while(!moveMade) {
+    		while (!moveMade) {
         		requestMove(current);
         		int moveDone = waitForMove();
         		
-        		if(board.makeMove(moveDone, current.getMarkInCurrentGame())) {
+        		if (board.makeMove(moveDone, current.getMarkInCurrentGame())) {
         			broadcastMove(current, moveDone);
         			moveMade = true;
         			break;
@@ -66,8 +65,8 @@ public class ServerGame extends Thread implements Game{
         		}
     		}
     		
-    		if(!board.isWinner(board.lastMark(), board.lastWidth(), board.lastHeight())) {
-    			if(board.isFull()) {
+    		if (!board.isWinner(board.lastMark(), board.lastWidth(), board.lastHeight())) {
+    			if (board.isFull()) {
     				gameDone = true;
         			winner = null;
         			break;
@@ -81,8 +80,7 @@ public class ServerGame extends Thread implements Game{
     }
     
     private void requestMove(ClientHandler c) {
-    	for(int i=0;i<NUMBER_PLAYERS;i++)
-    	{
+    	for (int i = 0; i < NUMBER_PLAYERS; i++) {
     		clients[i].requestMove(c);
     	}
     }
@@ -90,8 +88,7 @@ public class ServerGame extends Thread implements Game{
     private void broadcastMove(ClientHandler player, int move) {
     	
     	//send move to clients
-    	for(int i=0;i<NUMBER_PLAYERS;i++)
-    	{
+    	for (int i = 0; i < NUMBER_PLAYERS; i++) {
     		clients[i].broadCastMove(player, move);
     	}
     }
