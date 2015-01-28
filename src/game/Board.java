@@ -25,7 +25,7 @@ public class Board {
     private Mark lastMark = Mark.EMPTY;
     
     /**
-     * creates a new double array with size WIDTH and HEIGHT.
+     * creates a new board with double array with size WIDTH and HEIGHT.
      * all marks will be Mark.EMPTY
      */
     //@ ensures \forAll int i; 0 <= i && i < HEIGHT; 
@@ -86,7 +86,7 @@ public class Board {
         //@ loop_invariant 0<= i && i< WIDTH;
         //@ loop_invariant \forAll int x; 0 <= x && x < i; 
         //@ moves.contains(x) ==> (fields[0][x] == Mark.EMPTY);
-        //@ loop_invariant \result.size() >= 0;
+        //@ loop_invariant moves.size() >= 0;
         for (int i = 0; i < WIDTH; i++) {
             if (fields[0][i].equals(Mark.EMPTY)) {
                 moves.add(i);
@@ -124,7 +124,7 @@ public class Board {
         //@ loop_invariant 0 <= i && i < WIDTH;
         //@ loop_invariant result == true ==>(\forAll int j;
         //@ 0 <= j && j < i; fields[0][j] != Mark.EMPTY;
-        //@ loop_invariant \result == false (\exists int i; 0 <= i && 
+        //@ loop_invariant result == false ==> (\exists int i; 0 <= i && 
         //@ i < j; fields[0][i] == Mark.EMPTY);
         for (int i = 0; i < WIDTH; i++) {
             if (fields[0][i].equals(Mark.EMPTY)) {
