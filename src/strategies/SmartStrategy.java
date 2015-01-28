@@ -104,6 +104,7 @@ public class SmartStrategy implements Strategy {
 	 * @param beta the beta value in the alphabeta pruning
 	 * @param depthz the depth is how many moves you are looking ahead of the current game
 	 * @param myTurn is it my turn or my enemy's turn
+	 * @return int Getal dat aangeeft hoe goed de move is
 	 */
 	
 	public int alphaBeta(Board b, Mark m, int alpha, int beta, int depthz, boolean myTurn) {
@@ -238,7 +239,7 @@ public class SmartStrategy implements Strategy {
 	 * the fields it returns are empty but would win the game for this mark.
 	 * @param mark Mark that is used by the player
 	 * @param b the board situation
-	 * @return Map<int, int> De map van.
+	 * @return Map De map van belangrijke velden
 	 */
     public Map<Integer, Integer> getImportantFields(Mark mark, Board b) {
     	Mark[][] fields = b.getField();

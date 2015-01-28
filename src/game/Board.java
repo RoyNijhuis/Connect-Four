@@ -78,7 +78,7 @@ public class Board {
     }
     
     /**
-     * @return Set<Integer> set with all possible moves
+     * @return Set set with all possible moves
      */
     //@ ensures (\forAll Integer i; 0 <= i && i < WIDTH; 
     //@ \result.contains(i) ==> fields[0][i] == Mark.EMPTY;
