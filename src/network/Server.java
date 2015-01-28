@@ -119,6 +119,12 @@ public class Server {
 			}
 			
 		}
+		game.terminate();
+		games.remove(game);
+	}
+	
+	public void removeGame(ServerGame game) {
+		games.remove(game);
 	}
 	/**
 	 * Sends a message using the collection of connected ClientHandlers

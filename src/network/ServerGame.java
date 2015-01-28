@@ -8,12 +8,13 @@ import views.View;
 public class ServerGame extends Thread implements Game{
 
 	public static final int NUMBER_PLAYERS = 2;
-
+	
     private Board board;
     private boolean gameDone = false;
     private ClientHandler[] clients;
     private ClientHandler current;
     private ClientHandler winner;
+    boolean terminated = false;
     
     public void run() {
     	while (!gameDone) {
@@ -21,15 +22,20 @@ public class ServerGame extends Thread implements Game{
     	}
     	
     	//announce winner/draw
-    	if (winner == null) {
+    	if (winner == null && !terminated) {
     		for (ClientHandler c: clients) {
     			c.broadcastDraw();
     		}
-    	} else {
+    	} else if (!terminated) {
     		for (ClientHandler c: clients) {
     			c.broadcastWinner(winner);
     		}
     	}
+    }
+    
+    public void terminate() {
+    	terminated = true;
+    	gameDone = true;
     }
     
     public ServerGame(ClientHandler c1, ClientHandler c2) {
