@@ -592,4 +592,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		playerChosen = null;
 		return temp;
 	}
+
+	@Override
+	public void disconnectedError() {
+		errorField.setText("Connection error...");
+	}
 }
