@@ -100,6 +100,22 @@ public class TUI extends Thread implements View {
 						System.out.println("please enter correct information");
 						System.out.println("Would you like to play again? (y/n)");
 					}
+				} else if (expecting.equals("IP")) {
+					if (input.length == 1) {
+						result = inputString;
+						expecting = "";
+					} else {
+						System.out.println("please enter correct information");
+					}
+					
+				} else if (expecting.equals("port")) {
+					if (input.length == 1) {
+						result = inputString;
+						expecting = "";
+					} else {
+						System.out.println("please enter correct information");
+					}
+					
 				} else {
 					System.out.println("please enter correct information");
 				}
@@ -232,7 +248,6 @@ public class TUI extends Thread implements View {
 					new SmartStrategy(Integer.parseInt(player[2])));
 		}
 		String name = player[1];
-		players[0] = new HumanPlayer(result, Mark.XX);
 		expecting = "player2 " + name;
 		System.out.println("Please enter the Type('H' for HumanPlayer, 'C' for ComputerPlayer)"
 			  	  + "\nfor example: 'H Henk' or 'C Piet X'(X is a integer between 1-5)");
@@ -286,13 +301,33 @@ public class TUI extends Thread implements View {
 
 	@Override
 	public String askIPAdress() {
-		
-		return "localhost";
+		System.out.println("Please enter the IP adress or LocalHost");
+		expecting = "IP";
+		while (expecting.equals("IP")) {
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		String name = result;
+		result = "";
+		return name;
 	}
 
 	@Override
 	public String askPort() {
-		
-		return "2727";
+		System.out.println("Please enter the port");
+		expecting = "port";
+		while (expecting.equals("port")) {
+			try {
+				sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		String name = result;
+		result = "";
+		return name;
 	}
 }
