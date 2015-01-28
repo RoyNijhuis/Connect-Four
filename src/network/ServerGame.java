@@ -4,9 +4,18 @@ import game.Board;
 import game.Game;
 import players.Player;
 
+/**
+ * Board. 
+ * @author  Roy & Edwin
+ * @version 2015.01.28
+ */
+
 public class ServerGame extends Thread implements Game {
 
 	public static final int NUMBER_PLAYERS = 2;
+	
+	//@ invariant getClients() != null;
+	//@ invariant getBoard() != null;
 	
     private Board board;
     private boolean gameDone = false;
@@ -15,7 +24,13 @@ public class ServerGame extends Thread implements Game {
     private ClientHandler winner;
     boolean terminated = false;
     
+    /**
+     * play's the game until the game is done.
+     * then it sends a message what the final game state was if it wasn't terminated
+     */
+    //@ ensures gameDone;
     public void run() {
+    	//@ loop_invariant gameDone == true || gameDone == false;
     	while (!gameDone) {
     		play();
     	}
@@ -31,10 +46,16 @@ public class ServerGame extends Thread implements Game {
     	}
     }
     
+    /**
+     * terminates the game and sets the gameDone to true.
+     */
+    //@ ensures gameDone == true;
+    //@ ensures terminated == true;
     public void terminate() {
     	terminated = true;
     	gameDone = true;
     }
+    
     
     public ServerGame(ClientHandler c1, ClientHandler c2) {
         board = new Board();
@@ -44,11 +65,11 @@ public class ServerGame extends Thread implements Game {
         winner = null;
     }
     
-    public ClientHandler[] getClients() {
+    /*@ pure */ public ClientHandler[] getClients() {
     	return clients;
     }
     
-    public Board getBoard() {
+    /*@ pure */ public Board getBoard() {
     	return board;
     }
     
