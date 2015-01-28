@@ -34,9 +34,7 @@ public class ConnectFour extends Observable {
 		
 		boolean done = false;
 		while (!done) {
-			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
-			System.out.println("ask");
 			if (gameType.equals("local")) {
 				Player[] players = v.askForPlayers();
 				this.setChanged();
@@ -73,9 +71,7 @@ public class ConnectFour extends Observable {
 		this.addObserver(v);
 		boolean done = false;
 		while (!done) {
-			System.out.println("in loop");
 			String gameType = v.askLocalOrOnline();
-			System.out.println("ask");
 			if (gameType.equals("local")) {
 				Player[] players = v.askForPlayers();
 				this.setChanged();

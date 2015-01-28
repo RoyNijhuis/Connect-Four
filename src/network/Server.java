@@ -27,7 +27,6 @@ public class Server {
 			try {
 				server = new Server(port, uIServer);
 			} catch (IOException e) {
-				System.out.println("This port is already being used.");
 				uIServer.message("This port is already being used.");
 			}
 		}

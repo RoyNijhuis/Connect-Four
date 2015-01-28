@@ -126,8 +126,8 @@ public class Client extends Observable implements Runnable {
 	
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
-		String result = msg;
-		if((msg.startsWith("chat_global") || msg.startsWith("chat_global")) && !otherHasChat) {
+		String result = new String(msg);
+		if((msg.startsWith("chat_local") || msg.startsWith("chat_global")) && !otherHasChat) {
 			result = null;
 		}
 		try {

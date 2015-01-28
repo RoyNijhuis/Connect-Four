@@ -82,8 +82,7 @@ public class ClientHandler extends Thread {
 						}
 					}
 					if (playersWithSameName == 1) {
-						sendMessage("accept 12");
-						System.out.println("GEACCEPTEERD");
+						sendMessage("accept 12 Chat");
 					} else {
 						sendMessage("error 004");
 						//shutdown();
@@ -97,7 +96,6 @@ public class ClientHandler extends Thread {
 					move = Integer.parseInt(input[1]);
 				} else if (input[0].equals("chat_global")) {
 					String[] message = inputString.split(" ", 2);
-					System.out.println("GLOBAL MESSAGE RECEIVED");
 					server.broadcastMesGlobal(message[1], clientName);
 				} else if (input[0].equals("chat_local")) {
 					if (game != null) {
@@ -108,6 +106,7 @@ public class ClientHandler extends Thread {
 					sUI.message("error" + input);
 				} else {
 					sendMessage("error 007");
+					sUI.message(inputString);
 				}
 			} catch (IOException e) {
 				shutdown();

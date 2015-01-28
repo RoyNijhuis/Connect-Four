@@ -187,10 +187,10 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			sendChatMessage.addActionListener(this);
 			chatMessage = new JTextField();
 			hint = new JLabel();
-			hint.setBounds(500,510,200,10);
+			hint.setBounds(730,510,70,10);
 			chat.setBounds(20,525,640,200);
 			chat.setEditable(false);
-			messageField.setBounds(330,510,200,10);
+			messageField.setBounds(330,510,400,10);
 			boardLabel.setBounds(20, 20, 640, 480);
 			errorField.setBounds(20, 510, 300, 10);
 			chatMessage.setBounds(40, 730,300,25);
