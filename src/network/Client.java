@@ -106,7 +106,7 @@ public class Client extends Observable implements Runnable {
 			this.setChanged();
 			this.notifyObservers("draw");
 		} else if (commandSplit[0].equals("game_end") && commandSplit.length == 2) {
-			game.gameOver();
+			game.gameOver(commandSplit[1]);
 		} else if (commandSplit[0].equals("message") && commandSplit.length >= 3) {
 			this.setChanged();
 			this.notifyObservers(command);
