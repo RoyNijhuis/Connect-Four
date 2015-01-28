@@ -99,7 +99,9 @@ public class Server {
 		sUI.message("global message: " + name + ": " + msg);
 	        
 		for (ClientHandler client: clients) {
-			client.sendMessage("message " + name + " " + msg);
+			if (client.getChat()) {
+				client.sendMessage("message " + name + " " + msg);
+			}
 		}
 	}
 	
@@ -133,7 +135,9 @@ public class Server {
 	 */
 	public void broadcast(String msg) {
 		for (ClientHandler client: clients) {
-			client.sendMessage(msg);
+			if (client.getChat()) {
+				client.sendMessage(msg);
+			}
 		}
 	}
 	

@@ -23,6 +23,7 @@ public class ClientHandler extends Thread {
 	private Mark mark;
 	private int move;
 	private TUIServer sUI;
+	private boolean chat;
 	/**
 	 * Constructs a ClientHandler object
 	 * Initialises both Data streams.
@@ -38,6 +39,11 @@ public class ClientHandler extends Thread {
     	game = null;
     	mark = null;
     	move = -1;
+    	chat = false;
+	}
+	
+	public boolean getChat(){
+		return chat;
 	}
 	
 	public String getPlayerName() {
@@ -74,6 +80,9 @@ public class ClientHandler extends Thread {
 				sUI.message(inputString);
 				if (input[0].equals("join") && input.length >= 3) {
 					clientName = input[1];
+					if (inputString.contains(" Chat")) {
+						chat = true;
+					}
 					//int group = Integer.parseInt(input[2]);
 					int playersWithSameName = 0;
 					for (ClientHandler c: server.getClients()) {
