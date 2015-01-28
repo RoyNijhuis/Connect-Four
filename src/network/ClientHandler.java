@@ -72,7 +72,7 @@ public class ClientHandler extends Thread {
 				String inputString = in.readLine();
 				String[] input = inputString.split(" ");
 				sUI.message(inputString);
-				if (input[0].equals("join") && input.length == 3) {
+				if (input[0].equals("join") && input.length >= 3) {
 					clientName = input[1];
 					//int group = Integer.parseInt(input[2]);
 					int playersWithSameName = 0;
@@ -83,6 +83,7 @@ public class ClientHandler extends Thread {
 					}
 					if (playersWithSameName == 1) {
 						sendMessage("accept 12");
+						System.out.println("GEACCEPTEERD");
 					} else {
 						sendMessage("error 004");
 						//shutdown();
@@ -96,6 +97,7 @@ public class ClientHandler extends Thread {
 					move = Integer.parseInt(input[1]);
 				} else if (input[0].equals("chat_global")) {
 					String[] message = inputString.split(" ", 2);
+					System.out.println("GLOBAL MESSAGE RECEIVED");
 					server.broadcastMesGlobal(message[1], clientName);
 				} else if (input[0].equals("chat_local")) {
 					if (game != null) {
