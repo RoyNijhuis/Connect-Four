@@ -79,8 +79,8 @@ public class Server {
 		for (ClientHandler c: clients) {
 			if (!c.equals(client) && c.getReady() && client.getReady()) {
 				//start game met andere client
-				client.sendMessage("debug Je bent verbonden met " + c.getPlayerName());
-				c.sendMessage("debug Je bent verbonden met " + client.getPlayerName());
+				//client.sendMessage("debug Je bent verbonden met " + c.getPlayerName());
+				//c.sendMessage("debug Je bent verbonden met " + client.getPlayerName());
 				client.sendMessage("start_game " 
 								+ client.getPlayerName() + " " + c.getPlayerName());
 				c.sendMessage("start_game " + client.getPlayerName() + " " + c.getPlayerName());
