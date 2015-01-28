@@ -147,7 +147,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			setupBoard();
 			printBoard(null);
 		} else if(((String)arg).startsWith("message")) {
-			System.out.println("tekst bijgedaan");
 			String[] splitString = ((String)arg).split(" ", 3);
 			String name = splitString[1];
 			String message = splitString[2];

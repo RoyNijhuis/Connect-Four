@@ -24,6 +24,8 @@ public class Client extends Observable implements Runnable {
 	private View sUI;
 	private Player self;
 	private String name;
+	private String[] extensions;
+	private boolean otherHasChat;
 	
 	public Client(InetAddress host, int port, View aUI) throws IOException {
 		this.sock = new Socket(host, port);
@@ -34,12 +36,14 @@ public class Client extends Observable implements Runnable {
     	this.addObserver(sUI);
     	name = "";
     	this.sUI.setClient(this);
+    	extensions = new String[10];
+    	otherHasChat = false;
 	}
 	
 	public void askNameAndType() {
 		name = sUI.askPlayerName();
 		self = sUI.askType(name);
-		sendMessage("join " + name + " " + 12);
+		sendMessage("join " + name + " " + 12 + " " + "Chat");
 	}
 	
 	public void run() {
@@ -64,6 +68,12 @@ public class Client extends Observable implements Runnable {
 	private void analyseCommand(String command) {
 		String[] commandSplit = command.split(" ");
 		if (commandSplit[0].equals("accept") && commandSplit.length >= 2) {
+			for(int i = 2; i < commandSplit.length; i++) {
+				extensions[i] = commandSplit[i];
+				if(extensions[i].equals("Chat")) {
+					otherHasChat = true;
+				}
+			}
 			this.setChanged();
 			this.notifyObservers("accepted " + commandSplit[1]);
 			sendMessage("ready_for_game");
@@ -116,9 +126,15 @@ public class Client extends Observable implements Runnable {
 	
 	/** send a message to a ClientHandler. */
 	public void sendMessage(String msg) {
+		String result = msg;
+		if((msg.startsWith("chat_global") || msg.startsWith("chat_global")) && !otherHasChat) {
+			result = null;
+		}
 		try {
-			out.write(msg + "\n");
-			out.flush();
+			if(result != null) {
+				out.write(msg + "\n");
+				out.flush();
+			}
 		} catch (IOException e) {
 			try {
 				sock.close();
