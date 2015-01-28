@@ -40,11 +40,11 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	String localOnline;
 	String nameChosen, IPChosen, portChosen;
 	JButton localBtn, onlineBtn, submitBtn, sendChatMessage, submitPlayersButton, homeMenu, connectBtn;
-	JLabel label, playerName;
+	JLabel label, playerName, difficultyLabel;
 	JLabel choosePlayers;
 	JPanel waitForGame;
 	JPanel game;
-	JTextField txt, chatMessage, player1, player2, ipText, portText;
+	JTextField txt, chatMessage, player1, player2, ipText, portText, difficultyText;
 	JTextArea chat;
 	JLabel errorField, messageField, hint;
 	BufferedImage boardImage, XXImage, OOImage;
@@ -52,6 +52,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	JRadioButton local, global, human1, human2, AI1, AI2;
 	ButtonGroup buttonGroup, player1Group, player2Group;
 	ArrayList<JLabel> marks;
+	private Player playerChosen;
 	private int moveMade;
 	private boolean askingMove;
 	private Player[] playersChosen;
@@ -66,6 +67,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		playersChosen = null;
 		IPChosen = null;
 		portChosen = null;
+		playerChosen = null;
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
 		nameChosen = null;
@@ -95,6 +97,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		IPChosen = null;
 		portChosen = null;
 		typeChosen = null;
+		playerChosen = null;
 		marks = new ArrayList<JLabel>();
 		askingMove = false;
 		nameChosen = null;
@@ -348,6 +351,9 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		txt = new JTextField();
 		txt.setColumns(10);
 		submitBtn = new JButton("Connect");
+		difficultyLabel = new JLabel("Computer difficulty(1-4): ");
+		difficultyText = new JTextField();
+		difficultyText.setColumns(10);
 		
 		player1Group = new ButtonGroup();
 		human1 = new JRadioButton("Human");
@@ -360,6 +366,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		askName.add(txt);
 		askName.add(human1);
 		askName.add(AI1);
+		askName.add(difficultyLabel);
+		askName.add(difficultyText);
 		askName.add(submitBtn);
 		errorField = new JLabel();
 		askName.add(errorField);
@@ -395,7 +403,12 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 			System.out.println("online gekozen");
 		} else if(e.getSource().equals(submitBtn)) {
 			nameChosen = txt.getText();
-			//check radiobuttons for types
+			if(human1.isSelected()) {
+				playerChosen = new HumanPlayer(txt.getText(), Mark.EMPTY);
+			} else if(AI1.isSelected()) {
+				int difficulty = Integer.parseInt(difficultyText.getText());
+				playerChosen = new ComputerPlayer(txt.getText(), Mark.EMPTY, new SmartStrategy(difficulty));
+			}
 		} else if(e.getSource().equals(sendChatMessage)) {
 			String txt = chatMessage.getText();
 			if(global.isSelected()) {
@@ -553,7 +566,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 
 	@Override
 	public Player askType(String name) {
-		while (typeChosen == null) {
+		while (playerChosen == null) {
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
@@ -561,8 +574,8 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 				e.printStackTrace();
 			}
 		}
-		String temp = typeChosen;
-		typeChosen = null;
-		return null;
+		Player temp = playerChosen;
+		playerChosen = null;
+		return playerChosen;
 	}
 }

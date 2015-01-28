@@ -39,7 +39,7 @@ public class Client extends Observable implements Runnable {
 	
 	public void askNameAndType() {
 		name = sUI.askPlayerName();
-		self = sUI.askType();
+		self = sUI.askType(name);
 		sendMessage("join " + name + " " + 12);
 	}
 	

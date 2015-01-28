@@ -24,6 +24,10 @@ public abstract class Player {
     }
 
     public abstract int determineMove(Board board, View v);
+    
+    public void setMark(Mark m) {
+    	this.mark = m;
+    }
 
     public boolean makeMove(Board board, View v) {
         int keuze = determineMove(board, v);
