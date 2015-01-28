@@ -70,8 +70,4 @@ public class BoardAndMarkTest {
 		b.makeMove(2, Mark.XX);
 		assertEquals(false, b.gameOver());
 	}
-	
-	public void test() {
-		fail("Not yet implemented");
-	}
 }
