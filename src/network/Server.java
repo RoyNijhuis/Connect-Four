@@ -111,13 +111,14 @@ public class Server {
 	
 	public void leftGame(ServerGame game, ClientHandler c) {
 		sUI.message("Player left: " + c.getPlayerName());
-		clients.remove(c);
+		
 		for (ClientHandler client: game.getClients()) {
 			if (!client.equals(c)) {
 				client.sendMessage("game_end " + client.getPlayerName());
 			}
 			
 		}
+		clients.remove(c);
 		game.terminate();
 		games.remove(game);
 	}
