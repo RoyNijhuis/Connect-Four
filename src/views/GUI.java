@@ -550,7 +550,7 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 	}
 
 	@Override
-	public String askType() {
+	public Player askType() {
 		while (typeChosen == null) {
 			try {
 				Thread.sleep(10);
@@ -561,6 +561,6 @@ public class GUI extends JFrame implements View, ActionListener, MouseListener {
 		}
 		String temp = typeChosen;
 		typeChosen = null;
-		return temp;
+		return null;
 	}
 }
